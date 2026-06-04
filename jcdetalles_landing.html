@@ -769,9 +769,14 @@ auth.onAuthStateChanged((user) => {
     if (!solicitudesUnsub) {
       solicitudesUnsub = SOLICITUDES_COL
         .where('estado', '==', 'pendiente')
-        .orderBy('timestamp', 'asc')
         .onSnapshot((snap) => {
-          solicitudesPendientes = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+          solicitudesPendientes = snap.docs
+            .map(d => ({ id: d.id, ...d.data() }))
+            .sort((a, b) => {
+              const ta = a.timestamp ? a.timestamp.toMillis() : 0;
+              const tb = b.timestamp ? b.timestamp.toMillis() : 0;
+              return ta - tb;
+            });
           renderSolicitudesBadge();
           renderSolicitudesList();
         }, (err) => { console.error('Solicitudes error:', err); });
