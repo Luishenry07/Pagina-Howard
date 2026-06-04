@@ -211,6 +211,42 @@ body.admin-mode .cal-badge-private{display:block}
 
 /* Cursor pointer para celdas con nota pública (modo público) */
 body:not(.admin-mode) .cal-day.has-public-note{cursor:pointer}
+body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
+/* Solicitudes: formulario cliente */
+.solicitud-overlay{position:fixed;inset:0;background:rgba(13,10,5,0.82);backdrop-filter:blur(4px);z-index:180;display:none;align-items:center;justify-content:center;padding:1rem}
+.solicitud-overlay.open{display:flex}
+.solicitud-modal{background:var(--white);max-width:400px;width:100%;padding:2rem 1.8rem;position:relative;border-top:3px solid var(--gold)}
+.solicitud-modal h3{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:400;color:var(--dark);margin-bottom:0.2rem;text-align:center}
+.solicitud-modal .sol-date{text-align:center;font-size:0.8rem;color:var(--gold-deep);letter-spacing:0.08em;margin-bottom:1.4rem;text-transform:capitalize}
+.solicitud-modal .close-x{position:absolute;top:0.5rem;right:0.9rem;background:none;border:none;font-size:1.6rem;color:var(--text-light);cursor:pointer;line-height:1}
+.solicitud-modal input,.solicitud-modal textarea{width:100%;padding:0.75rem 1rem;border:1px solid rgba(200,169,110,0.4);background:var(--cream);font-family:'Jost',sans-serif;font-size:0.88rem;color:var(--dark);margin-bottom:0.7rem;box-sizing:border-box}
+.solicitud-modal input:focus,.solicitud-modal textarea:focus{outline:none;border-color:var(--gold-deep)}
+.solicitud-modal textarea{resize:vertical;min-height:72px}
+.sol-actions{display:flex;gap:0.5rem;margin-top:0.3rem}
+.sol-actions button{flex:1;padding:0.85rem;font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;font-weight:600;border:none;cursor:pointer;font-family:'Jost',sans-serif;transition:all 0.2s}
+.sol-cancel{background:transparent;border:1px solid rgba(0,0,0,0.15)!important;color:var(--text-light)}
+.sol-cancel:hover{background:#f5f0e8}
+.sol-submit{background:linear-gradient(135deg,var(--gold-bright),var(--gold-deep));color:var(--dark)}
+.sol-submit:hover{opacity:0.9}
+.sol-submit:disabled{opacity:0.5;cursor:wait}
+.sol-msg{font-size:0.78rem;text-align:center;margin-top:0.7rem;min-height:1em;color:var(--text-light)}
+/* Solicitudes: panel admin */
+.solicitudes-panel{position:fixed;inset:0;background:rgba(13,10,5,0.85);backdrop-filter:blur(4px);z-index:200;display:none;align-items:flex-start;justify-content:center;padding:1rem;overflow-y:auto}
+.solicitudes-panel.open{display:flex}
+.solicitudes-box{background:var(--white);max-width:520px;width:100%;padding:2rem 1.8rem;position:relative;border-top:3px solid var(--gold);margin:auto}
+.solicitudes-box h3{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:400;color:var(--dark);margin-bottom:1.4rem;text-align:center}
+.solicitudes-box .close-x{position:absolute;top:0.5rem;right:0.9rem;background:none;border:none;font-size:1.6rem;color:var(--text-light);cursor:pointer;line-height:1}
+.sol-card{border:1px solid rgba(200,169,110,0.3);padding:0.9rem 1rem;margin-bottom:0.8rem;background:var(--cream)}
+.sol-card-date{font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:0.2rem}
+.sol-card-name{font-size:1rem;font-weight:600;color:var(--dark)}
+.sol-card-info{font-size:0.8rem;color:var(--text-light);margin-top:0.25rem;line-height:1.6}
+.sol-card-btns{display:flex;gap:0.5rem;margin-top:0.75rem}
+.sol-card-btns button{flex:1;padding:0.55rem;font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;font-weight:600;border:none;font-family:'Jost',sans-serif;transition:opacity 0.2s}
+.sol-card-btns button:hover{opacity:0.85}
+.sol-aprobar{background:#2d7a3a;color:#fff}
+.sol-rechazar{background:var(--rose-deep);color:#fff}
+.sol-empty{text-align:center;color:var(--text-light);font-size:0.88rem;padding:1.5rem 0}
+.sol-count{display:inline-flex;align-items:center;justify-content:center;background:var(--rose-deep);color:#fff;border-radius:50%;width:1.2rem;height:1.2rem;font-size:0.6rem;font-weight:700;margin-left:0.35rem;vertical-align:middle;line-height:1}
 
 @media (max-width:600px){
   .cal-day{font-size:0.8rem}
@@ -434,7 +470,10 @@ body:not(.admin-mode) .cal-day.has-public-note{cursor:pointer}
 <button class="admin-trigger" id="admin-trigger" type="button">Admin</button>
 <div class="admin-bar" id="admin-bar">
   <span>● Modo administrador — toca una fecha para alternar disponible / ocupado</span>
-  <button id="admin-logout" type="button">Cerrar sesión</button>
+  <div style="display:flex;gap:0.5rem;align-items:center">
+    <button id="admin-solicitudes-btn" type="button">Solicitudes<span class="sol-count" id="sol-count" hidden>0</span></button>
+    <button id="admin-logout" type="button">Cerrar sesión</button>
+  </div>
 </div>
 <div class="admin-overlay" id="admin-overlay" role="dialog" aria-modal="true" aria-labelledby="admin-modal-title">
   <div class="admin-modal">
@@ -488,6 +527,31 @@ body:not(.admin-mode) .cal-day.has-public-note{cursor:pointer}
   </div>
 </div>
 
+<div class="solicitud-overlay" id="solicitud-overlay" role="dialog" aria-modal="true">
+  <div class="solicitud-modal">
+    <button class="close-x" id="solicitud-close" type="button" aria-label="Cerrar">×</button>
+    <h3>Solicitar fecha</h3>
+    <p class="sol-date" id="sol-date">—</p>
+    <input type="text" id="sol-nombre" placeholder="Tu nombre completo" autocomplete="name">
+    <input type="tel" id="sol-telefono" placeholder="Teléfono / WhatsApp" autocomplete="tel">
+    <input type="text" id="sol-evento" placeholder="Tipo de evento (boda, quinceañera…)">
+    <textarea id="sol-nota" placeholder="Detalles adicionales (opcional)"></textarea>
+    <div class="sol-actions">
+      <button class="sol-cancel" id="sol-cancel" type="button">Cancelar</button>
+      <button class="sol-submit" id="sol-submit" type="button">Enviar solicitud</button>
+    </div>
+    <p class="sol-msg" id="sol-msg"></p>
+  </div>
+</div>
+
+<div class="solicitudes-panel" id="solicitudes-panel" role="dialog" aria-modal="true">
+  <div class="solicitudes-box">
+    <button class="close-x" id="solicitudes-close" type="button" aria-label="Cerrar">×</button>
+    <h3>Solicitudes pendientes</h3>
+    <div id="solicitudes-list"><p class="sol-empty">Sin solicitudes pendientes.</p></div>
+  </div>
+</div>
+
 <script>
 // Muestra errores JS en el status de la agenda en lugar de fallar silenciosamente
 window.onerror = function(msg) {
@@ -535,8 +599,9 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db   = firebase.firestore();
-const AGENDA_DOC  = db.doc("agenda/dates");
-const PRIVATE_DOC = db.doc("agenda/privado");
+const AGENDA_DOC      = db.doc("agenda/dates");
+const PRIVATE_DOC     = db.doc("agenda/privado");
+const SOLICITUDES_COL = db.collection("solicitudes");
 
 const MES_NOMBRES = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
 const DIA_NOMBRES = ["Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado"];
@@ -548,8 +613,10 @@ let viewMonth     = today.getMonth();
 let ocupadas      = new Set();
 let notasPublicas = {};
 let notasPrivadas = {};
-let privadoUnsub  = null;
-let isAdmin       = false;
+let privadoUnsub        = null;
+let solicitudesUnsub    = null;
+let solicitudesPendientes = [];
+let isAdmin             = false;
 
 const grid     = document.getElementById('calendar-grid');
 const monthLbl = document.getElementById('agenda-month-label');
@@ -621,6 +688,8 @@ function onCellClick(dateStr, cell){
     openDayEditor(dateStr);
   } else if (notasPublicas[dateStr]) {
     openInfoModal(dateStr);
+  } else if (cell.classList.contains('available') && !cell.classList.contains('past')) {
+    openSolicitudModal(dateStr);
   }
 }
 
@@ -685,19 +754,30 @@ logoutBtn.addEventListener('click', () => auth.signOut());
 auth.onAuthStateChanged((user) => {
   isAdmin = !!user;
   document.body.classList.toggle('admin-mode', isAdmin);
-  if (isAdmin && !privadoUnsub) {
-    privadoUnsub = PRIVATE_DOC.onSnapshot((snap) => {
-      const data = snap.exists ? snap.data() : null;
-      notasPrivadas = (data && data.notasPrivadas && typeof data.notasPrivadas === 'object') ? data.notasPrivadas : {};
-      renderCalendar();
-    }, (err) => {
-      console.error('Firestore privado error:', err);
-      statusEl.textContent = 'No se pudieron cargar las notas privadas (revisa las Rules de Firestore).';
-    });
-  } else if (!isAdmin && privadoUnsub) {
-    privadoUnsub(); privadoUnsub = null;
-    notasPrivadas = {};
-    renderCalendar();
+  if (isAdmin) {
+    if (!privadoUnsub) {
+      privadoUnsub = PRIVATE_DOC.onSnapshot((snap) => {
+        const data = snap.exists ? snap.data() : null;
+        notasPrivadas = (data && data.notasPrivadas && typeof data.notasPrivadas === 'object') ? data.notasPrivadas : {};
+        renderCalendar();
+      }, (err) => {
+        console.error('Firestore privado error:', err);
+        statusEl.textContent = 'No se pudieron cargar las notas privadas (revisa las Rules de Firestore).';
+      });
+    }
+    if (!solicitudesUnsub) {
+      solicitudesUnsub = SOLICITUDES_COL
+        .where('estado', '==', 'pendiente')
+        .orderBy('timestamp', 'asc')
+        .onSnapshot((snap) => {
+          solicitudesPendientes = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+          renderSolicitudesBadge();
+          renderSolicitudesList();
+        }, (err) => { console.error('Solicitudes error:', err); });
+    }
+  } else {
+    if (privadoUnsub) { privadoUnsub(); privadoUnsub = null; notasPrivadas = {}; renderCalendar(); }
+    if (solicitudesUnsub) { solicitudesUnsub(); solicitudesUnsub = null; solicitudesPendientes = []; renderSolicitudesBadge(); }
   }
 });
 
@@ -849,7 +929,140 @@ document.addEventListener('keydown', (e) => {
   if (e.key !== 'Escape') return;
   if (editorOverlay.classList.contains('open')) closeDayEditor();
   else if (infoOverlay.classList.contains('open')) closeInfoModal();
+  else if (document.getElementById('solicitud-overlay').classList.contains('open')) closeSolicitudModal();
+  else if (document.getElementById('solicitudes-panel').classList.contains('open')) closeSolicitudesPanel();
 });
+
+// ===== Solicitud de fecha (clientes) =====
+const solicitudOverlay = document.getElementById('solicitud-overlay');
+const solDateEl        = document.getElementById('sol-date');
+const solNombre        = document.getElementById('sol-nombre');
+const solTelefono      = document.getElementById('sol-telefono');
+const solEvento        = document.getElementById('sol-evento');
+const solNota          = document.getElementById('sol-nota');
+const solSubmit        = document.getElementById('sol-submit');
+const solMsg           = document.getElementById('sol-msg');
+let   solicitudFecha   = null;
+
+function openSolicitudModal(dateStr) {
+  solicitudFecha = dateStr;
+  solDateEl.textContent = formatDateLong(dateStr);
+  solNombre.value = ''; solTelefono.value = ''; solEvento.value = ''; solNota.value = '';
+  solMsg.textContent = '';
+  solSubmit.disabled = false;
+  solicitudOverlay.classList.add('open');
+  setTimeout(() => solNombre.focus(), 50);
+}
+function closeSolicitudModal() {
+  solicitudOverlay.classList.remove('open');
+  solicitudFecha = null;
+}
+document.getElementById('solicitud-close').addEventListener('click', closeSolicitudModal);
+document.getElementById('sol-cancel').addEventListener('click', closeSolicitudModal);
+solicitudOverlay.addEventListener('click', (e) => { if (e.target === solicitudOverlay) closeSolicitudModal(); });
+
+solSubmit.addEventListener('click', async () => {
+  const nombre    = solNombre.value.trim();
+  const telefono  = solTelefono.value.trim();
+  const evento    = solEvento.value.trim();
+  const nota      = solNota.value.trim();
+  if (!nombre || !telefono) { solMsg.textContent = 'Por favor completa nombre y teléfono.'; return; }
+  solSubmit.disabled = true;
+  solMsg.textContent = '';
+  try {
+    await SOLICITUDES_COL.add({
+      date: solicitudFecha,
+      nombre, telefono, evento, nota,
+      estado: 'pendiente',
+      timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    const texto = encodeURIComponent(
+      `Hola! Tengo una solicitud de evento 📅\n` +
+      `Fecha: ${formatDateLong(solicitudFecha)}\n` +
+      `Nombre: ${nombre}\n` +
+      `Teléfono: ${telefono}\n` +
+      `Evento: ${evento || '—'}\n` +
+      `${nota ? 'Detalles: ' + nota : ''}`
+    );
+    solMsg.textContent = '✓ Solicitud enviada. Abriendo WhatsApp…';
+    setTimeout(() => {
+      window.open(`https://wa.me/50763691175?text=${texto}`, '_blank');
+      closeSolicitudModal();
+    }, 800);
+  } catch(err) {
+    solMsg.textContent = 'Error al enviar: ' + (err.message || err);
+    solSubmit.disabled = false;
+  }
+});
+
+// ===== Panel de solicitudes (admin) =====
+const solicitudesPanel = document.getElementById('solicitudes-panel');
+
+function openSolicitudesPanel() {
+  renderSolicitudesList();
+  solicitudesPanel.classList.add('open');
+}
+function closeSolicitudesPanel() { solicitudesPanel.classList.remove('open'); }
+
+document.getElementById('admin-solicitudes-btn').addEventListener('click', openSolicitudesPanel);
+document.getElementById('solicitudes-close').addEventListener('click', closeSolicitudesPanel);
+solicitudesPanel.addEventListener('click', (e) => { if (e.target === solicitudesPanel) closeSolicitudesPanel(); });
+
+function renderSolicitudesBadge() {
+  const badge = document.getElementById('sol-count');
+  const n = solicitudesPendientes.length;
+  badge.textContent = n;
+  badge.hidden = (n === 0);
+}
+
+function renderSolicitudesList() {
+  const list = document.getElementById('solicitudes-list');
+  if (!list) return;
+  if (solicitudesPendientes.length === 0) {
+    list.innerHTML = '<p class="sol-empty">Sin solicitudes pendientes.</p>';
+    return;
+  }
+  list.innerHTML = solicitudesPendientes.map(s => `
+    <div class="sol-card">
+      <div class="sol-card-date">${formatDateLong(s.date)}</div>
+      <div class="sol-card-name">${escHtml(s.nombre)}</div>
+      <div class="sol-card-info">
+        📞 ${escHtml(s.telefono)}<br>
+        🎉 ${escHtml(s.evento || '—')}<br>
+        ${s.nota ? '📝 ' + escHtml(s.nota) : ''}
+      </div>
+      <div class="sol-card-btns">
+        <button class="sol-aprobar" onclick="aprobarSolicitud('${s.id}','${s.date}')">Aprobar</button>
+        <button class="sol-rechazar" onclick="rechazarSolicitud('${s.id}')">Rechazar</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+async function aprobarSolicitud(id, dateStr) {
+  ocupadas.add(dateStr);
+  renderCalendar();
+  try {
+    await AGENDA_DOC.set({ ocupadas: Array.from(ocupadas).sort(), notasPublicas });
+    await SOLICITUDES_COL.doc(id).update({ estado: 'aprobada' });
+  } catch(err) {
+    ocupadas.delete(dateStr);
+    renderCalendar();
+    statusEl.textContent = 'Error al aprobar: ' + (err.message || err);
+  }
+}
+
+async function rechazarSolicitud(id) {
+  try {
+    await SOLICITUDES_COL.doc(id).update({ estado: 'rechazada' });
+  } catch(err) {
+    statusEl.textContent = 'Error al rechazar: ' + (err.message || err);
+  }
+}
 </script>
 
 </body>
