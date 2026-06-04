@@ -6,7 +6,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 A single self-contained HTML file: `jcdetalles_landing.html`. Spanish-language landing page (`<html lang="es">`) for **JC Detalles Planner**, an event-planning business in Panama City, Panama.
 
-No build system, package manager, or test suite. To preview, open the file directly in a browser. The page uses the Firebase Web SDK v10 (ESM imports loaded from `gstatic.com` at runtime) for an interactive agenda; everything else is plain HTML + inline CSS.
+No build system, package manager, or test suite. The page is hosted on **GitHub Pages**: `https://luishenry07.github.io/Pagina-Howard/jcdetalles_landing.html`. The page uses the **Firebase Web SDK v9 compat** (three `<script>` tags in `<head>` loaded from `gstatic.com`) for the agenda and solicitudes; everything else is plain HTML + inline CSS.
+
+> **Do not open the file directly** from the filesystem — Firebase Firestore's WebSocket connections are blocked on `file://` in mobile browsers. Always use the GitHub Pages URL or a local HTTP server.
 
 ## High-level architecture
 
@@ -18,27 +20,30 @@ Sections in body order: `<nav>`, `.hero`, `.stats`, `#servicios`, `#galeria`, `#
 
 Mounted after the footer (so they overlay everything):
 - `.admin-trigger` — small floating "Admin" button (bottom-right) that opens the login modal. URL hash `#admin` also opens it.
-- `.admin-bar` — top banner, shown only while authenticated.
+- `.admin-bar` — top banner, shown only while authenticated. Contains "Solicitudes" button with red badge counter.
 - `#admin-overlay` — email/password login modal.
 - `#day-editor-overlay` — admin modal for editing a single date (status + note + visibility).
 - `#day-info-overlay` — read-only modal shown to public visitors who click a date with a public note.
+- `#solicitud-overlay` — modal shown to public visitors who click an available date; lets them submit a booking request.
+- `#solicitudes-panel` — admin-only panel listing all pending solicitudes with Approve/Reject buttons.
 
-The single `<script type="module">` at the bottom holds all the Firebase + calendar logic.
+The single `<script>` (regular, not module) at the bottom holds all the Firebase + calendar + solicitudes logic.
 
 ### Firestore data model
 
-Two documents, deliberately split so private notes are unreadable by visitors — privacy is enforced by Firestore Rules, not by hiding things in the UI:
+Three data stores — two documents for the agenda (split by privacy) and one collection for booking requests:
 
-| Document        | Fields                                                     | Read          | Write         |
-|-----------------|------------------------------------------------------------|---------------|---------------|
-| `agenda/dates`  | `ocupadas: string[]` (YYYY-MM-DD), `notasPublicas: { [date]: string }` | public        | authenticated |
-| `agenda/privado`| `notasPrivadas: { [date]: string }`                        | authenticated | authenticated |
+| Path              | Fields                                                                  | Read          | Write         |
+|-------------------|-------------------------------------------------------------------------|---------------|---------------|
+| `agenda/dates`    | `ocupadas: string[]` (YYYY-MM-DD), `notasPublicas: { [date]: string }` | public        | authenticated |
+| `agenda/privado`  | `notasPrivadas: { [date]: string }`                                     | authenticated | authenticated |
+| `solicitudes/{id}`| `date, nombre, telefono, evento, nota, estado, timestamp`               | authenticated | public (create only) |
+
+`estado` values for solicitudes: `'pendiente'` → `'aprobada'` or `'rechazada'`. Public users can only `create`; only admin can read and update.
 
 A date can carry at most one note; its visibility (public vs private) determines which document it lives in. Switching visibility moves the entry between docs. Marking a date "Disponible" deletes the entry from both `ocupadas` and both notas maps. **Never put sensitive content into `agenda/dates`** — it is world-readable by Firestore Rules design.
 
 ### Required Firestore Rules
-
-The agenda will fail without these rules deployed (Firebase Console → Firestore → Rules):
 
 ```
 rules_version = '2';
@@ -51,11 +56,13 @@ service cloud.firestore {
     match /agenda/privado {
       allow read, write: if request.auth != null;
     }
+    match /solicitudes/{doc} {
+      allow create: if true;
+      allow read, update: if request.auth != null;
+    }
   }
 }
 ```
-
-The exact rules block is also kept in a comment at the top of the `<script>` for reference.
 
 ### Auth
 
@@ -63,9 +70,11 @@ Firebase Auth email/password. No signup UI — the owner/admin user is created m
 
 ### Client state and reactivity
 
-- `onSnapshot(AGENDA_DOC, ...)` subscribes to the public doc on page load (works for everyone).
-- `onSnapshot(PRIVATE_DOC, ...)` is set up inside `onAuthStateChanged` only when a user is authenticated, and is torn down on logout — public visitors never even attempt to read the private doc.
-- All writes go through the single "Save" button in `#day-editor-overlay`, which does an optimistic local update then `setDoc` for both docs.
+- `AGENDA_DOC.onSnapshot(...)` subscribes to the public doc on page load (works for everyone).
+- `PRIVATE_DOC.onSnapshot(...)` is set up inside `onAuthStateChanged` only when a user is authenticated, and is torn down on logout.
+- `SOLICITUDES_COL.where('estado','==','pendiente').onSnapshot(...)` is set up inside `onAuthStateChanged` only when authenticated; drives the badge counter and the solicitudes panel list.
+- All agenda writes go through the "Save" button in `#day-editor-overlay` (optimistic local update then `.set()` on both docs). Solicitud approval also calls `AGENDA_DOC.set(...)` to mark the date occupied.
+- **WhatsApp popup rule**: `window.open(waUrl, '_blank')` must be called *before* any `await` in the click handler, otherwise mobile browsers block it as a popup (user gesture is no longer active after an async gap).
 
 ## File-editing notes
 
