@@ -967,8 +967,19 @@ solSubmit.addEventListener('click', async () => {
   const evento    = solEvento.value.trim();
   const nota      = solNota.value.trim();
   if (!nombre || !telefono) { solMsg.textContent = 'Por favor completa nombre y teléfono.'; return; }
+
+  const texto = encodeURIComponent(
+    `Hola! Tengo una solicitud de evento 📅\n` +
+    `Fecha: ${formatDateLong(solicitudFecha)}\n` +
+    `Nombre: ${nombre}\n` +
+    `Teléfono: ${telefono}\n` +
+    `Evento: ${evento || '—'}\n` +
+    `${nota ? 'Detalles: ' + nota : ''}`
+  );
+  window.open(`https://wa.me/50763691175?text=${texto}`, '_blank');
+
   solSubmit.disabled = true;
-  solMsg.textContent = '';
+  solMsg.textContent = 'Enviando solicitud…';
   try {
     await SOLICITUDES_COL.add({
       date: solicitudFecha,
@@ -976,21 +987,10 @@ solSubmit.addEventListener('click', async () => {
       estado: 'pendiente',
       timestamp: firebase.firestore.FieldValue.serverTimestamp()
     });
-    const texto = encodeURIComponent(
-      `Hola! Tengo una solicitud de evento 📅\n` +
-      `Fecha: ${formatDateLong(solicitudFecha)}\n` +
-      `Nombre: ${nombre}\n` +
-      `Teléfono: ${telefono}\n` +
-      `Evento: ${evento || '—'}\n` +
-      `${nota ? 'Detalles: ' + nota : ''}`
-    );
-    solMsg.textContent = '✓ Solicitud enviada. Abriendo WhatsApp…';
-    setTimeout(() => {
-      window.open(`https://wa.me/50763691175?text=${texto}`, '_blank');
-      closeSolicitudModal();
-    }, 800);
+    solMsg.textContent = '✓ Solicitud enviada.';
+    setTimeout(closeSolicitudModal, 1500);
   } catch(err) {
-    solMsg.textContent = 'Error al enviar: ' + (err.message || err);
+    solMsg.textContent = 'Error al guardar: ' + (err.message || err);
     solSubmit.disabled = false;
   }
 });
