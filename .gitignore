@@ -1,0 +1,7 @@
+# Credenciales y archivos privados
+Usuario.txt
+*.env
+.env*
+
+# Scripts temporales de generación
+_gen_*.py

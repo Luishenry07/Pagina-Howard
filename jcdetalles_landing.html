@@ -599,6 +599,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db   = firebase.firestore();
+db.enablePersistence().catch(() => {});
 const AGENDA_DOC      = db.doc("agenda/dates");
 const PRIVATE_DOC     = db.doc("agenda/privado");
 const SOLICITUDES_COL = db.collection("solicitudes");
@@ -969,14 +970,15 @@ solSubmit.addEventListener('click', async () => {
   if (!nombre || !telefono) { solMsg.textContent = 'Por favor completa nombre y teléfono.'; return; }
 
   const texto = encodeURIComponent(
-    `Hola! Tengo una solicitud de evento 📅\n` +
-    `Fecha: ${formatDateLong(solicitudFecha)}\n` +
-    `Nombre: ${nombre}\n` +
-    `Teléfono: ${telefono}\n` +
-    `Evento: ${evento || '—'}\n` +
-    `${nota ? 'Detalles: ' + nota : ''}`
+    `*Nueva solicitud — JC Detalles Planner*\n\n` +
+    `*Fecha:* ${formatDateLong(solicitudFecha)}\n` +
+    `*Nombre:* ${nombre}\n` +
+    `*Teléfono:* ${telefono}\n` +
+    `*Evento:* ${evento || 'No especificado'}\n` +
+    `${nota ? `*Detalles:* ${nota}\n` : ``}` +
+    `\nPor favor revisa el panel de administrador para aprobar o rechazar.`
   );
-  window.open(`https://wa.me/50763691175?text=${texto}`, '_blank');
+  window.open(`https://wa.me/50769490645?text=${texto}`, '_blank');
 
   solSubmit.disabled = true;
   solMsg.textContent = 'Enviando solicitud…';

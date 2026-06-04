@@ -75,6 +75,7 @@ Firebase Auth email/password. No signup UI — the owner/admin user is created m
 - `SOLICITUDES_COL.where('estado','==','pendiente').onSnapshot(...)` is set up inside `onAuthStateChanged` only when authenticated; drives the badge counter and the solicitudes panel list.
 - All agenda writes go through the "Save" button in `#day-editor-overlay` (optimistic local update then `.set()` on both docs). Solicitud approval also calls `AGENDA_DOC.set(...)` to mark the date occupied.
 - **WhatsApp popup rule**: `window.open(waUrl, '_blank')` must be called *before* any `await` in the click handler, otherwise mobile browsers block it as a popup (user gesture is no longer active after an async gap).
+- **Firestore offline persistence** (`db.enablePersistence()`) is enabled so that `SOLICITUDES_COL.add()` writes locally first and syncs to the server even if the user navigates to WhatsApp before the network round-trip completes.
 
 ## File-editing notes
 
