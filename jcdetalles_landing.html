@@ -221,6 +221,9 @@ body:not(.admin-mode) .cal-day.has-public-note{cursor:pointer}
   .cal-day.has-public-note > span:first-child{margin-bottom:7px}
 }
 </style>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 </head>
 <body>
 
@@ -485,7 +488,13 @@ body:not(.admin-mode) .cal-day.has-public-note{cursor:pointer}
   </div>
 </div>
 
-<script type="module">
+<script>
+// Muestra errores JS en el status de la agenda en lugar de fallar silenciosamente
+window.onerror = function(msg) {
+  var s = document.getElementById('agenda-status');
+  if (s) s.textContent = 'Error al cargar la agenda: ' + msg;
+  return false;
+};
 // ============================================================
 //  CONFIGURACIÓN FIREBASE — REEMPLAZAR ESTOS VALORES
 // ------------------------------------------------------------
@@ -523,17 +532,11 @@ const firebaseConfig = {
   measurementId: "G-X8LZPMLVYB"
 };
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged }
-  from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
-import { getFirestore, doc, onSnapshot, setDoc }
-  from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-const AGENDA_DOC  = doc(db, "agenda", "dates");
-const PRIVATE_DOC = doc(db, "agenda", "privado");
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db   = firebase.firestore();
+const AGENDA_DOC  = db.doc("agenda/dates");
+const PRIVATE_DOC = db.doc("agenda/privado");
 
 const MES_NOMBRES = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
 const DIA_NOMBRES = ["Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado"];
@@ -551,6 +554,13 @@ let isAdmin       = false;
 const grid     = document.getElementById('calendar-grid');
 const monthLbl = document.getElementById('agenda-month-label');
 const statusEl = document.getElementById('agenda-status');
+
+renderCalendar();
+const _agendaTimer = setTimeout(function() {
+  if (statusEl.textContent.indexOf('Cargando') !== -1) {
+    statusEl.textContent = 'No se pudo conectar con Firebase. Revisa: (1) que Firestore Database esté creado en Firebase Console, (2) que las Rules estén publicadas, (3) tu conexión a internet.';
+  }
+}, 12000);
 
 function isoDate(d){
   const y = d.getFullYear();
@@ -621,15 +631,17 @@ document.getElementById('agenda-next').addEventListener('click', () => {
   viewMonth++; if (viewMonth > 11){ viewMonth = 0; viewYear++; } renderCalendar();
 });
 
-onSnapshot(AGENDA_DOC, (snap) => {
-  const data = snap.exists() ? snap.data() : null;
+AGENDA_DOC.onSnapshot((snap) => {
+  clearTimeout(_agendaTimer);
+  const data = snap.exists ? snap.data() : null;
   ocupadas = new Set((data && Array.isArray(data.ocupadas)) ? data.ocupadas : []);
   notasPublicas = (data && data.notasPublicas && typeof data.notasPublicas === 'object') ? data.notasPublicas : {};
   statusEl.textContent = '';
   renderCalendar();
 }, (err) => {
+  clearTimeout(_agendaTimer);
   console.error('Firestore error:', err);
-  statusEl.textContent = 'No se pudo cargar la agenda. Revisa la conexión o configuración.';
+  statusEl.textContent = 'Error de Firestore: ' + (err.code || err.message || err) + '. Revisa las Rules y la configuración.';
   renderCalendar();
 });
 
@@ -656,7 +668,7 @@ async function attemptLogin(){
   errorEl.textContent = '';
   loginBtn.disabled = true;
   try {
-    await signInWithEmailAndPassword(auth, emailIn.value.trim(), passIn.value);
+    await auth.signInWithEmailAndPassword(emailIn.value.trim(), passIn.value);
     closeModal();
     passIn.value = '';
   } catch (err) {
@@ -668,14 +680,14 @@ async function attemptLogin(){
 loginBtn.addEventListener('click', attemptLogin);
 passIn.addEventListener('keydown', (e) => { if (e.key === 'Enter') attemptLogin(); });
 
-logoutBtn.addEventListener('click', () => signOut(auth));
+logoutBtn.addEventListener('click', () => auth.signOut());
 
-onAuthStateChanged(auth, (user) => {
+auth.onAuthStateChanged((user) => {
   isAdmin = !!user;
   document.body.classList.toggle('admin-mode', isAdmin);
   if (isAdmin && !privadoUnsub) {
-    privadoUnsub = onSnapshot(PRIVATE_DOC, (snap) => {
-      const data = snap.exists() ? snap.data() : null;
+    privadoUnsub = PRIVATE_DOC.onSnapshot((snap) => {
+      const data = snap.exists ? snap.data() : null;
       notasPrivadas = (data && data.notasPrivadas && typeof data.notasPrivadas === 'object') ? data.notasPrivadas : {};
       renderCalendar();
     }, (err) => {
@@ -802,11 +814,11 @@ btnEdSave.addEventListener('click', async () => {
 
   try {
     btnEdSave.disabled = true;
-    await setDoc(AGENDA_DOC, {
+    await AGENDA_DOC.set({
       ocupadas: Array.from(ocupadas).sort(),
       notasPublicas: notasPublicas
     });
-    await setDoc(PRIVATE_DOC, { notasPrivadas: notasPrivadas });
+    await PRIVATE_DOC.set({ notasPrivadas: notasPrivadas });
   } catch (err) {
     ocupadas = prev.ocupadas;
     notasPublicas = prev.publicas;
