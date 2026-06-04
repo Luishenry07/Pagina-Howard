@@ -975,15 +975,15 @@ solSubmit.addEventListener('click', async () => {
   if (!nombre || !telefono) { solMsg.textContent = 'Por favor completa nombre y teléfono.'; return; }
 
   const texto = encodeURIComponent(
-    `*Nueva solicitud — JC Detalles Planner*\n\n` +
-    `*Fecha:* ${formatDateLong(solicitudFecha)}\n` +
+    `Hola! Me gustaría reservar una fecha con JC Detalles Planner.\n\n` +
+    `*Fecha deseada:* ${formatDateLong(solicitudFecha)}\n` +
     `*Nombre:* ${nombre}\n` +
     `*Teléfono:* ${telefono}\n` +
-    `*Evento:* ${evento || 'No especificado'}\n` +
+    `*Tipo de evento:* ${evento || 'No especificado'}\n` +
     `${nota ? `*Detalles:* ${nota}\n` : ``}` +
-    `\nPor favor revisa el panel de administrador para aprobar o rechazar.`
+    `\nQuedo a la espera de su confirmación y los detalles del abono para asegurar la fecha. Gracias!`
   );
-  window.open(`https://wa.me/50769490645?text=${texto}`, '_blank');
+  window.open(`https://wa.me/50763691175?text=${texto}`, '_blank');
 
   solSubmit.disabled = true;
   solMsg.textContent = 'Enviando solicitud…';
