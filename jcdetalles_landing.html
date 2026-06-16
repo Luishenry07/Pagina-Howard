@@ -23,10 +23,17 @@ nav{
   border-bottom:1px solid rgba(200,169,110,0.25);
 }
 .nav-logo{display:flex;align-items:center}
-.nav-logo-img{height:52px;padding:3px 7px;background:rgba(255,255,255,0.94);border-radius:2px}
+.nav-logo-img{height:90px;padding:5px 10px;background:rgba(255,255,255,0.94);border-radius:3px}
 .nav-links{display:flex;gap:2rem;list-style:none}
 .nav-links a{font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.7);text-decoration:none;font-weight:400;transition:color 0.3s}
 .nav-links a:hover{color:var(--gold)}
+.nav-has-dropdown{position:relative}
+.nav-has-dropdown>a::after{content:' ▾';font-size:0.65rem;opacity:0.7}
+.nav-dropdown{position:absolute;top:calc(100% + 0.6rem);left:50%;transform:translateX(-50%);background:rgba(13,10,5,0.97);backdrop-filter:blur(12px);border:1px solid rgba(200,169,110,0.25);border-top:2px solid var(--gold);min-width:210px;list-style:none;padding:0.4rem 0;opacity:0;visibility:hidden;transition:opacity 0.2s,visibility 0.2s;z-index:200}
+.nav-has-dropdown:hover .nav-dropdown{opacity:1;visibility:visible}
+.nav-dropdown li a{display:block;padding:0.6rem 1.2rem;font-size:0.68rem;letter-spacing:0.12em;color:rgba(255,255,255,0.7);text-decoration:none;text-transform:uppercase;transition:all 0.2s;white-space:nowrap}
+.nav-dropdown li a::after{content:none}
+.nav-dropdown li a:hover{color:var(--gold);background:rgba(200,169,110,0.08);padding-left:1.5rem}
 .hero{min-height:100vh;background:var(--black-gold);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:8rem 2rem 5rem}
 .hero-bg{position:absolute;inset:0;background-image:radial-gradient(ellipse at 15% 50%,rgba(200,169,110,0.12) 0%,transparent 55%),radial-gradient(ellipse at 85% 20%,rgba(212,160,160,0.08) 0%,transparent 50%)}
 .hero-content{text-align:center;position:relative;max-width:750px;z-index:2}
@@ -341,7 +348,17 @@ body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
 <nav>
   <div class="nav-logo"><img src="Imagenes/Logos/Logo.png" alt="JC Detalles Planner" class="nav-logo-img"></div>
   <ul class="nav-links">
-    <li><a href="#servicios">Servicios</a></li>
+    <li class="nav-has-dropdown">
+      <a href="#servicios">Servicios</a>
+      <ul class="nav-dropdown">
+        <li><a href="#" onclick="abrirServicio(0);return false">Bodas</a></li>
+        <li><a href="#" onclick="abrirServicio(1);return false">XV Años</a></li>
+        <li><a href="#" onclick="abrirServicio(2);return false">Corporativos</a></li>
+        <li><a href="#" onclick="abrirServicio(3);return false">Fiestas &amp; Celebraciones</a></li>
+        <li><a href="#" onclick="abrirServicio(4);return false">Navidad</a></li>
+        <li><a href="#" onclick="abrirServicio(5);return false">Tarjetas &amp; Detalles</a></li>
+      </ul>
+    </li>
     <li><a href="#galeria">Galería</a></li>
     <li><a href="#agenda">Agenda</a></li>
     <li><a href="#nosotros">Nosotros</a></li>
@@ -1475,6 +1492,15 @@ document.getElementById('fc-save-btn').addEventListener('click', async () => {
     fcMsg.textContent = 'Error: ' + (err.message || err);
   }
 });
+
+// ===== Dropdown servicios (nav) =====
+function abrirServicio(index) {
+  const items = document.querySelectorAll('#servicios .acc-item');
+  if (!items[index]) return;
+  items.forEach(d => d.removeAttribute('open'));
+  items[index].setAttribute('open', '');
+  document.getElementById('servicios').scrollIntoView({ behavior: 'smooth' });
+}
 </script>
 
 </body>
