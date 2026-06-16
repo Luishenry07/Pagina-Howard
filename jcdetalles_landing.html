@@ -230,6 +230,23 @@ body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
 .sol-submit:hover{opacity:0.9}
 .sol-submit:disabled{opacity:0.5;cursor:wait}
 .sol-msg{font-size:0.78rem;text-align:center;margin-top:0.7rem;min-height:1em;color:var(--text-light)}
+.sol-promo{background:linear-gradient(135deg,rgba(200,169,110,0.18),rgba(200,169,110,0.07));border:1px solid rgba(200,169,110,0.55);padding:0.65rem 0.85rem;margin-bottom:1rem;font-size:0.78rem;color:var(--dark);line-height:1.45;text-align:center;border-radius:2px}
+.sol-promo strong{display:block;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:0.2rem}
+/* Configurar formulario (admin) */
+.form-config-overlay{position:fixed;inset:0;background:rgba(13,10,5,0.82);backdrop-filter:blur(4px);z-index:220;display:none;align-items:center;justify-content:center;padding:1rem}
+.form-config-overlay.open{display:flex}
+.form-config-modal{background:var(--white);max-width:420px;width:100%;padding:2rem 1.8rem;position:relative;border-top:3px solid var(--gold)}
+.form-config-modal h3{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:400;color:var(--dark);margin-bottom:0.3rem;text-align:center}
+.form-config-modal p.fc-hint{font-size:0.75rem;color:var(--text-light);text-align:center;margin-bottom:1rem}
+.form-config-modal textarea{width:100%;padding:0.75rem 1rem;border:1px solid rgba(200,169,110,0.4);background:var(--cream);font-family:'Jost',sans-serif;font-size:0.86rem;color:var(--dark);box-sizing:border-box;resize:vertical;min-height:90px}
+.form-config-modal textarea:focus{outline:none;border-color:var(--gold-deep)}
+.form-config-modal .fc-label{font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:0.3rem;display:block}
+.form-config-actions{display:flex;gap:0.5rem;margin-top:0.8rem}
+.form-config-actions button{flex:1;padding:0.8rem;font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;font-weight:600;border:none;cursor:pointer;font-family:'Jost',sans-serif}
+.fc-cancel-btn{background:transparent;border:1px solid rgba(0,0,0,0.15)!important;color:var(--text-light)}
+.fc-save-btn{background:linear-gradient(135deg,var(--gold-bright),var(--gold-deep));color:var(--dark)}
+.fc-save-btn:hover{opacity:0.9}
+.fc-msg{font-size:0.76rem;text-align:center;margin-top:0.6rem;min-height:1em;color:var(--text-light)}
 /* Solicitudes: panel admin */
 .solicitudes-panel{position:fixed;inset:0;background:rgba(13,10,5,0.85);backdrop-filter:blur(4px);z-index:200;display:none;align-items:flex-start;justify-content:center;padding:1rem;overflow-y:auto}
 .solicitudes-panel.open{display:flex}
@@ -472,6 +489,7 @@ body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
   <span>● Modo administrador — toca una fecha para alternar disponible / ocupado</span>
   <div style="display:flex;gap:0.5rem;align-items:center">
     <button id="admin-solicitudes-btn" type="button">Solicitudes<span class="sol-count" id="sol-count" hidden>0</span></button>
+    <button id="admin-formconfig-btn" type="button">⚙ Formulario</button>
     <button id="admin-logout" type="button">Cerrar sesión</button>
   </div>
 </div>
@@ -530,12 +548,14 @@ body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
 <div class="solicitud-overlay" id="solicitud-overlay" role="dialog" aria-modal="true">
   <div class="solicitud-modal">
     <button class="close-x" id="solicitud-close" type="button" aria-label="Cerrar">×</button>
-    <h3>Solicitar fecha</h3>
+    <h3>Solicitar cotización</h3>
     <p class="sol-date" id="sol-date">—</p>
-    <input type="text" id="sol-nombre" placeholder="Tu nombre completo" autocomplete="name">
-    <input type="tel" id="sol-telefono" placeholder="Teléfono / WhatsApp" autocomplete="tel">
-    <input type="text" id="sol-evento" placeholder="Tipo de evento (boda, quinceañera…)">
-    <textarea id="sol-nota" placeholder="Detalles adicionales (opcional)"></textarea>
+    <div class="sol-promo" id="sol-promo-banner" hidden></div>
+    <input type="text" id="sol-nombre" placeholder="Nombre completo *" autocomplete="name">
+    <input type="email" id="sol-correo" placeholder="Correo electrónico *" autocomplete="email">
+    <input type="number" id="sol-invitados" placeholder="Cantidad de invitados *" min="1">
+    <input type="text" id="sol-evento" placeholder="Tema del evento (boda, quinceañera…) *">
+    <textarea id="sol-presupuesto" placeholder="Presupuesto estimado o paquete de interés *"></textarea>
     <div class="sol-actions">
       <button class="sol-cancel" id="sol-cancel" type="button">Cancelar</button>
       <button class="sol-submit" id="sol-submit" type="button">Enviar solicitud</button>
@@ -549,6 +569,21 @@ body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
     <button class="close-x" id="solicitudes-close" type="button" aria-label="Cerrar">×</button>
     <h3>Solicitudes pendientes</h3>
     <div id="solicitudes-list"><p class="sol-empty">Sin solicitudes pendientes.</p></div>
+  </div>
+</div>
+
+<div class="form-config-overlay" id="form-config-overlay" role="dialog" aria-modal="true">
+  <div class="form-config-modal">
+    <button class="close-x" id="form-config-close" type="button" aria-label="Cerrar">×</button>
+    <h3>Configurar formulario</h3>
+    <p class="fc-hint">Este mensaje se muestra en el formulario que ven los clientes al solicitar una fecha.</p>
+    <label class="fc-label" for="fc-promo-text">Mensaje promocional (dejar vacío para ocultarlo)</label>
+    <textarea id="fc-promo-text" placeholder="Ej: ¡APROVECHA! Al reservar este mes obtienes maestro de ceremonia GRATIS…"></textarea>
+    <div class="form-config-actions">
+      <button class="fc-cancel-btn" id="fc-cancel-btn" type="button">Cancelar</button>
+      <button class="fc-save-btn" id="fc-save-btn" type="button">Guardar</button>
+    </div>
+    <p class="fc-msg" id="fc-msg"></p>
   </div>
 </div>
 
@@ -603,6 +638,7 @@ db.enablePersistence().catch(() => {});
 const AGENDA_DOC      = db.doc("agenda/dates");
 const PRIVATE_DOC     = db.doc("agenda/privado");
 const SOLICITUDES_COL = db.collection("solicitudes");
+const CONFIG_DOC      = db.doc("config/formulario");
 
 const MES_NOMBRES = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
 const DIA_NOMBRES = ["Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado"];
@@ -618,6 +654,7 @@ let privadoUnsub        = null;
 let solicitudesUnsub    = null;
 let solicitudesPendientes = [];
 let isAdmin             = false;
+let promoBannerText     = '';
 
 const grid     = document.getElementById('calendar-grid');
 const monthLbl = document.getElementById('agenda-month-label');
@@ -713,6 +750,10 @@ AGENDA_DOC.onSnapshot((snap) => {
   console.error('Firestore error:', err);
   statusEl.textContent = 'Error de Firestore: ' + (err.code || err.message || err) + '. Revisa las Rules y la configuración.';
   renderCalendar();
+});
+
+CONFIG_DOC.onSnapshot((snap) => {
+  promoBannerText = (snap.exists && snap.data().promoBanner) ? snap.data().promoBanner : '';
 });
 
 // ---- Admin login ----
@@ -937,15 +978,18 @@ document.addEventListener('keydown', (e) => {
   else if (infoOverlay.classList.contains('open')) closeInfoModal();
   else if (document.getElementById('solicitud-overlay').classList.contains('open')) closeSolicitudModal();
   else if (document.getElementById('solicitudes-panel').classList.contains('open')) closeSolicitudesPanel();
+  else if (document.getElementById('form-config-overlay').classList.contains('open')) closeFormConfigModal();
 });
 
 // ===== Solicitud de fecha (clientes) =====
 const solicitudOverlay = document.getElementById('solicitud-overlay');
 const solDateEl        = document.getElementById('sol-date');
+const solPromoBanner   = document.getElementById('sol-promo-banner');
 const solNombre        = document.getElementById('sol-nombre');
-const solTelefono      = document.getElementById('sol-telefono');
+const solCorreo        = document.getElementById('sol-correo');
+const solInvitados     = document.getElementById('sol-invitados');
 const solEvento        = document.getElementById('sol-evento');
-const solNota          = document.getElementById('sol-nota');
+const solPresupuesto   = document.getElementById('sol-presupuesto');
 const solSubmit        = document.getElementById('sol-submit');
 const solMsg           = document.getElementById('sol-msg');
 let   solicitudFecha   = null;
@@ -953,9 +997,16 @@ let   solicitudFecha   = null;
 function openSolicitudModal(dateStr) {
   solicitudFecha = dateStr;
   solDateEl.textContent = formatDateLong(dateStr);
-  solNombre.value = ''; solTelefono.value = ''; solEvento.value = ''; solNota.value = '';
+  solNombre.value = ''; solCorreo.value = ''; solInvitados.value = '';
+  solEvento.value = ''; solPresupuesto.value = '';
   solMsg.textContent = '';
   solSubmit.disabled = false;
+  if (promoBannerText) {
+    solPromoBanner.innerHTML = '<strong>¡Aprovecha!</strong>' + escHtml(promoBannerText);
+    solPromoBanner.hidden = false;
+  } else {
+    solPromoBanner.hidden = true;
+  }
   solicitudOverlay.classList.add('open');
   setTimeout(() => solNombre.focus(), 50);
 }
@@ -968,20 +1019,24 @@ document.getElementById('sol-cancel').addEventListener('click', closeSolicitudMo
 solicitudOverlay.addEventListener('click', (e) => { if (e.target === solicitudOverlay) closeSolicitudModal(); });
 
 solSubmit.addEventListener('click', async () => {
-  const nombre    = solNombre.value.trim();
-  const telefono  = solTelefono.value.trim();
-  const evento    = solEvento.value.trim();
-  const nota      = solNota.value.trim();
-  if (!nombre || !telefono) { solMsg.textContent = 'Por favor completa nombre y teléfono.'; return; }
+  const nombre      = solNombre.value.trim();
+  const correo      = solCorreo.value.trim();
+  const invitados   = solInvitados.value.trim();
+  const evento      = solEvento.value.trim();
+  const presupuesto = solPresupuesto.value.trim();
+  if (!nombre || !correo || !invitados || !evento || !presupuesto) {
+    solMsg.textContent = 'Por favor completa todos los campos.'; return;
+  }
 
   const texto = encodeURIComponent(
-    `Hola! Me gustaría reservar una fecha con JC Detalles Planner.\n\n` +
+    `Hola! Me gustaría solicitar una cotización con JC Detalles Planner.\n\n` +
     `*Fecha deseada:* ${formatDateLong(solicitudFecha)}\n` +
     `*Nombre:* ${nombre}\n` +
-    `*Teléfono:* ${telefono}\n` +
-    `*Tipo de evento:* ${evento || 'No especificado'}\n` +
-    `${nota ? `*Detalles:* ${nota}\n` : ``}` +
-    `\nQuedo a la espera de su confirmación y los detalles del abono para asegurar la fecha. Gracias!`
+    `*Correo:* ${correo}\n` +
+    `*Invitados:* ${invitados}\n` +
+    `*Tema del evento:* ${evento}\n` +
+    `*Presupuesto / Paquete:* ${presupuesto}\n` +
+    `\nQuedo a la espera de su cotización formal. Gracias!`
   );
   window.open(`https://wa.me/50763691175?text=${texto}`, '_blank');
 
@@ -990,7 +1045,7 @@ solSubmit.addEventListener('click', async () => {
   try {
     await SOLICITUDES_COL.add({
       date: solicitudFecha,
-      nombre, telefono, evento, nota,
+      nombre, correo, invitados, evento, presupuesto,
       estado: 'pendiente',
       timestamp: firebase.firestore.FieldValue.serverTimestamp()
     });
@@ -1034,12 +1089,13 @@ function renderSolicitudesList() {
       <div class="sol-card-date">${formatDateLong(s.date)}</div>
       <div class="sol-card-name">${escHtml(s.nombre)}</div>
       <div class="sol-card-info">
-        📞 ${escHtml(s.telefono)}<br>
+        ✉️ ${escHtml(s.correo || '—')}<br>
+        👥 ${escHtml(s.invitados || '—')} invitados<br>
         🎉 ${escHtml(s.evento || '—')}<br>
-        ${s.nota ? '📝 ' + escHtml(s.nota) : ''}
+        💰 ${escHtml(s.presupuesto || '—')}
       </div>
       <div class="sol-card-btns">
-        <button class="sol-aprobar" onclick="aprobarSolicitud('${s.id}','${s.date}')">Aprobar</button>
+        <button class="sol-aprobar" onclick="aprobarSolicitud('${s.id}')">Aprobar</button>
         <button class="sol-rechazar" onclick="rechazarSolicitud('${s.id}')">Rechazar</button>
       </div>
     </div>
@@ -1050,15 +1106,10 @@ function escHtml(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
-async function aprobarSolicitud(id, dateStr) {
-  ocupadas.add(dateStr);
-  renderCalendar();
+async function aprobarSolicitud(id) {
   try {
-    await AGENDA_DOC.set({ ocupadas: Array.from(ocupadas).sort(), notasPublicas });
     await SOLICITUDES_COL.doc(id).update({ estado: 'aprobada' });
   } catch(err) {
-    ocupadas.delete(dateStr);
-    renderCalendar();
     statusEl.textContent = 'Error al aprobar: ' + (err.message || err);
   }
 }
@@ -1070,6 +1121,36 @@ async function rechazarSolicitud(id) {
     statusEl.textContent = 'Error al rechazar: ' + (err.message || err);
   }
 }
+
+// ===== Configurar formulario (admin) =====
+const formConfigOverlay = document.getElementById('form-config-overlay');
+const fcPromoText       = document.getElementById('fc-promo-text');
+const fcMsg             = document.getElementById('fc-msg');
+
+function openFormConfigModal() {
+  fcPromoText.value = promoBannerText;
+  fcMsg.textContent = '';
+  formConfigOverlay.classList.add('open');
+  setTimeout(() => fcPromoText.focus(), 50);
+}
+function closeFormConfigModal() { formConfigOverlay.classList.remove('open'); }
+
+document.getElementById('admin-formconfig-btn').addEventListener('click', openFormConfigModal);
+document.getElementById('form-config-close').addEventListener('click', closeFormConfigModal);
+document.getElementById('fc-cancel-btn').addEventListener('click', closeFormConfigModal);
+formConfigOverlay.addEventListener('click', (e) => { if (e.target === formConfigOverlay) closeFormConfigModal(); });
+
+document.getElementById('fc-save-btn').addEventListener('click', async () => {
+  const texto = fcPromoText.value.trim();
+  fcMsg.textContent = 'Guardando…';
+  try {
+    await CONFIG_DOC.set({ promoBanner: texto });
+    fcMsg.textContent = '✓ Guardado.';
+    setTimeout(closeFormConfigModal, 1200);
+  } catch(err) {
+    fcMsg.textContent = 'Error: ' + (err.message || err);
+  }
+});
 </script>
 
 </body>
