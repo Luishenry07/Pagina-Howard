@@ -247,6 +247,60 @@ body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
 .fc-save-btn{background:linear-gradient(135deg,var(--gold-bright),var(--gold-deep));color:var(--dark)}
 .fc-save-btn:hover{opacity:0.9}
 .fc-msg{font-size:0.76rem;text-align:center;margin-top:0.6rem;min-height:1em;color:var(--text-light)}
+/* Estado badge en sol-card */
+.sol-estado{display:inline-block;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.15rem 0.55rem;border-radius:20px;font-weight:700;vertical-align:middle;margin-left:0.4rem}
+.sol-estado.pendiente{background:rgba(200,169,110,0.22);color:var(--gold-deep)}
+.sol-estado.cotizada{background:rgba(45,122,58,0.15);color:#2d7a3a}
+/* Paquetes: manager */
+.pkg-overlay{position:fixed;inset:0;background:rgba(13,10,5,0.85);backdrop-filter:blur(4px);z-index:210;display:none;align-items:flex-start;justify-content:center;padding:1rem;overflow-y:auto}
+.pkg-overlay.open{display:flex}
+.pkg-box{background:var(--white);max-width:520px;width:100%;padding:2rem 1.8rem;position:relative;border-top:3px solid var(--gold);margin:auto}
+.pkg-box h3{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:400;color:var(--dark);margin-bottom:1.2rem;text-align:center}
+.pkg-card{border:1px solid rgba(200,169,110,0.3);padding:0.8rem 1rem;margin-bottom:0.6rem;background:var(--cream);display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem}
+.pkg-card-info{flex:1}
+.pkg-card-name{font-weight:700;font-size:0.9rem;color:var(--dark)}
+.pkg-card-desc{font-size:0.78rem;color:var(--text-light);margin-top:0.15rem;line-height:1.4}
+.pkg-card-price{font-size:0.85rem;font-weight:700;color:var(--gold-deep);margin-top:0.2rem}
+.pkg-card-btns{display:flex;gap:0.3rem;flex-shrink:0}
+.pkg-card-btns button{padding:0.35rem 0.65rem;font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;border:none;cursor:pointer;font-family:'Jost',sans-serif;font-weight:600}
+.pkg-edit-btn{background:rgba(200,169,110,0.2);color:var(--gold-deep)}
+.pkg-del-btn{background:rgba(180,60,60,0.12);color:#a03030}
+.pkg-form{border-top:1px solid rgba(200,169,110,0.3);margin-top:1rem;padding-top:1rem}
+.pkg-form h4{font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:0.7rem}
+.pkg-form input,.pkg-form textarea{width:100%;padding:0.65rem 0.9rem;border:1px solid rgba(200,169,110,0.4);background:var(--cream);font-family:'Jost',sans-serif;font-size:0.86rem;color:var(--dark);margin-bottom:0.5rem;box-sizing:border-box}
+.pkg-form input:focus,.pkg-form textarea:focus{outline:none;border-color:var(--gold-deep)}
+.pkg-form textarea{resize:vertical;min-height:56px}
+.pkg-form-row{display:flex;gap:0.5rem}
+.pkg-form-row input{flex:1}
+.pkg-form-actions{display:flex;gap:0.5rem;margin-top:0.2rem}
+.pkg-form-actions button{flex:1;padding:0.75rem;font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;font-weight:600;border:none;cursor:pointer;font-family:'Jost',sans-serif}
+.pkg-cancel-btn{background:transparent;border:1px solid rgba(0,0,0,0.15)!important;color:var(--text-light)}
+.pkg-save-btn{background:linear-gradient(135deg,var(--gold-bright),var(--gold-deep));color:var(--dark)}
+.pkg-msg{font-size:0.76rem;text-align:center;margin-top:0.5rem;min-height:1em;color:var(--text-light)}
+/* Cotizar modal */
+.cotizar-overlay{position:fixed;inset:0;background:rgba(13,10,5,0.85);backdrop-filter:blur(4px);z-index:215;display:none;align-items:flex-start;justify-content:center;padding:1rem;overflow-y:auto}
+.cotizar-overlay.open{display:flex}
+.cotizar-modal{background:var(--white);max-width:480px;width:100%;padding:2rem 1.8rem;position:relative;border-top:3px solid var(--gold);margin:auto}
+.cotizar-modal h3{font-family:'Cormorant Garamond',serif;font-size:1.45rem;font-weight:400;color:var(--dark);margin-bottom:0.2rem;text-align:center}
+.cotizar-cliente{background:var(--cream);border:1px solid rgba(200,169,110,0.3);padding:0.75rem 1rem;margin-bottom:1.1rem;font-size:0.8rem;color:var(--text-light);line-height:1.6}
+.cotizar-cliente strong{color:var(--dark);font-size:0.85rem;display:block;margin-bottom:0.2rem}
+.cotizar-section-label{font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:0.5rem;display:block}
+.pkg-option{display:flex;align-items:flex-start;gap:0.6rem;padding:0.65rem 0.8rem;border:1px solid rgba(200,169,110,0.25);margin-bottom:0.4rem;cursor:pointer;transition:background 0.15s}
+.pkg-option:hover,.pkg-option.selected{background:rgba(200,169,110,0.1);border-color:var(--gold)}
+.pkg-option input[type=radio]{margin-top:0.15rem;accent-color:var(--gold-deep)}
+.pkg-option-name{font-weight:700;font-size:0.87rem;color:var(--dark)}
+.pkg-option-desc{font-size:0.76rem;color:var(--text-light);line-height:1.35;margin-top:0.1rem}
+.pkg-option-price{font-size:0.82rem;font-weight:700;color:var(--gold-deep);margin-top:0.2rem}
+.cotizar-nota{width:100%;padding:0.7rem 0.9rem;border:1px solid rgba(200,169,110,0.4);background:var(--cream);font-family:'Jost',sans-serif;font-size:0.86rem;color:var(--dark);resize:vertical;min-height:64px;box-sizing:border-box;margin-bottom:0.7rem;margin-top:0.4rem}
+.cotizar-nota:focus{outline:none;border-color:var(--gold-deep)}
+.cotizar-actions{display:flex;gap:0.5rem;margin-top:0.2rem}
+.cotizar-actions button{flex:1;padding:0.85rem;font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;font-weight:600;border:none;cursor:pointer;font-family:'Jost',sans-serif}
+.cotizar-cancel-btn{background:transparent;border:1px solid rgba(0,0,0,0.15)!important;color:var(--text-light)}
+.cotizar-send-btn{background:linear-gradient(135deg,#25d366,#128c7e);color:#fff}
+.cotizar-send-btn:hover{opacity:0.9}
+.cotizar-send-btn:disabled{opacity:0.5;cursor:wait}
+.cotizar-msg{font-size:0.76rem;text-align:center;margin-top:0.6rem;min-height:1em;color:var(--text-light)}
+.sol-cotizar-btn{background:rgba(45,122,58,0.15);color:#2d7a3a;border:1px solid rgba(45,122,58,0.3)!important}
 /* Solicitudes: panel admin */
 .solicitudes-panel{position:fixed;inset:0;background:rgba(13,10,5,0.85);backdrop-filter:blur(4px);z-index:200;display:none;align-items:flex-start;justify-content:center;padding:1rem;overflow-y:auto}
 .solicitudes-panel.open{display:flex}
@@ -489,6 +543,7 @@ body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
   <span>● Modo administrador — toca una fecha para alternar disponible / ocupado</span>
   <div style="display:flex;gap:0.5rem;align-items:center">
     <button id="admin-solicitudes-btn" type="button">Solicitudes<span class="sol-count" id="sol-count" hidden>0</span></button>
+    <button id="admin-paquetes-btn" type="button">📦 Paquetes</button>
     <button id="admin-formconfig-btn" type="button">⚙ Formulario</button>
     <button id="admin-logout" type="button">Cerrar sesión</button>
   </div>
@@ -587,6 +642,44 @@ body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
   </div>
 </div>
 
+<div class="pkg-overlay" id="paquetes-overlay" role="dialog" aria-modal="true">
+  <div class="pkg-box">
+    <button class="close-x" id="paquetes-close" type="button" aria-label="Cerrar">×</button>
+    <h3>Gestionar paquetes</h3>
+    <div id="paquetes-list"></div>
+    <div class="pkg-form" id="pkg-form">
+      <h4 id="pkg-form-title">Nuevo paquete</h4>
+      <input type="text" id="pkg-nombre" placeholder="Nombre del paquete *">
+      <textarea id="pkg-desc" placeholder="Descripción (servicios incluidos)"></textarea>
+      <div class="pkg-form-row">
+        <input type="number" id="pkg-precio" placeholder="Precio ($) *" min="0">
+      </div>
+      <div class="pkg-form-actions">
+        <button class="pkg-cancel-btn" id="pkg-form-cancel" type="button">Cancelar</button>
+        <button class="pkg-save-btn" id="pkg-form-save" type="button">Guardar paquete</button>
+      </div>
+      <p class="pkg-msg" id="pkg-msg"></p>
+    </div>
+  </div>
+</div>
+
+<div class="cotizar-overlay" id="cotizar-overlay" role="dialog" aria-modal="true">
+  <div class="cotizar-modal">
+    <button class="close-x" id="cotizar-close" type="button" aria-label="Cerrar">×</button>
+    <h3>Enviar cotización</h3>
+    <div class="cotizar-cliente" id="cotizar-cliente-info"></div>
+    <span class="cotizar-section-label">Selecciona un paquete</span>
+    <div id="cotizar-paquetes-list"></div>
+    <span class="cotizar-section-label" style="margin-top:0.8rem">Nota personalizada (opcional)</span>
+    <textarea class="cotizar-nota" id="cotizar-nota" placeholder="Ej: Incluye descuento especial para tu fecha…"></textarea>
+    <div class="cotizar-actions">
+      <button class="cotizar-cancel-btn" id="cotizar-cancel-btn" type="button">Cancelar</button>
+      <button class="cotizar-send-btn" id="cotizar-send-btn" type="button">Enviar por WhatsApp</button>
+    </div>
+    <p class="cotizar-msg" id="cotizar-msg"></p>
+  </div>
+</div>
+
 <script>
 // Muestra errores JS en el status de la agenda en lugar de fallar silenciosamente
 window.onerror = function(msg) {
@@ -639,6 +732,7 @@ const AGENDA_DOC      = db.doc("agenda/dates");
 const PRIVATE_DOC     = db.doc("agenda/privado");
 const SOLICITUDES_COL = db.collection("solicitudes");
 const CONFIG_DOC      = db.doc("config/formulario");
+const PAQUETES_DOC    = db.doc("config/paquetes");
 
 const MES_NOMBRES = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
 const DIA_NOMBRES = ["Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado"];
@@ -655,6 +749,10 @@ let solicitudesUnsub    = null;
 let solicitudesPendientes = [];
 let isAdmin             = false;
 let promoBannerText     = '';
+let paquetes            = [];
+let paquetesUnsub       = null;
+let pkgEditId           = null;
+let cotizarSolicitud    = null;
 
 const grid     = document.getElementById('calendar-grid');
 const monthLbl = document.getElementById('agenda-month-label');
@@ -809,7 +907,7 @@ auth.onAuthStateChanged((user) => {
     }
     if (!solicitudesUnsub) {
       solicitudesUnsub = SOLICITUDES_COL
-        .where('estado', '==', 'pendiente')
+        .where('estado', 'in', ['pendiente', 'cotizada'])
         .onSnapshot((snap) => {
           solicitudesPendientes = snap.docs
             .map(d => ({ id: d.id, ...d.data() }))
@@ -822,9 +920,16 @@ auth.onAuthStateChanged((user) => {
           renderSolicitudesList();
         }, (err) => { console.error('Solicitudes error:', err); });
     }
+    if (!paquetesUnsub) {
+      paquetesUnsub = PAQUETES_DOC.onSnapshot((snap) => {
+        paquetes = (snap.exists && Array.isArray(snap.data().lista)) ? snap.data().lista : [];
+        renderPaquetesList();
+      }, (err) => { console.error('Paquetes error:', err); });
+    }
   } else {
     if (privadoUnsub) { privadoUnsub(); privadoUnsub = null; notasPrivadas = {}; renderCalendar(); }
     if (solicitudesUnsub) { solicitudesUnsub(); solicitudesUnsub = null; solicitudesPendientes = []; renderSolicitudesBadge(); }
+    if (paquetesUnsub) { paquetesUnsub(); paquetesUnsub = null; paquetes = []; }
   }
 });
 
@@ -979,6 +1084,8 @@ document.addEventListener('keydown', (e) => {
   else if (document.getElementById('solicitud-overlay').classList.contains('open')) closeSolicitudModal();
   else if (document.getElementById('solicitudes-panel').classList.contains('open')) closeSolicitudesPanel();
   else if (document.getElementById('form-config-overlay').classList.contains('open')) closeFormConfigModal();
+  else if (document.getElementById('paquetes-overlay').classList.contains('open')) closePaquetesModal();
+  else if (document.getElementById('cotizar-overlay').classList.contains('open')) closeCotizarModal();
 });
 
 // ===== Solicitud de fecha (clientes) =====
@@ -1086,15 +1193,20 @@ function renderSolicitudesList() {
   }
   list.innerHTML = solicitudesPendientes.map(s => `
     <div class="sol-card">
-      <div class="sol-card-date">${formatDateLong(s.date)}</div>
+      <div class="sol-card-date">
+        ${formatDateLong(s.date)}
+        <span class="sol-estado ${escHtml(s.estado)}">${s.estado === 'cotizada' ? 'Cotizada' : 'Pendiente'}</span>
+      </div>
       <div class="sol-card-name">${escHtml(s.nombre)}</div>
       <div class="sol-card-info">
         ✉️ ${escHtml(s.correo || '—')}<br>
         👥 ${escHtml(s.invitados || '—')} invitados<br>
         🎉 ${escHtml(s.evento || '—')}<br>
         💰 ${escHtml(s.presupuesto || '—')}
+        ${s.paqueteCotizado ? '<br>📋 Cotización enviada: <strong>' + escHtml(s.paqueteCotizado.nombre) + '</strong> — $' + escHtml(String(s.paqueteCotizado.precio)) : ''}
       </div>
       <div class="sol-card-btns">
+        ${s.estado === 'pendiente' ? `<button class="sol-cotizar-btn" onclick="openCotizarModal('${s.id}')">Cotizar</button>` : ''}
         <button class="sol-aprobar" onclick="aprobarSolicitud('${s.id}')">Aprobar</button>
         <button class="sol-rechazar" onclick="rechazarSolicitud('${s.id}')">Rechazar</button>
       </div>
@@ -1121,6 +1233,185 @@ async function rechazarSolicitud(id) {
     statusEl.textContent = 'Error al rechazar: ' + (err.message || err);
   }
 }
+
+// ===== Gestión de paquetes (admin) =====
+const paquetesOverlay = document.getElementById('paquetes-overlay');
+
+function openPaquetesModal() {
+  resetPkgForm();
+  renderPaquetesList();
+  paquetesOverlay.classList.add('open');
+}
+function closePaquetesModal() { paquetesOverlay.classList.remove('open'); resetPkgForm(); }
+
+document.getElementById('admin-paquetes-btn').addEventListener('click', openPaquetesModal);
+document.getElementById('paquetes-close').addEventListener('click', closePaquetesModal);
+paquetesOverlay.addEventListener('click', (e) => { if (e.target === paquetesOverlay) closePaquetesModal(); });
+
+function renderPaquetesList() {
+  const list = document.getElementById('paquetes-list');
+  if (!list) return;
+  if (paquetes.length === 0) {
+    list.innerHTML = '<p class="sol-empty" style="margin-bottom:0.8rem">Sin paquetes creados aún.</p>';
+    return;
+  }
+  list.innerHTML = paquetes.map(p => `
+    <div class="pkg-card">
+      <div class="pkg-card-info">
+        <div class="pkg-card-name">${escHtml(p.nombre)}</div>
+        ${p.descripcion ? `<div class="pkg-card-desc">${escHtml(p.descripcion)}</div>` : ''}
+        <div class="pkg-card-price">$${escHtml(String(p.precio))}</div>
+      </div>
+      <div class="pkg-card-btns">
+        <button class="pkg-edit-btn" onclick="editPaquete('${p.id}')">Editar</button>
+        <button class="pkg-del-btn" onclick="deletePaquete('${p.id}')">Eliminar</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function resetPkgForm() {
+  pkgEditId = null;
+  document.getElementById('pkg-form-title').textContent = 'Nuevo paquete';
+  document.getElementById('pkg-nombre').value = '';
+  document.getElementById('pkg-desc').value = '';
+  document.getElementById('pkg-precio').value = '';
+  document.getElementById('pkg-msg').textContent = '';
+  document.getElementById('pkg-form-cancel').style.display = 'none';
+}
+
+document.getElementById('pkg-form-cancel').style.display = 'none';
+document.getElementById('pkg-form-cancel').addEventListener('click', resetPkgForm);
+
+function editPaquete(id) {
+  const p = paquetes.find(x => x.id === id);
+  if (!p) return;
+  pkgEditId = id;
+  document.getElementById('pkg-form-title').textContent = 'Editar paquete';
+  document.getElementById('pkg-nombre').value = p.nombre;
+  document.getElementById('pkg-desc').value = p.descripcion || '';
+  document.getElementById('pkg-precio').value = p.precio;
+  document.getElementById('pkg-form-cancel').style.display = '';
+  document.getElementById('pkg-nombre').focus();
+}
+
+async function deletePaquete(id) {
+  const nuevos = paquetes.filter(p => p.id !== id);
+  try {
+    await PAQUETES_DOC.set({ lista: nuevos });
+  } catch(err) {
+    document.getElementById('pkg-msg').textContent = 'Error: ' + (err.message || err);
+  }
+}
+
+document.getElementById('pkg-form-save').addEventListener('click', async () => {
+  const nombre  = document.getElementById('pkg-nombre').value.trim();
+  const desc    = document.getElementById('pkg-desc').value.trim();
+  const precio  = parseFloat(document.getElementById('pkg-precio').value);
+  const msgEl   = document.getElementById('pkg-msg');
+  if (!nombre || isNaN(precio)) { msgEl.textContent = 'Nombre y precio son obligatorios.'; return; }
+  let nuevos;
+  if (pkgEditId) {
+    nuevos = paquetes.map(p => p.id === pkgEditId ? { id: pkgEditId, nombre, descripcion: desc, precio } : p);
+  } else {
+    nuevos = [...paquetes, { id: 'pkg_' + Date.now(), nombre, descripcion: desc, precio }];
+  }
+  msgEl.textContent = 'Guardando…';
+  try {
+    await PAQUETES_DOC.set({ lista: nuevos });
+    resetPkgForm();
+    msgEl.textContent = '✓ Guardado.';
+    setTimeout(() => { msgEl.textContent = ''; }, 1500);
+  } catch(err) {
+    msgEl.textContent = 'Error: ' + (err.message || err);
+  }
+});
+
+// ===== Cotizar (admin) =====
+const cotizarOverlay = document.getElementById('cotizar-overlay');
+
+function openCotizarModal(solicitudId) {
+  cotizarSolicitud = solicitudesPendientes.find(s => s.id === solicitudId);
+  if (!cotizarSolicitud) return;
+  document.getElementById('cotizar-cliente-info').innerHTML =
+    `<strong>${escHtml(cotizarSolicitud.nombre)}</strong>` +
+    `✉️ ${escHtml(cotizarSolicitud.correo || '—')} &nbsp;|&nbsp; ` +
+    `📅 ${formatDateLong(cotizarSolicitud.date)}<br>` +
+    `👥 ${escHtml(String(cotizarSolicitud.invitados || '—'))} invitados &nbsp;|&nbsp; ` +
+    `🎉 ${escHtml(cotizarSolicitud.evento || '—')}`;
+  renderCotizarPaquetes();
+  document.getElementById('cotizar-nota').value = '';
+  document.getElementById('cotizar-msg').textContent = '';
+  document.getElementById('cotizar-send-btn').disabled = false;
+  cotizarOverlay.classList.add('open');
+}
+function closeCotizarModal() { cotizarOverlay.classList.remove('open'); cotizarSolicitud = null; }
+
+document.getElementById('cotizar-close').addEventListener('click', closeCotizarModal);
+document.getElementById('cotizar-cancel-btn').addEventListener('click', closeCotizarModal);
+cotizarOverlay.addEventListener('click', (e) => { if (e.target === cotizarOverlay) closeCotizarModal(); });
+
+function renderCotizarPaquetes() {
+  const container = document.getElementById('cotizar-paquetes-list');
+  if (paquetes.length === 0) {
+    container.innerHTML = '<p style="font-size:0.8rem;color:var(--text-light)">No hay paquetes configurados. Créalos en 📦 Paquetes.</p>';
+    return;
+  }
+  container.innerHTML = paquetes.map((p, i) => `
+    <label class="pkg-option${i === 0 ? ' selected' : ''}" onclick="selectPkgOption(this)">
+      <input type="radio" name="pkg-select" value="${escHtml(p.id)}" ${i === 0 ? 'checked' : ''}>
+      <div>
+        <div class="pkg-option-name">${escHtml(p.nombre)}</div>
+        ${p.descripcion ? `<div class="pkg-option-desc">${escHtml(p.descripcion)}</div>` : ''}
+        <div class="pkg-option-price">$${escHtml(String(p.precio))}</div>
+      </div>
+    </label>
+  `).join('');
+}
+
+function selectPkgOption(el) {
+  document.querySelectorAll('.pkg-option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+document.getElementById('cotizar-send-btn').addEventListener('click', async () => {
+  const selected = document.querySelector('input[name="pkg-select"]:checked');
+  const msgEl = document.getElementById('cotizar-msg');
+  if (!selected) { msgEl.textContent = 'Selecciona un paquete.'; return; }
+  const paquete = paquetes.find(p => p.id === selected.value);
+  if (!paquete) { msgEl.textContent = 'Paquete no encontrado.'; return; }
+  const nota = document.getElementById('cotizar-nota').value.trim();
+  const s = cotizarSolicitud;
+
+  const texto = encodeURIComponent(
+    `¡Hola ${s.nombre}! 👋\n\n` +
+    `Gracias por tu interés en *JC Detalles Planner*. ` +
+    `Te enviamos la cotización para tu evento.\n\n` +
+    `📅 *Fecha:* ${formatDateLong(s.date)}\n` +
+    `👥 *Invitados:* ${s.invitados || '—'}\n` +
+    `🎉 *Tema:* ${s.evento || '—'}\n\n` +
+    `✨ *${paquete.nombre}*\n` +
+    `${paquete.descripcion ? paquete.descripcion + '\n' : ''}` +
+    `💰 *Precio: $${paquete.precio}*\n` +
+    `${nota ? '\n' + nota + '\n' : ''}` +
+    `\nPara confirmar tu reserva responde este mensaje. ¡Será un honor ser parte de tu evento! 🌟\n\n— JC Detalles Planner`
+  );
+  window.open(`https://wa.me/50763691175?text=${texto}`, '_blank');
+
+  document.getElementById('cotizar-send-btn').disabled = true;
+  msgEl.textContent = 'Guardando…';
+  try {
+    await SOLICITUDES_COL.doc(s.id).update({
+      estado: 'cotizada',
+      paqueteCotizado: { nombre: paquete.nombre, descripcion: paquete.descripcion || '', precio: paquete.precio }
+    });
+    msgEl.textContent = '✓ Cotización enviada.';
+    setTimeout(closeCotizarModal, 1200);
+  } catch(err) {
+    msgEl.textContent = 'Error: ' + (err.message || err);
+    document.getElementById('cotizar-send-btn').disabled = false;
+  }
+});
 
 // ===== Configurar formulario (admin) =====
 const formConfigOverlay = document.getElementById('form-config-overlay');
