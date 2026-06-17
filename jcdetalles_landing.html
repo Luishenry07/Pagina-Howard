@@ -364,10 +364,81 @@ body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
 @media (max-width:600px){
   .cal-day{font-size:0.8rem}
   .agenda-month-label{font-size:1.25rem}
-  .agenda-legend{gap:1rem;font-size:0.62rem}
+  .agenda-legend{gap:0.7rem;font-size:0.6rem}
   .calendar-grid{padding:0.5rem;gap:0.3rem}
   .cal-badge-public{font-size:0.42rem;padding:2px 1px;letter-spacing:0.04em}
   .cal-day.has-public-note > span:first-child{margin-bottom:7px}
+}
+
+/* ===== Responsive móvil — correcciones de layout ===== */
+@media(max-width:768px){
+  /* Reducir padding de secciones */
+  section{padding:3.5rem 1.2rem}
+  .hero{padding:5.5rem 1.2rem 3.5rem}
+  .hero-desc{font-size:1.05rem;margin-bottom:2rem}
+  .section-header{margin-bottom:2rem}
+  .servicios-accordion{max-width:100%}
+  .acc-body{padding:0 0.5rem 1rem 1rem}
+
+  /* Hero — botones apilados y centrados */
+  .hero-buttons{flex-direction:column;align-items:center;gap:0.65rem}
+  .btn-primary,.btn-secondary{width:100%;max-width:300px;justify-content:center;padding:0.9rem 1.5rem}
+
+  /* Stats — compacto */
+  .stats{gap:1rem 2rem;padding:1.2rem 1rem}
+  .stat-num{font-size:1.8rem}
+
+  /* Galería — 2 columnas con primera imagen full-width */
+  .galeria-grid{
+    grid-template-columns:1fr 1fr;
+    grid-template-rows:200px 155px 155px;
+    max-width:100%;
+    gap:0.35rem;
+  }
+  .gal-item:nth-child(1){grid-row:span 1;grid-column:1/-1}
+
+  /* Nosotros — apilar en 1 columna */
+  .quien-inner{grid-template-columns:1fr;gap:2rem}
+  .quien-text{text-align:center}
+  .quien-text .section-divider{justify-content:center}
+  .quien-features{margin-top:1.5rem}
+  .quien-features li{text-align:left}
+  .quien-name,.quien-role{text-align:center}
+
+  /* Contacto — info en grid 2x2 en lugar de fila con divisores */
+  .contacto-info{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:1.5rem 1rem;
+    padding-top:2rem;
+    margin-top:1rem;
+  }
+  .info-block{border-right:none;padding:0;text-align:center}
+  .wa-btn{width:100%;justify-content:center;margin-bottom:2rem;font-size:0.78rem}
+
+  /* Formulario de solicitud */
+  .solicitud-modal{padding:1.5rem 1.2rem;max-height:90vh;overflow-y:auto}
+  .sol-submit{letter-spacing:0.04em;font-size:0.68rem}
+
+  /* Footer */
+  footer{line-height:1.8;font-size:0.7rem;padding:1.2rem 1rem}
+}
+
+@media(max-width:480px){
+  .stats{gap:0.8rem 1.5rem}
+  .stat-num{font-size:1.65rem}
+  .stat-label{font-size:0.58rem}
+  .info-value{font-size:0.78rem}
+  .info-label{font-size:0.58rem}
+}
+
+/* ===== Mejoras visuales globales y desktop ===== */
+.quien-card{transition:transform 0.25s,box-shadow 0.25s}
+.quien-card:hover{transform:translateY(-4px);box-shadow:0 10px 35px rgba(200,169,110,0.18)}
+.acc-item{transition:background 0.2s}
+.acc-item:hover{background:rgba(200,169,110,0.03)}
+@media(min-width:769px){
+  .galeria-grid{grid-template-rows:265px 265px}
 }
 </style>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
