@@ -115,6 +115,14 @@ Subscriptions set up inside `onAuthStateChanged` (authenticated only), torn down
 4. Admin clicks **Aprobar** or **Rechazar** to finalize
 5. Admin manually blocks the date in the calendar if needed
 
+### Calendar date-blocking — intentionally manual
+
+**`aprobarSolicitud(id)` only does:** `SOLICITUDES_COL.doc(id).update({ estado: 'aprobada' })`. It never touches `ocupadas` or `AGENDA_DOC`. Date blocking is 100% manual by the admin via the day editor.
+
+**Why:** The business can hold multiple events on the same day. Automatic blocking would prevent that. The admin decides when (and if) to mark a date as occupied by clicking the day in the calendar and selecting "Ocupado".
+
+The only place `ocupadas.add(dateStr)` is called is inside the Save handler of `#day-editor-overlay`. Never add auto-blocking to the approve/reject flow.
+
 ### WhatsApp popup rule
 
 `window.open(waUrl, '_blank')` must be called **before** any `await` in the click handler — mobile browsers block popups opened after an async gap (user gesture no longer active).
