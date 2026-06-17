@@ -52,18 +52,9 @@ nav{
   }
   .nav-links.mob-open{display:flex}
   .nav-links a{font-size:1rem;letter-spacing:0.2em}
-  .nav-has-dropdown>a::after{content:' ▾'}
-  .nav-dropdown{
-    position:static;transform:none;opacity:1;visibility:visible;
-    background:transparent;border:none;border-top:1px solid rgba(200,169,110,0.2);
-    min-width:unset;padding:0.5rem 0;display:none;text-align:center;
-    transition:none;margin-top:0.5rem;
-  }
-  .nav-has-dropdown.mob-open .nav-dropdown{display:block}
-  .nav-dropdown li a{font-size:0.85rem;padding:0.5rem 1rem;white-space:normal;text-align:center}
-  .nav-dropdown li a:hover{padding-left:1rem}
-  .nav-has-dropdown:hover .nav-dropdown{opacity:1;visibility:visible;display:none}
-  .nav-has-dropdown.mob-open .nav-dropdown{display:block}
+  .nav-has-dropdown>a::after{content:none}
+  .nav-dropdown{display:none}
+  .nav-has-dropdown:hover .nav-dropdown{display:none}
 }
 .hero{min-height:100vh;background:var(--black-gold);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:8rem 2rem 5rem}
 .hero-bg{position:absolute;inset:0;background-image:radial-gradient(ellipse at 15% 50%,rgba(200,169,110,0.12) 0%,transparent 55%),radial-gradient(ellipse at 85% 20%,rgba(212,160,160,0.08) 0%,transparent 50%)}
@@ -1607,24 +1598,9 @@ hamburger.addEventListener('click', () => {
   navLinksEl.classList.toggle('mob-open');
 });
 
-// Cerrar menú al hacer clic en cualquier enlace (excepto el dropdown de servicios en móvil)
+// Cerrar menú al hacer clic en cualquier enlace (todos navegan en móvil)
 navLinksEl.querySelectorAll('a').forEach(a => {
-  a.addEventListener('click', function(e) {
-    const parent = this.closest('.nav-has-dropdown');
-    if (parent && window.innerWidth <= 768) {
-      e.preventDefault();
-      parent.classList.toggle('mob-open');
-      return;
-    }
-    hamburger.classList.remove('open');
-    navLinksEl.classList.remove('mob-open');
-    document.querySelectorAll('.nav-has-dropdown').forEach(d => d.classList.remove('mob-open'));
-  });
-});
-
-// Cerrar al hacer clic en un ítem del dropdown en móvil
-navLinksEl.querySelectorAll('.nav-dropdown a').forEach(a => {
-  a.addEventListener('click', () => {
+  a.addEventListener('click', function() {
     hamburger.classList.remove('open');
     navLinksEl.classList.remove('mob-open');
     document.querySelectorAll('.nav-has-dropdown').forEach(d => d.classList.remove('mob-open'));
