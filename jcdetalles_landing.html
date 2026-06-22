@@ -311,6 +311,10 @@ body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
 .pkg-cancel-btn{background:transparent;border:1px solid rgba(0,0,0,0.15)!important;color:var(--text-light)}
 .pkg-save-btn{background:linear-gradient(135deg,var(--gold-bright),var(--gold-deep));color:var(--dark)}
 .pkg-msg{font-size:0.76rem;text-align:center;margin-top:0.5rem;min-height:1em;color:var(--text-light)}
+.pkg-card-service{font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold-deep);margin-top:0.18rem;font-weight:600}
+.pkg-form select{width:100%;padding:0.65rem 0.9rem;border:1px solid rgba(200,169,110,0.4);background:var(--cream);font-family:'Jost',sans-serif;font-size:0.86rem;color:var(--dark);margin-bottom:0.5rem;box-sizing:border-box;appearance:auto}
+.pkg-form select:focus{outline:none;border-color:var(--gold-deep)}
+.acc-paq-precio{font-size:0.85rem;font-weight:700;color:var(--gold-deep);margin-bottom:0.75rem}
 /* Cotizar modal */
 .cotizar-overlay{position:fixed;inset:0;background:rgba(13,10,5,0.85);backdrop-filter:blur(4px);z-index:215;display:none;align-items:flex-start;justify-content:center;padding:1rem;overflow-y:auto}
 .cotizar-overlay.open{display:flex}
@@ -549,19 +553,9 @@ body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
         <span class="acc-title">Bodas</span>
         <span class="acc-arrow">▼</span>
       </summary>
-      <div class="acc-body">
+      <div class="acc-body" data-servicio="bodas">
         <p>Decoración romántica y elegante para el día más importante de tu vida. Wedding packages completos con atención a cada detalle.</p>
         <div class="servicio-tags"><span class="servicio-tag">Decoración</span><span class="servicio-tag">Coordinación</span><span class="servicio-tag">Logística</span></div>
-        <a href="https://wa.me/50763691175?text=Hola%20JC%20Detalles%20Planner!%20Me%20interesa%20el%20Wedding%20Package%20para%20mi%20boda.%20%C2%BFPueden%20darme%20informaci%C3%B3n%20sobre%20precios%3F%20%F0%9F%8C%B8" class="acc-paquete" target="_blank">
-          <span class="acc-paq-label">Paquete disponible</span>
-          <div class="acc-paq-nombre">Wedding Package Clásico</div>
-          <ul class="acc-paq-items">
-            <li>Decoración completa del salón</li>
-            <li>Coordinación del evento</li>
-            <li>Maestro de Ceremonias</li>
-          </ul>
-          <span class="acc-paq-btn">Cotizar por WhatsApp</span>
-        </a>
       </div>
     </details>
     <details class="acc-item">
@@ -570,19 +564,9 @@ body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
         <span class="acc-title">XV Años</span>
         <span class="acc-arrow">▼</span>
       </summary>
-      <div class="acc-body">
+      <div class="acc-body" data-servicio="quinceanos">
         <p>Celebra tus quinceañeros con temas temáticos únicos. Desde princesas Disney hasta ambientaciones de cuento completamente personalizadas.</p>
         <div class="servicio-tags"><span class="servicio-tag">Temático</span><span class="servicio-tag">Personalizado</span><span class="servicio-tag">Paquetes</span></div>
-        <a href="https://wa.me/50763691175?text=Hola%20JC%20Detalles%20Planner!%20Me%20interesa%20el%20Paquete%20de%20XV%20A%C3%B1os.%20%C2%BFPueden%20darme%20informaci%C3%B3n%20sobre%20precios%3F%20%F0%9F%8C%B8" class="acc-paquete" target="_blank">
-          <span class="acc-paq-label">Paquete disponible</span>
-          <div class="acc-paq-nombre">Quinceañera Sueño</div>
-          <ul class="acc-paq-items">
-            <li>Decoración temática completa</li>
-            <li>Arreglos florales y centros de mesa</li>
-            <li>Coordinación del evento</li>
-          </ul>
-          <span class="acc-paq-btn">Cotizar por WhatsApp</span>
-        </a>
       </div>
     </details>
     <details class="acc-item">
@@ -591,19 +575,9 @@ body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
         <span class="acc-title">Corporativos</span>
         <span class="acc-arrow">▼</span>
       </summary>
-      <div class="acc-body">
+      <div class="acc-body" data-servicio="corporativos">
         <p>Conferencias, seminarios, lanzamientos, galas y team building. Planificación profesional con el protocolo que tu empresa merece.</p>
         <div class="servicio-tags"><span class="servicio-tag">Conferencias</span><span class="servicio-tag">Galas</span><span class="servicio-tag">Pasarelas</span></div>
-        <a href="https://wa.me/50763691175?text=Hola%20JC%20Detalles%20Planner!%20Me%20interesa%20el%20Paquete%20Corporativo.%20%C2%BFPueden%20darme%20informaci%C3%B3n%20sobre%20precios%3F%20%F0%9F%8C%B8" class="acc-paquete" target="_blank">
-          <span class="acc-paq-label">Paquete disponible</span>
-          <div class="acc-paq-nombre">Paquete Ejecutivo</div>
-          <ul class="acc-paq-items">
-            <li>Planificación y logística completa</li>
-            <li>Decoración corporativa</li>
-            <li>Coordinación en sitio</li>
-          </ul>
-          <span class="acc-paq-btn">Cotizar por WhatsApp</span>
-        </a>
       </div>
     </details>
     <details class="acc-item">
@@ -612,19 +586,9 @@ body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
         <span class="acc-title">Fiestas &amp; Celebraciones</span>
         <span class="acc-arrow">▼</span>
       </summary>
-      <div class="acc-body">
+      <div class="acc-body" data-servicio="fiestas">
         <p>Baby showers, cumpleaños, graduaciones y más. Ambientaciones que sorprenden y crean recuerdos que duran toda la vida.</p>
         <div class="servicio-tags"><span class="servicio-tag">Baby Shower</span><span class="servicio-tag">Cumpleaños</span><span class="servicio-tag">Graduaciones</span></div>
-        <a href="https://wa.me/50763691175?text=Hola%20JC%20Detalles%20Planner!%20Me%20interesa%20el%20Paquete%20de%20Fiestas%20y%20Celebraciones.%20%C2%BFPueden%20darme%20informaci%C3%B3n%20sobre%20precios%3F%20%F0%9F%8C%B8" class="acc-paquete" target="_blank">
-          <span class="acc-paq-label">Paquete disponible</span>
-          <div class="acc-paq-nombre">Paquete Celebración</div>
-          <ul class="acc-paq-items">
-            <li>Decoración temática</li>
-            <li>Centros de mesa y globos</li>
-            <li>Coordinación del evento</li>
-          </ul>
-          <span class="acc-paq-btn">Cotizar por WhatsApp</span>
-        </a>
       </div>
     </details>
     <details class="acc-item">
@@ -633,19 +597,9 @@ body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
         <span class="acc-title">Navidad</span>
         <span class="acc-arrow">▼</span>
       </summary>
-      <div class="acc-body">
+      <div class="acc-body" data-servicio="navidad">
         <p>Decora tu hogar o empresa con elegancia navideña. Árboles, centros de mesa, arreglos florales y ambientaciones completas.</p>
         <div class="servicio-tags"><span class="servicio-tag">Hogares</span><span class="servicio-tag">Empresas</span><span class="servicio-tag">Arreglos</span></div>
-        <a href="https://wa.me/50763691175?text=Hola%20JC%20Detalles%20Planner!%20Me%20interesa%20el%20Paquete%20Navide%C3%B1o.%20%C2%BFPueden%20darme%20informaci%C3%B3n%20sobre%20precios%3F%20%F0%9F%8C%B8" class="acc-paquete" target="_blank">
-          <span class="acc-paq-label">Paquete disponible</span>
-          <div class="acc-paq-nombre">Paquete Navideño</div>
-          <ul class="acc-paq-items">
-            <li>Árbol navideño decorado</li>
-            <li>Centros de mesa y arreglos</li>
-            <li>Ambientación completa del hogar o empresa</li>
-          </ul>
-          <span class="acc-paq-btn">Cotizar por WhatsApp</span>
-        </a>
       </div>
     </details>
     <details class="acc-item">
@@ -654,19 +608,9 @@ body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
         <span class="acc-title">Tarjetas &amp; Detalles</span>
         <span class="acc-arrow">▼</span>
       </summary>
-      <div class="acc-body">
+      <div class="acc-body" data-servicio="tarjetas">
         <p>Invitaciones, recuerdos y detalles artesanales que hacen especial cada momento. El toque final que marca la diferencia.</p>
         <div class="servicio-tags"><span class="servicio-tag">Invitaciones</span><span class="servicio-tag">Recuerdos</span><span class="servicio-tag">Arreglos</span></div>
-        <a href="https://wa.me/50763691175?text=Hola%20JC%20Detalles%20Planner!%20Me%20interesa%20el%20Paquete%20de%20Tarjetas%20y%20Detalles.%20%C2%BFPueden%20darme%20informaci%C3%B3n%20sobre%20precios%3F%20%F0%9F%8C%B8" class="acc-paquete" target="_blank">
-          <span class="acc-paq-label">Paquete disponible</span>
-          <div class="acc-paq-nombre">Paquete Detalles</div>
-          <ul class="acc-paq-items">
-            <li>Invitaciones personalizadas</li>
-            <li>Recuerdos artesanales</li>
-            <li>Detalles especiales para invitados</li>
-          </ul>
-          <span class="acc-paq-btn">Cotizar por WhatsApp</span>
-        </a>
       </div>
     </details>
   </div>
@@ -905,6 +849,15 @@ body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
       <h4 id="pkg-form-title">Nuevo paquete</h4>
       <input type="text" id="pkg-nombre" placeholder="Nombre del paquete *">
       <textarea id="pkg-desc" placeholder="Descripción (servicios incluidos)"></textarea>
+      <select id="pkg-servicio">
+        <option value="">Servicio (todos)</option>
+        <option value="bodas">Bodas</option>
+        <option value="quinceanos">XV Años</option>
+        <option value="corporativos">Corporativos</option>
+        <option value="fiestas">Fiestas &amp; Celebraciones</option>
+        <option value="navidad">Navidad</option>
+        <option value="tarjetas">Tarjetas &amp; Detalles</option>
+      </select>
       <div class="pkg-form-row">
         <input type="number" id="pkg-precio" placeholder="Precio ($) *" min="0">
       </div>
@@ -1108,6 +1061,51 @@ CONFIG_DOC.onSnapshot((snap) => {
   promoBannerText = (snap.exists && snap.data().promoBanner) ? snap.data().promoBanner : '';
 });
 
+const SERVICIOS_WA = {
+  bodas:        'Hola%20JC%20Detalles%20Planner!%20Me%20interesa%20este%20paquete%20de%20Bodas.%20%C2%BFPueden%20darme%20informaci%C3%B3n%20sobre%20precios%3F%20%F0%9F%8C%B8',
+  quinceanos:   'Hola%20JC%20Detalles%20Planner!%20Me%20interesa%20este%20paquete%20de%20XV%20A%C3%B1os.%20%C2%BFPueden%20darme%20informaci%C3%B3n%20sobre%20precios%3F%20%F0%9F%8C%B8',
+  corporativos: 'Hola%20JC%20Detalles%20Planner!%20Me%20interesa%20este%20paquete%20Corporativo.%20%C2%BFPueden%20darme%20informaci%C3%B3n%20sobre%20precios%3F%20%F0%9F%8C%B8',
+  fiestas:      'Hola%20JC%20Detalles%20Planner!%20Me%20interesa%20este%20paquete%20de%20Fiestas.%20%C2%BFPueden%20darme%20informaci%C3%B3n%20sobre%20precios%3F%20%F0%9F%8C%B8',
+  navidad:      'Hola%20JC%20Detalles%20Planner!%20Me%20interesa%20este%20paquete%20Navide%C3%B1o.%20%C2%BFPueden%20darme%20informaci%C3%B3n%20sobre%20precios%3F%20%F0%9F%8C%B8',
+  tarjetas:     'Hola%20JC%20Detalles%20Planner!%20Me%20interesa%20este%20paquete%20de%20Tarjetas%20y%20Detalles.%20%C2%BFPueden%20darme%20informaci%C3%B3n%20sobre%20precios%3F%20%F0%9F%8C%B8',
+};
+
+const SERVICIOS_LABELS = {
+  bodas: 'Bodas', quinceanos: 'XV Años', corporativos: 'Corporativos',
+  fiestas: 'Fiestas & Celebraciones', navidad: 'Navidad', tarjetas: 'Tarjetas & Detalles',
+};
+
+function renderPaquetesEnAcordeon() {
+  document.querySelectorAll('.acc-body[data-servicio]').forEach(body => {
+    const svc = body.getAttribute('data-servicio');
+    body.querySelectorAll('.acc-paquete').forEach(el => el.remove());
+    paquetes.filter(p => p.servicio === svc).forEach(p => {
+      const nombre = p.nombre || '';
+      const waText = nombre
+        ? 'Hola%20JC%20Detalles%20Planner!%20Me%20interesa%20el%20paquete%20%22' + encodeURIComponent(nombre) + '%22.%20%C2%BFPueden%20darme%20m%C3%A1s%20informaci%C3%B3n%3F%20%F0%9F%8C%B8'
+        : (SERVICIOS_WA[svc] || 'Hola%20JC%20Detalles%20Planner!%20%C2%BFPueden%20darme%20informaci%C3%B3n%20sobre%20sus%20paquetes%3F%20%F0%9F%8C%B8');
+      const a = document.createElement('a');
+      a.href = 'https://wa.me/50763691175?text=' + waText;
+      a.className = 'acc-paquete';
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.innerHTML =
+        '<span class="acc-paq-label">Paquete disponible</span>' +
+        '<div class="acc-paq-nombre">' + escHtml(nombre) + '</div>' +
+        (p.descripcion ? '<p style="font-size:0.8rem;color:var(--text-light);margin-bottom:0.7rem;line-height:1.6">' + escHtml(p.descripcion) + '</p>' : '') +
+        (p.precio ? '<div class="acc-paq-precio">Desde $' + escHtml(String(p.precio)) + '</div>' : '') +
+        '<span class="acc-paq-btn">Cotizar por WhatsApp</span>';
+      body.appendChild(a);
+    });
+  });
+}
+
+PAQUETES_DOC.onSnapshot((snap) => {
+  paquetes = (snap.exists && Array.isArray(snap.data().lista)) ? snap.data().lista : [];
+  renderPaquetesEnAcordeon();
+  if (document.getElementById('paquetes-overlay').classList.contains('open')) renderPaquetesList();
+}, (err) => { console.error('Paquetes error:', err); });
+
 // ---- Admin login ----
 const trigger   = document.getElementById('admin-trigger');
 const overlay   = document.getElementById('admin-overlay');
@@ -1174,16 +1172,10 @@ auth.onAuthStateChanged((user) => {
           renderSolicitudesList();
         }, (err) => { console.error('Solicitudes error:', err); });
     }
-    if (!paquetesUnsub) {
-      paquetesUnsub = PAQUETES_DOC.onSnapshot((snap) => {
-        paquetes = (snap.exists && Array.isArray(snap.data().lista)) ? snap.data().lista : [];
-        renderPaquetesList();
-      }, (err) => { console.error('Paquetes error:', err); });
-    }
+    renderPaquetesList();
   } else {
     if (privadoUnsub) { privadoUnsub(); privadoUnsub = null; notasPrivadas = {}; renderCalendar(); }
     if (solicitudesUnsub) { solicitudesUnsub(); solicitudesUnsub = null; solicitudesPendientes = []; renderSolicitudesBadge(); }
-    if (paquetesUnsub) { paquetesUnsub(); paquetesUnsub = null; paquetes = []; }
   }
 });
 
@@ -1513,6 +1505,7 @@ function renderPaquetesList() {
     <div class="pkg-card">
       <div class="pkg-card-info">
         <div class="pkg-card-name">${escHtml(p.nombre)}</div>
+        ${p.servicio ? `<div class="pkg-card-service">${escHtml(SERVICIOS_LABELS[p.servicio] || p.servicio)}</div>` : ''}
         ${p.descripcion ? `<div class="pkg-card-desc">${escHtml(p.descripcion)}</div>` : ''}
         <div class="pkg-card-price">$${escHtml(String(p.precio))}</div>
       </div>
@@ -1529,6 +1522,7 @@ function resetPkgForm() {
   document.getElementById('pkg-form-title').textContent = 'Nuevo paquete';
   document.getElementById('pkg-nombre').value = '';
   document.getElementById('pkg-desc').value = '';
+  document.getElementById('pkg-servicio').value = '';
   document.getElementById('pkg-precio').value = '';
   document.getElementById('pkg-msg').textContent = '';
   document.getElementById('pkg-form-cancel').style.display = 'none';
@@ -1544,6 +1538,7 @@ function editPaquete(id) {
   document.getElementById('pkg-form-title').textContent = 'Editar paquete';
   document.getElementById('pkg-nombre').value = p.nombre;
   document.getElementById('pkg-desc').value = p.descripcion || '';
+  document.getElementById('pkg-servicio').value = p.servicio || '';
   document.getElementById('pkg-precio').value = p.precio;
   document.getElementById('pkg-form-cancel').style.display = '';
   document.getElementById('pkg-nombre').focus();
@@ -1559,16 +1554,17 @@ async function deletePaquete(id) {
 }
 
 document.getElementById('pkg-form-save').addEventListener('click', async () => {
-  const nombre  = document.getElementById('pkg-nombre').value.trim();
-  const desc    = document.getElementById('pkg-desc').value.trim();
-  const precio  = parseFloat(document.getElementById('pkg-precio').value);
-  const msgEl   = document.getElementById('pkg-msg');
+  const nombre   = document.getElementById('pkg-nombre').value.trim();
+  const desc     = document.getElementById('pkg-desc').value.trim();
+  const servicio = document.getElementById('pkg-servicio').value;
+  const precio   = parseFloat(document.getElementById('pkg-precio').value);
+  const msgEl    = document.getElementById('pkg-msg');
   if (!nombre || isNaN(precio)) { msgEl.textContent = 'Nombre y precio son obligatorios.'; return; }
   let nuevos;
   if (pkgEditId) {
-    nuevos = paquetes.map(p => p.id === pkgEditId ? { id: pkgEditId, nombre, descripcion: desc, precio } : p);
+    nuevos = paquetes.map(p => p.id === pkgEditId ? { id: pkgEditId, nombre, descripcion: desc, servicio, precio } : p);
   } else {
-    nuevos = [...paquetes, { id: 'pkg_' + Date.now(), nombre, descripcion: desc, precio }];
+    nuevos = [...paquetes, { id: 'pkg_' + Date.now(), nombre, descripcion: desc, servicio, precio }];
   }
   msgEl.textContent = 'Guardando…';
   try {
