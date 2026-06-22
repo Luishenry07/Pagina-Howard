@@ -48,10 +48,11 @@ nav{
   .nav-links{
     display:none;position:fixed;inset:0;background:rgba(13,10,5,0.98);
     flex-direction:column;align-items:center;justify-content:center;
-    gap:2rem;z-index:100;padding:2rem;
+    gap:2.2rem;z-index:100;padding:5rem 2rem 3rem;overflow-y:auto;
   }
   .nav-links.mob-open{display:flex}
-  .nav-links a{font-size:1rem;letter-spacing:0.2em}
+  .nav-links > li {width:100%;text-align:center}
+  .nav-links a{font-size:1.05rem;letter-spacing:0.2em}
   .nav-has-dropdown>a::after{content:none}
   .nav-dropdown{display:none}
   .nav-has-dropdown:hover .nav-dropdown{display:none}
