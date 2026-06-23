@@ -175,7 +175,7 @@
       <li><a href="#cliente-solicitud">Cómo solicitar una fecha</a></li>
       <li><a href="#cliente-formulario">Qué información llenar</a></li>
       <li><a href="#cliente-promo">Banner promocional</a></li>
-      <li><a href="#cliente-servicios">Cómo ver los servicios</a></li>
+      <li><a href="#cliente-servicios">Cómo ver los servicios y paquetes</a></li>
       <li class="toc-section">Para el Administrador</li>
       <li><a href="#admin-acceso">Cómo acceder al panel admin</a></li>
       <li><a href="#admin-calendario">Gestionar el calendario</a></li>
@@ -308,7 +308,7 @@
 
   <div class="section" id="cliente-servicios">
     <span class="section-tag">Para el cliente</span>
-    <h2 class="section-title">Ver los <em>servicios</em></h2>
+    <h2 class="section-title">Ver los <em>servicios y paquetes</em></h2>
     <div class="divider"><div class="divider-line"></div><div class="divider-diamond"></div><div class="divider-line"></div></div>
 
     <p>La sección de servicios funciona como un acordeón desplegable. Hay dos formas de acceder:</p>
@@ -329,6 +329,13 @@
       <tr><td>05</td><td>Navidad</td></tr>
       <tr><td>06</td><td>Tarjetas &amp; Detalles</td></tr>
     </table>
+
+    <h4>Paquetes disponibles dentro de cada servicio</h4>
+    <p>Al abrir un servicio del acordeón, el cliente puede ver <strong>paquetes configurados por el administrador</strong> para ese servicio. Cada paquete muestra su nombre, descripción y precio, y tiene un botón pulsante <strong>"Cotizar por WhatsApp"</strong> que abre una conversación directa con JC Detalles Planner.</p>
+
+    <div class="note">
+      <strong>Nota:</strong> Los paquetes son administrados en tiempo real. Si el administrador agrega, edita o elimina un paquete, el cambio aparece automáticamente en la página sin necesidad de recargar.
+    </div>
   </div>
 
 
@@ -485,19 +492,24 @@
     <h4>Crear un paquete nuevo</h4>
     <div class="fields">
       <div class="field"><span class="field-name">Nombre del paquete <span class="field-req">Obligatorio</span></span><span class="field-desc">Ej: Paquete Básico, Paquete Premium, Paquete Exclusivo</span></div>
-      <div class="field"><span class="field-name">Descripción</span><span class="field-desc">Servicios incluidos en el paquete. Aparece en la cotización que ve el cliente.</span></div>
-      <div class="field"><span class="field-name">Precio ($) <span class="field-req">Obligatorio</span></span><span class="field-desc">Precio en dólares. Se muestra tal cual en la cotización.</span></div>
+      <div class="field"><span class="field-name">Descripción</span><span class="field-desc">Servicios incluidos en el paquete. Aparece en el acordeón visible para clientes y en la cotización.</span></div>
+      <div class="field"><span class="field-name">Servicio</span><span class="field-desc">A qué sección del acordeón pertenece este paquete (Bodas, XV Años, Corporativos, Fiestas &amp; Celebraciones, Navidad, Tarjetas &amp; Detalles). Si se deja en blanco, el paquete no aparece en el acordeón pero sí está disponible para cotizar.</span></div>
+      <div class="field"><span class="field-name">Precio ($) <span class="field-req">Obligatorio</span></span><span class="field-desc">Precio en dólares. Se muestra en el acordeón y en la cotización que ve el cliente.</span></div>
     </div>
     <p>Hacer clic en <span class="btn-demo btn-gold">Guardar paquete</span> para crearlo.</p>
 
+    <div class="note">
+      <strong>Cómo se ve el paquete para el cliente:</strong> al asignar un servicio, el paquete aparece automáticamente dentro del acordeón de ese servicio con una animación pulsante para llamar la atención. Al hacer clic, se abre WhatsApp con el nombre del paquete en el mensaje.
+    </div>
+
     <h4>Editar un paquete</h4>
-    <p>Hacer clic en <span class="btn-demo btn-outline">Editar</span> en la tarjeta del paquete. Los datos se cargan en el formulario. Modificar lo necesario y hacer clic en "Guardar paquete".</p>
+    <p>Hacer clic en <span class="btn-demo btn-outline">Editar</span> en la tarjeta del paquete. Los datos se cargan en el formulario, incluyendo el servicio asignado. Modificar lo necesario y hacer clic en "Guardar paquete".</p>
 
     <h4>Eliminar un paquete</h4>
-    <p>Hacer clic en <span class="btn-demo btn-red">Eliminar</span> en la tarjeta del paquete. El paquete se borra inmediatamente.</p>
+    <p>Hacer clic en <span class="btn-demo btn-red">Eliminar</span> en la tarjeta del paquete. El paquete se borra inmediatamente del acordeón y del panel.</p>
 
     <div class="note">
-      <strong>Los cambios son en tiempo real:</strong> cualquier modificación a los paquetes se refleja inmediatamente en el modal de cotización, sin necesidad de recargar la página.
+      <strong>Los cambios son en tiempo real:</strong> cualquier modificación a los paquetes se refleja inmediatamente tanto en el acordeón de servicios visible para clientes como en el modal de cotización del administrador, sin necesidad de recargar la página.
     </div>
   </div>
 
@@ -590,7 +602,7 @@
 
 <div class="guide-footer">
   <strong>JC Detalles Planner</strong> · Creadores de Eventos · Panama City, Panamá<br>
-  Guía de uso interna — actualizada junio 2026
+  Guía de uso interna — actualizada junio 2026 · v2
 </div>
 
 </body>

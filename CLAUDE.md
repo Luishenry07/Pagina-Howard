@@ -36,7 +36,7 @@ Sections in body order: `<nav>`, `.hero`, `.stats`, `#servicios`, `#galeria`, `#
 
 **Nav:** Logo (image) on the left + hamburger button (mobile) + links on the right. "Servicios" link has a hover dropdown with the 6 service items; clicking one calls `abrirServicio(index)` which opens that accordion item and scrolls to it. On mobile (≤768px) the nav collapses to a hamburger menu that opens a full-screen overlay.
 
-**#servicios:** Accordion using native `<details>`/`<summary>` elements. No JS needed to open/close — `abrirServicio(index)` programmatically sets the `open` attribute.
+**#servicios:** Accordion using native `<details>`/`<summary>` elements. No JS needed to open/close — `abrirServicio(index)` programmatically sets the `open` attribute. Each `.acc-body` has a `data-servicio` attribute (`bodas`, `quinceanos`, `corporativos`, `fiestas`, `navidad`, `tarjetas`). `renderPaquetesEnAcordeon()` reads from `paquetes[]` and injects `.acc-paquete` cards into the matching body — never add hardcoded `.acc-paquete` blocks to the HTML, they are fully dynamic.
 
 **#galeria:** CSS grid (3 cols × 2 rows, first item spans 2 rows) with real images from `Imagenes/`. No base64.
 
@@ -48,7 +48,7 @@ Mounted after the footer (overlays everything):
 - `#day-info-overlay` — read-only modal for public visitors who click a date with a public note
 - `#solicitud-overlay` — client booking-request form (6 fields + optional promo banner)
 - `#solicitudes-panel` — admin panel listing pending + quoted solicitudes
-- `#paquetes-overlay` — admin panel to create/edit/delete packages (name, description, price)
+- `#paquetes-overlay` — admin panel to create/edit/delete packages (name, description, **service assignment**, price)
 - `#cotizar-overlay` — admin modal to send a formal quote via WhatsApp: select a package, add a note
 - `#form-config-overlay` — admin modal to edit the promotional banner text shown on the client form
 
@@ -60,7 +60,7 @@ Mounted after the footer (overlays everything):
 | `agenda/privado` | `notasPrivadas: { [date]: string }` | authenticated | authenticated |
 | `solicitudes/{id}` | `date, nombre, correo, invitados, evento, presupuesto, estado, timestamp, paqueteCotizado?` | authenticated | public (create only) |
 | `config/formulario` | `promoBanner: string` | public | authenticated |
-| `config/paquetes` | `lista: [{id, nombre, descripcion, precio}]` | authenticated | authenticated |
+| `config/paquetes` | `lista: [{id, nombre, descripcion, servicio, precio}]` — `servicio` is one of `bodas \| quinceanos \| corporativos \| fiestas \| navidad \| tarjetas` (empty string = no accordion) | public | authenticated |
 
 **`estado` values for solicitudes:** `'pendiente'` → `'cotizada'` → `'aprobada'` or `'rechazada'`. The admin panel shows `pendiente` and `cotizada`; approved/rejected are archived. **Approving does NOT auto-block the date** — the admin manually blocks dates by clicking them in the calendar editor.
 
@@ -86,7 +86,8 @@ service cloud.firestore {
       allow write: if request.auth != null;
     }
     match /config/paquetes {
-      allow read, write: if request.auth != null;
+      allow read: if true;
+      allow write: if request.auth != null;
     }
   }
 }
@@ -101,11 +102,11 @@ Firebase Auth email/password. No signup UI — admin user created manually in Fi
 Subscriptions set up on page load (public):
 - `AGENDA_DOC.onSnapshot` — ocupadas + public notes
 - `CONFIG_DOC.onSnapshot` — promo banner text
+- `PAQUETES_DOC.onSnapshot` — package list; calls `renderPaquetesEnAcordeon()` for all visitors, and `renderPaquetesList()` if the admin panel is open
 
 Subscriptions set up inside `onAuthStateChanged` (authenticated only), torn down on logout:
 - `PRIVATE_DOC.onSnapshot` — private notes
 - `SOLICITUDES_COL.where('estado','in',['pendiente','cotizada']).onSnapshot` — drives badge + panel
-- `PAQUETES_DOC.onSnapshot` — package list for cotizar modal
 
 ### Admin quotation flow
 
