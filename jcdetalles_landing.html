@@ -23,7 +23,7 @@ nav{
   border-bottom:1px solid rgba(200,169,110,0.25);
 }
 .nav-logo{display:flex;align-items:center}
-.nav-logo-img{height:165px;padding:6px 12px;background:rgba(255,255,255,0.94);border-radius:3px}
+.nav-logo-img{height:165px;padding:6px 12px;border-radius:3px}
 .nav-links{display:flex;gap:2rem;list-style:none}
 .nav-links a{font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.7);text-decoration:none;font-weight:400;transition:color 0.3s}
 .nav-links a:hover{color:var(--gold)}
@@ -57,8 +57,8 @@ nav{
   .nav-dropdown{display:none}
   .nav-has-dropdown:hover .nav-dropdown{display:none}
 }
-.hero{min-height:100vh;background:var(--black-gold);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:8rem 2rem 5rem}
-.hero-bg{position:absolute;inset:0;background-image:radial-gradient(ellipse at 15% 50%,rgba(200,169,110,0.12) 0%,transparent 55%),radial-gradient(ellipse at 85% 20%,rgba(212,160,160,0.08) 0%,transparent 50%)}
+.hero{min-height:100vh;background:url('Imagenes/Boda/SAT_3280.jpeg') center/cover no-repeat var(--black-gold);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:8rem 2rem 5rem}
+.hero-bg{position:absolute;inset:0;background:rgba(13,10,5,0.72);background-image:radial-gradient(ellipse at 15% 50%,rgba(200,169,110,0.12) 0%,transparent 55%),radial-gradient(ellipse at 85% 20%,rgba(212,160,160,0.08) 0%,transparent 50%)}
 .hero-content{text-align:center;position:relative;max-width:750px;z-index:2}
 .hero-badge{display:inline-flex;align-items:center;gap:0.6rem;border:1px solid rgba(200,169,110,0.4);padding:0.4rem 1.4rem;margin-bottom:2rem;font-size:0.68rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold)}
 .hero-badge-line{width:20px;height:1px;background:var(--gold);display:inline-block}
@@ -483,10 +483,57 @@ body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
 @media(min-width:769px){
   .galeria-grid{grid-template-rows:265px 265px}
 }
+/* ===== Nosotros: foto dinámica ===== */
+.quien-foto-container{margin-bottom:1.2rem}
+.quien-foto{width:100%;max-width:380px;height:300px;object-fit:cover;border:3px solid rgba(200,169,110,0.4);display:block}
+.quien-foto-placeholder{width:100%;max-width:380px;height:160px;border:2px dashed rgba(200,169,110,0.3);display:flex;align-items:center;justify-content:center;font-size:0.82rem;color:var(--text-light)}
+/* ===== Catálogo de PDFs (clientes) ===== */
+.catalogo-section{background:var(--cream);padding:5rem 2rem}
+.catalogo-grid{display:flex;flex-wrap:wrap;gap:1rem;margin-top:2rem;justify-content:center}
+.catalogo-item{display:flex;align-items:center;gap:0.9rem;padding:1rem 1.4rem;background:var(--white);border:1px solid rgba(200,169,110,0.3);flex:1;min-width:220px;max-width:320px}
+.catalogo-icon{font-size:2rem}
+.catalogo-nombre{font-size:0.9rem;font-weight:500;color:var(--dark);margin-bottom:0.3rem}
+.catalogo-dl{font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold-deep);text-decoration:none}
+.catalogo-dl:hover{text-decoration:underline}
+/* ===== Panel PDFs admin ===== */
+.pdfs-overlay{position:fixed;inset:0;background:rgba(13,10,5,0.85);backdrop-filter:blur(4px);z-index:200;display:none;align-items:flex-start;justify-content:center;padding:1rem;overflow-y:auto}
+.pdfs-overlay.open{display:flex}
+.pdfs-box{background:var(--white);max-width:500px;width:100%;padding:2rem 1.8rem;position:relative;border-top:3px solid var(--gold);margin:auto}
+.pdfs-box h3{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:400;color:var(--dark);margin-bottom:1.2rem;text-align:center}
+.pdf-card{display:flex;align-items:center;gap:0.7rem;padding:0.65rem 0;border-bottom:1px solid rgba(200,169,110,0.2)}
+.pdf-card-name{flex:1;font-size:0.85rem;color:var(--dark)}
+.pdf-card-actions{display:flex;gap:0.4rem}
+.pdf-dl-btn{font-size:0.68rem;letter-spacing:0.08em;padding:0.35rem 0.75rem;border:1px solid var(--gold);background:none;color:var(--gold-deep);cursor:pointer;font-family:'Jost',sans-serif;text-decoration:none;display:inline-block}
+.pdf-del-btn{font-size:0.68rem;padding:0.35rem 0.75rem;background:rgba(158,85,85,0.12);color:var(--rose-deep);border:1px solid rgba(158,85,85,0.3);cursor:pointer;font-family:'Jost',sans-serif}
+.pdf-upload-area{margin-top:1.2rem;padding:1rem;border:2px dashed rgba(200,169,110,0.35);text-align:center}
+.pdf-upload-label{font-size:0.78rem;color:var(--text-light);display:block;margin-bottom:0.6rem}
+.pdf-upload-btn{display:inline-flex;align-items:center;gap:0.5rem;background:linear-gradient(135deg,var(--gold-bright),var(--gold-deep));color:var(--dark);padding:0.65rem 1.3rem;font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;font-weight:600;border:none;cursor:pointer;font-family:'Jost',sans-serif}
+.pdf-upload-progress{font-size:0.74rem;color:var(--text-light);margin-top:0.5rem;min-height:1.2em}
+/* ===== Panel Fotos admin ===== */
+.fotos-overlay{position:fixed;inset:0;background:rgba(13,10,5,0.85);backdrop-filter:blur(4px);z-index:200;display:none;align-items:flex-start;justify-content:center;padding:1rem;overflow-y:auto}
+.fotos-overlay.open{display:flex}
+.fotos-box{background:var(--white);max-width:560px;width:100%;padding:2rem 1.8rem;position:relative;border-top:3px solid var(--gold);margin:auto}
+.fotos-box h3{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:400;color:var(--dark);margin-bottom:0.3rem;text-align:center}
+.fotos-section-label{font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold-deep);margin:1rem 0 0.5rem;display:block}
+.fotos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:0.5rem;margin-bottom:0.8rem}
+.foto-thumb{position:relative;aspect-ratio:1;overflow:hidden}
+.foto-thumb img{width:100%;height:100%;object-fit:cover}
+.foto-thumb-del{position:absolute;top:0.2rem;right:0.2rem;background:rgba(158,85,85,0.88);color:#fff;border:none;cursor:pointer;width:22px;height:22px;font-size:0.8rem;line-height:22px;text-align:center;padding:0}
+.fotos-nosotros-preview{width:120px;height:120px;object-fit:cover;border:2px solid rgba(200,169,110,0.4);display:block;margin-bottom:0.6rem}
+.fotos-nosotros-placeholder{width:120px;height:120px;border:2px dashed rgba(200,169,110,0.35);display:flex;align-items:center;justify-content:center;font-size:0.75rem;color:var(--text-light);margin-bottom:0.6rem}
+/* ===== Paquetes acordeón: botón formulario ===== */
+.acc-paquete-btns{display:flex;gap:0.6rem;flex-wrap:wrap;align-items:center;margin-top:0.3rem}
+.acc-paquete a.acc-paq-btn{text-decoration:none;cursor:pointer}
+.acc-paq-form-btn{display:inline-flex;align-items:center;gap:0.4rem;border:1px solid rgba(200,169,110,0.5);color:var(--gold-deep);background:none;cursor:pointer;font-family:'Jost',sans-serif;padding:0.6rem 1.4rem;font-size:0.67rem;letter-spacing:0.13em;text-transform:uppercase;font-weight:700}
+.acc-paq-form-btn:hover{background:rgba(200,169,110,0.08)}
+/* ===== Solicitud: fecha picker (desde paquete) ===== */
+.sol-fecha-picker{width:100%;padding:0.75rem 1rem;border:1px solid rgba(200,169,110,0.4);background:var(--cream);font-family:'Jost',sans-serif;font-size:0.88rem;color:var(--dark);margin-bottom:0.7rem;box-sizing:border-box}
+.sol-fecha-picker:focus{outline:none;border-color:var(--gold-deep)}
 </style>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
 </head>
 <body>
 
@@ -623,7 +670,7 @@ body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
     <div class="section-divider"><div class="section-divider-line"></div><div class="section-divider-diamond"></div><div class="section-divider-line"></div></div>
     <p style="font-size:0.85rem;color:var(--text-light);margin-top:1rem">Más de 383 eventos · @jcdetallesplanner</p>
   </div>
-  <div class="galeria-grid">
+  <div class="galeria-grid" id="galeria-grid">
     <div class="gal-item">
       <img src="Imagenes/Boda/SAT_3280.jpeg" alt="Boda JC Detalles Planner" loading="lazy">
       <div class="gal-overlay"></div>
@@ -653,6 +700,20 @@ body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
 </section>
 
 
+
+<section class="catalogo-section" id="catalogo">
+  <div style="max-width:900px;margin:0 auto">
+    <div class="section-header">
+      <span class="section-tag">Catálogos</span>
+      <h2 class="section-title">Nuestros <em>paquetes</em></h2>
+      <div class="section-divider"><div class="section-divider-line"></div><div class="section-divider-diamond"></div><div class="section-divider-line"></div></div>
+      <p style="font-size:0.85rem;color:var(--text-light);margin-top:1rem">Descarga nuestros catálogos de paquetes en PDF</p>
+    </div>
+    <div class="catalogo-grid" id="catalogo-grid">
+      <p style="font-size:0.85rem;color:var(--text-light)">Catálogos disponibles próximamente.</p>
+    </div>
+  </div>
+</section>
 
 <section class="agenda" id="agenda">
   <div class="section-header">
@@ -697,6 +758,10 @@ body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
       </ul>
     </div>
     <div class="quien-cards">
+      <div class="quien-foto-container">
+        <img id="nosotros-foto-img" class="quien-foto" src="" alt="JC Detalles Planner" style="display:none">
+        <div id="nosotros-foto-placeholder" class="quien-foto-placeholder" style="display:none">Foto del equipo</div>
+      </div>
       <div class="quien-card">
         <h3>Wedding Package</h3>
         <p>Paquetes completos para bodas. Consulta disponibilidad y precios escribiéndonos directamente.</p>
@@ -742,6 +807,8 @@ body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
   <div style="display:flex;gap:0.5rem;align-items:center">
     <button id="admin-solicitudes-btn" type="button">Solicitudes<span class="sol-count" id="sol-count" hidden>0</span></button>
     <button id="admin-paquetes-btn" type="button">📦 Paquetes</button>
+    <button id="admin-pdfs-btn" type="button">📄 PDFs</button>
+    <button id="admin-fotos-btn" type="button">🖼 Fotos</button>
     <button id="admin-formconfig-btn" type="button">⚙ Formulario</button>
     <button id="admin-logout" type="button">Cerrar sesión</button>
   </div>
@@ -803,6 +870,7 @@ body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
     <button class="close-x" id="solicitud-close" type="button" aria-label="Cerrar">×</button>
     <h3>Solicitar cotización</h3>
     <p class="sol-date" id="sol-date">—</p>
+    <input type="date" id="sol-fecha-picker" class="sol-fecha-picker" hidden>
     <div class="sol-promo" id="sol-promo-banner" hidden></div>
     <input type="text" id="sol-nombre" placeholder="Nombre completo *" autocomplete="name">
     <input type="email" id="sol-correo" placeholder="Correo electrónico *" autocomplete="email">
@@ -884,6 +952,47 @@ body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
       <button class="cotizar-send-btn" id="cotizar-send-btn" type="button">Enviar por WhatsApp</button>
     </div>
     <p class="cotizar-msg" id="cotizar-msg"></p>
+  </div>
+</div>
+
+<div class="pdfs-overlay" id="pdfs-overlay" role="dialog" aria-modal="true">
+  <div class="pdfs-box">
+    <button class="close-x" id="pdfs-close" type="button" aria-label="Cerrar">×</button>
+    <h3>PDFs de paquetes</h3>
+    <div id="pdfs-list"><p class="sol-empty">Sin PDFs cargados.</p></div>
+    <div class="pdf-upload-area">
+      <span class="pdf-upload-label">Cargar nuevo catálogo PDF</span>
+      <label class="pdf-upload-btn">
+        Seleccionar PDF
+        <input type="file" id="pdf-upload-input" accept=".pdf,application/pdf" style="display:none">
+      </label>
+      <div class="pdf-upload-progress" id="pdf-upload-progress"></div>
+    </div>
+  </div>
+</div>
+
+<div class="fotos-overlay" id="fotos-overlay" role="dialog" aria-modal="true">
+  <div class="fotos-box">
+    <button class="close-x" id="fotos-close" type="button" aria-label="Cerrar">×</button>
+    <h3>Gestionar fotos</h3>
+    <span class="fotos-section-label">Galería de eventos</span>
+    <div id="fotos-galeria-admin-grid" class="fotos-grid"></div>
+    <div class="pdf-upload-area">
+      <label class="pdf-upload-btn">
+        Agregar foto a la galería
+        <input type="file" id="foto-galeria-upload-input" accept="image/*" style="display:none">
+      </label>
+      <div class="pdf-upload-progress" id="fotos-galeria-progress"></div>
+    </div>
+    <span class="fotos-section-label" style="margin-top:1.5rem">Foto sección "Nosotros"</span>
+    <div id="nosotros-foto-admin-preview"></div>
+    <div class="pdf-upload-area" style="margin-top:0.6rem">
+      <label class="pdf-upload-btn">
+        Cambiar foto de Nosotros
+        <input type="file" id="foto-nosotros-upload-input" accept="image/*" style="display:none">
+      </label>
+      <div class="pdf-upload-progress" id="fotos-nosotros-progress"></div>
+    </div>
   </div>
 </div>
 
@@ -1099,18 +1208,17 @@ function renderPaquetesEnAcordeon() {
       const waText = nombre
         ? 'Hola%20JC%20Detalles%20Planner!%20Me%20interesa%20el%20paquete%20%22' + encodeURIComponent(nombre) + '%22.%20%C2%BFPueden%20darme%20m%C3%A1s%20informaci%C3%B3n%3F%20%F0%9F%8C%B8'
         : (SERVICIOS_WA[svc] || 'Hola%20JC%20Detalles%20Planner!%20%C2%BFPueden%20darme%20informaci%C3%B3n%20sobre%20sus%20paquetes%3F%20%F0%9F%8C%B8');
-      const a = document.createElement('a');
-      a.href = 'https://wa.me/50763691175?text=' + waText;
-      a.className = 'acc-paquete';
-      a.target = '_blank';
-      a.rel = 'noopener';
-      a.innerHTML =
+      const card = document.createElement('div');
+      card.className = 'acc-paquete';
+      card.innerHTML =
         '<span class="acc-paq-label">Paquete disponible</span>' +
         '<div class="acc-paq-nombre">' + escHtml(nombre) + '</div>' +
         (p.descripcion ? '<p style="font-size:0.8rem;color:var(--text-light);margin-bottom:0.7rem;line-height:1.6">' + escHtml(p.descripcion) + '</p>' : '') +
-        (p.precio ? '<div class="acc-paq-precio">Desde $' + escHtml(String(p.precio)) + '</div>' : '') +
-        '<span class="acc-paq-btn">Cotizar por WhatsApp</span>';
-      body.appendChild(a);
+        '<div class="acc-paquete-btns">' +
+        '<a href="https://wa.me/50763691175?text=' + waText + '" class="acc-paq-btn" target="_blank" rel="noopener">Cotizar por WhatsApp</a>' +
+        '<button class="acc-paq-form-btn" type="button" onclick="openSolicitudDesdePaquete(\'' + escHtml(p.id) + '\')">Solicitar cotización</button>' +
+        '</div>';
+      body.appendChild(card);
     });
   });
 }
@@ -1347,6 +1455,8 @@ document.addEventListener('keydown', (e) => {
   else if (document.getElementById('form-config-overlay').classList.contains('open')) closeFormConfigModal();
   else if (document.getElementById('paquetes-overlay').classList.contains('open')) closePaquetesModal();
   else if (document.getElementById('cotizar-overlay').classList.contains('open')) closeCotizarModal();
+  else if (document.getElementById('pdfs-overlay').classList.contains('open')) closePDFsModal();
+  else if (document.getElementById('fotos-overlay').classList.contains('open')) closeFotosModal();
 });
 
 // ===== Solicitud de fecha (clientes) =====
@@ -1363,8 +1473,11 @@ const solMsg           = document.getElementById('sol-msg');
 let   solicitudFecha   = null;
 
 function openSolicitudModal(dateStr) {
-  solicitudFecha = dateStr;
+  solicitudFecha   = dateStr;
+  solicitudPaquete = null;
   solDateEl.textContent = formatDateLong(dateStr);
+  solDateEl.hidden = false;
+  document.getElementById('sol-fecha-picker').hidden = true;
   solNombre.value = ''; solCorreo.value = ''; solInvitados.value = '';
   solEvento.value = ''; solPresupuesto.value = '';
   solMsg.textContent = '';
@@ -1380,7 +1493,8 @@ function openSolicitudModal(dateStr) {
 }
 function closeSolicitudModal() {
   solicitudOverlay.classList.remove('open');
-  solicitudFecha = null;
+  solicitudFecha   = null;
+  solicitudPaquete = null;
 }
 document.getElementById('solicitud-close').addEventListener('click', closeSolicitudModal);
 document.getElementById('sol-cancel').addEventListener('click', closeSolicitudModal);
@@ -1392,13 +1506,16 @@ solSubmit.addEventListener('click', async () => {
   const invitados   = solInvitados.value.trim();
   const evento      = solEvento.value.trim();
   const presupuesto = solPresupuesto.value.trim();
-  if (!nombre || !correo || !invitados || !evento || !presupuesto) {
+  const fechaPicker = document.getElementById('sol-fecha-picker');
+  const fecha       = solicitudFecha || (fechaPicker && fechaPicker.value) || '';
+  if (!nombre || !correo || !invitados || !evento || !presupuesto || !fecha) {
     solMsg.textContent = 'Por favor completa todos los campos.'; return;
   }
 
+  const fechaLabel = solicitudFecha ? formatDateLong(solicitudFecha) : fecha;
   const texto = encodeURIComponent(
     `Hola! Me gustaría solicitar una cotización con JC Detalles Planner.\n\n` +
-    `*Fecha deseada:* ${formatDateLong(solicitudFecha)}\n` +
+    `*Fecha deseada:* ${fechaLabel}\n` +
     `*Nombre:* ${nombre}\n` +
     `*Correo:* ${correo}\n` +
     `*Invitados:* ${invitados}\n` +
@@ -1411,12 +1528,14 @@ solSubmit.addEventListener('click', async () => {
   solSubmit.disabled = true;
   solMsg.textContent = 'Enviando solicitud…';
   try {
-    await SOLICITUDES_COL.add({
-      date: solicitudFecha,
+    const solData = {
+      date: fecha,
       nombre, correo, invitados, evento, presupuesto,
       estado: 'pendiente',
       timestamp: firebase.firestore.FieldValue.serverTimestamp()
-    });
+    };
+    if (solicitudPaquete) solData.paqueteOrigen = { id: solicitudPaquete.id, nombre: solicitudPaquete.nombre, precio: solicitudPaquete.precio };
+    await SOLICITUDES_COL.add(solData);
     solMsg.textContent = '✓ Solicitud enviada.';
     setTimeout(closeSolicitudModal, 1500);
   } catch(err) {
@@ -1733,6 +1852,254 @@ function abrirServicio(index) {
   items.forEach(d => d.removeAttribute('open'));
   items[index].setAttribute('open', '');
   document.getElementById('servicios').scrollIntoView({ behavior: 'smooth' });
+}
+
+// ===== Firebase Storage + Galería + Nosotros + PDFs =====
+const storage      = firebase.storage();
+const GALERIA_DOC  = db.doc('config/galeria');
+const NOSOTROS_DOC = db.doc('config/nosotros');
+const PDFS_DOC     = db.doc('config/pdfPaquetes');
+let galeria          = [];
+let pdfs             = [];
+let nosotrosFotoUrl  = '';
+let nosotrosFotoPath = '';
+
+const STATIC_GALLERY = [
+  { url:'Imagenes/Boda/SAT_3280.jpeg',        alt:'Boda JC Detalles Planner',      label:'Bodas',    sublabel:'Wedding Package'      },
+  { url:'Imagenes/QuinceAños/IMG_6239.jpeg',  alt:'XV Años Hollywood',              label:'XV Años',  sublabel:'Temático Hollywood'    },
+  { url:'Imagenes/QuinceAños/IMG_6256.jpeg',  alt:'Decoración de mesa quinceañera', label:'XV Años',  sublabel:'Decoración de Mesa'    },
+  { url:'Imagenes/QuinceAños/IMG_6262.jpeg',  alt:'Mis XV Keithy Jorde',            label:'XV Años',  sublabel:'Mis XV Keithy'         },
+  { url:'Imagenes/QuinceAños/IMG_6322.jpeg',  alt:'Quinceañera elegante',           label:'XV Años',  sublabel:'Quinceañera Elegant'   },
+];
+
+function renderGaleria() {
+  const grid = document.getElementById('galeria-grid');
+  if (!grid) return;
+  const items = galeria.length > 0 ? galeria : STATIC_GALLERY;
+  grid.innerHTML = items.map(item =>
+    '<div class="gal-item">' +
+    '<img src="' + escHtml(item.url) + '" alt="' + escHtml(item.alt || '') + '" loading="lazy">' +
+    '<div class="gal-overlay"></div>' +
+    '<div class="gal-label"><small>' + escHtml(item.label || '') + '</small><span>' + escHtml(item.sublabel || '') + '</span></div>' +
+    '</div>'
+  ).join('');
+}
+
+GALERIA_DOC.onSnapshot((snap) => {
+  galeria = (snap.exists && Array.isArray(snap.data().lista)) ? snap.data().lista : [];
+  renderGaleria();
+}, (err) => { console.error('Galería:', err); renderGaleria(); });
+
+function renderNosotrosFoto() {
+  const img = document.getElementById('nosotros-foto-img');
+  const ph  = document.getElementById('nosotros-foto-placeholder');
+  if (!img) return;
+  if (nosotrosFotoUrl) {
+    img.src = nosotrosFotoUrl;
+    img.style.display = '';
+    if (ph) ph.style.display = 'none';
+  } else {
+    img.style.display = 'none';
+    if (ph) ph.style.display = '';
+  }
+}
+
+NOSOTROS_DOC.onSnapshot((snap) => {
+  nosotrosFotoUrl  = (snap.exists && snap.data().fotoUrl)  ? snap.data().fotoUrl  : '';
+  nosotrosFotoPath = (snap.exists && snap.data().fotoPath) ? snap.data().fotoPath : '';
+  renderNosotrosFoto();
+}, (err) => { console.error('Nosotros:', err); });
+
+function renderCatalogoPDFs() {
+  const grid = document.getElementById('catalogo-grid');
+  if (!grid) return;
+  if (pdfs.length === 0) {
+    grid.innerHTML = '<p style="font-size:0.85rem;color:var(--text-light)">Catálogos disponibles próximamente.</p>';
+    return;
+  }
+  grid.innerHTML = pdfs.map(pdf =>
+    '<div class="catalogo-item">' +
+    '<div class="catalogo-icon">📄</div>' +
+    '<div>' +
+    '<div class="catalogo-nombre">' + escHtml(pdf.nombre) + '</div>' +
+    '<a href="' + escHtml(pdf.url) + '" class="catalogo-dl" target="_blank" rel="noopener">Descargar PDF ↓</a>' +
+    '</div></div>'
+  ).join('');
+}
+
+PDFS_DOC.onSnapshot((snap) => {
+  pdfs = (snap.exists && Array.isArray(snap.data().lista)) ? snap.data().lista : [];
+  renderCatalogoPDFs();
+  if (document.getElementById('pdfs-overlay').classList.contains('open')) renderPDFsList();
+}, (err) => { console.error('PDFs:', err); });
+
+// ===== Panel PDFs admin =====
+function openPDFsModal() { renderPDFsList(); document.getElementById('pdfs-overlay').classList.add('open'); }
+function closePDFsModal() { document.getElementById('pdfs-overlay').classList.remove('open'); }
+
+document.getElementById('admin-pdfs-btn').addEventListener('click', openPDFsModal);
+document.getElementById('pdfs-close').addEventListener('click', closePDFsModal);
+document.getElementById('pdfs-overlay').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('pdfs-overlay')) closePDFsModal();
+});
+
+function renderPDFsList() {
+  const list = document.getElementById('pdfs-list');
+  if (!list) return;
+  if (pdfs.length === 0) { list.innerHTML = '<p class="sol-empty">Sin PDFs cargados aún.</p>'; return; }
+  list.innerHTML = pdfs.map(pdf =>
+    '<div class="pdf-card">' +
+    '<div class="pdf-card-name">📄 ' + escHtml(pdf.nombre) + '</div>' +
+    '<div class="pdf-card-actions">' +
+    '<a href="' + escHtml(pdf.url) + '" class="pdf-dl-btn" target="_blank" rel="noopener">Ver</a>' +
+    '<button class="pdf-del-btn" onclick="deletePDF(\'' + escHtml(pdf.id) + '\',\'' + escHtml(pdf.path || '') + '\')">Eliminar</button>' +
+    '</div></div>'
+  ).join('');
+}
+
+document.getElementById('pdf-upload-input').addEventListener('change', async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const progress = document.getElementById('pdf-upload-progress');
+  if (file.type !== 'application/pdf') { progress.textContent = 'Solo se permiten archivos PDF.'; return; }
+  progress.textContent = 'Subiendo…';
+  const id  = 'pdf_' + Date.now();
+  const ref = storage.ref('pdfPaquetes/' + id + '_' + file.name);
+  try {
+    const snap = await ref.put(file);
+    const url  = await snap.ref.getDownloadURL();
+    await PDFS_DOC.set({ lista: [...pdfs, { id, nombre: file.name.replace(/\.pdf$/i, ''), url, path: ref.fullPath }] });
+    progress.textContent = '✓ PDF cargado.';
+    e.target.value = '';
+    setTimeout(() => { progress.textContent = ''; }, 2000);
+  } catch(err) { progress.textContent = 'Error: ' + (err.message || err); }
+});
+
+async function deletePDF(id, path) {
+  try {
+    await PDFS_DOC.set({ lista: pdfs.filter(p => p.id !== id) });
+    if (path) { try { await storage.ref(path).delete(); } catch(e) { console.warn('PDF storage delete:', e); } }
+  } catch(err) { document.getElementById('pdf-upload-progress').textContent = 'Error: ' + (err.message || err); }
+}
+
+// ===== Panel Fotos admin =====
+function openFotosModal() {
+  renderFotosGaleriaAdmin();
+  renderNosotrosFotoAdmin();
+  document.getElementById('fotos-overlay').classList.add('open');
+}
+function closeFotosModal() { document.getElementById('fotos-overlay').classList.remove('open'); }
+
+document.getElementById('admin-fotos-btn').addEventListener('click', openFotosModal);
+document.getElementById('fotos-close').addEventListener('click', closeFotosModal);
+document.getElementById('fotos-overlay').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('fotos-overlay')) closeFotosModal();
+});
+
+function renderFotosGaleriaAdmin() {
+  const grid = document.getElementById('fotos-galeria-admin-grid');
+  if (!grid) return;
+  if (galeria.length === 0) {
+    grid.innerHTML = '<p class="sol-empty" style="margin-bottom:0.6rem">Sin fotos en Firebase aún. Las fotos estáticas siguen mostrándose como fallback.</p>';
+    return;
+  }
+  grid.innerHTML = galeria.map(item =>
+    '<div class="foto-thumb">' +
+    '<img src="' + escHtml(item.url) + '" alt="' + escHtml(item.alt || '') + '" loading="lazy">' +
+    '<button class="foto-thumb-del" onclick="deleteFotoGaleria(\'' + escHtml(item.id) + '\',\'' + escHtml(item.path || '') + '\')">×</button>' +
+    '</div>'
+  ).join('');
+}
+
+function renderNosotrosFotoAdmin() {
+  const preview = document.getElementById('nosotros-foto-admin-preview');
+  if (!preview) return;
+  if (nosotrosFotoUrl) {
+    preview.innerHTML =
+      '<img src="' + escHtml(nosotrosFotoUrl) + '" alt="Foto Nosotros" class="fotos-nosotros-preview">' +
+      '<button class="pdf-del-btn" onclick="deleteNosotrosFoto()">Eliminar foto</button>';
+  } else {
+    preview.innerHTML = '<div class="fotos-nosotros-placeholder">Sin foto</div>';
+  }
+}
+
+document.getElementById('foto-galeria-upload-input').addEventListener('change', async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const progress = document.getElementById('fotos-galeria-progress');
+  progress.textContent = 'Subiendo…';
+  const id  = 'foto_' + Date.now();
+  const ref = storage.ref('galeria/' + id + '_' + file.name);
+  try {
+    const snap = await ref.put(file);
+    const url  = await snap.ref.getDownloadURL();
+    await GALERIA_DOC.set({ lista: [...galeria, { id, url, alt: file.name, label: '', sublabel: '', path: ref.fullPath }] });
+    progress.textContent = '✓ Foto agregada.';
+    e.target.value = '';
+    setTimeout(() => { progress.textContent = ''; renderFotosGaleriaAdmin(); }, 2000);
+  } catch(err) { progress.textContent = 'Error: ' + (err.message || err); }
+});
+
+async function deleteFotoGaleria(id, path) {
+  try {
+    await GALERIA_DOC.set({ lista: galeria.filter(f => f.id !== id) });
+    if (path) { try { await storage.ref(path).delete(); } catch(e) { console.warn('Foto storage delete:', e); } }
+  } catch(err) { document.getElementById('fotos-galeria-progress').textContent = 'Error: ' + (err.message || err); }
+}
+
+document.getElementById('foto-nosotros-upload-input').addEventListener('change', async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const progress = document.getElementById('fotos-nosotros-progress');
+  progress.textContent = 'Subiendo…';
+  const ref = storage.ref('nosotros/foto_' + Date.now() + '_' + file.name);
+  try {
+    const snap = await ref.put(file);
+    const url  = await snap.ref.getDownloadURL();
+    if (nosotrosFotoPath && nosotrosFotoPath !== ref.fullPath) {
+      try { await storage.ref(nosotrosFotoPath).delete(); } catch(e) {}
+    }
+    await NOSOTROS_DOC.set({ fotoUrl: url, fotoPath: ref.fullPath });
+    progress.textContent = '✓ Foto actualizada.';
+    e.target.value = '';
+    setTimeout(() => { progress.textContent = ''; renderNosotrosFotoAdmin(); }, 2000);
+  } catch(err) { progress.textContent = 'Error: ' + (err.message || err); }
+});
+
+async function deleteNosotrosFoto() {
+  try {
+    if (nosotrosFotoPath) { try { await storage.ref(nosotrosFotoPath).delete(); } catch(e) {} }
+    await NOSOTROS_DOC.set({ fotoUrl: '', fotoPath: '' });
+    renderNosotrosFotoAdmin();
+  } catch(err) { document.getElementById('fotos-nosotros-progress').textContent = 'Error: ' + (err.message || err); }
+}
+
+// ===== Solicitud desde paquete =====
+let solicitudPaquete = null;
+
+function openSolicitudDesdePaquete(paqueteId) {
+  const p = paquetes.find(x => x.id === paqueteId);
+  if (!p) return;
+  solicitudFecha   = null;
+  solicitudPaquete = p;
+  solDateEl.hidden = true;
+  const picker = document.getElementById('sol-fecha-picker');
+  picker.hidden = false;
+  picker.value  = '';
+  picker.min    = todayStr;
+  solNombre.value = ''; solCorreo.value = ''; solInvitados.value = '';
+  solEvento.value = '';
+  solPresupuesto.value = p.nombre;
+  solMsg.textContent = '';
+  solSubmit.disabled = false;
+  if (promoBannerText) {
+    solPromoBanner.innerHTML = '<strong>¡Aprovecha!</strong> ' + escHtml(promoBannerText);
+    solPromoBanner.hidden = false;
+  } else {
+    solPromoBanner.hidden = true;
+  }
+  solicitudOverlay.classList.add('open');
+  setTimeout(() => solNombre.focus(), 50);
 }
 </script>
 
