@@ -57,12 +57,12 @@ nav{
   .nav-dropdown{display:none}
   .nav-has-dropdown:hover .nav-dropdown{display:none}
 }
-.hero{min-height:100vh;background:url('Imagenes/Boda/SAT_3280.jpeg') center/cover no-repeat var(--black-gold);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:8rem 2rem 5rem}
-.hero-bg{position:absolute;inset:0;background:rgba(13,10,5,0.72);background-image:radial-gradient(ellipse at 15% 50%,rgba(200,169,110,0.12) 0%,transparent 55%),radial-gradient(ellipse at 85% 20%,rgba(212,160,160,0.08) 0%,transparent 50%)}
+.hero{min-height:100vh;background:url('Imagenes/QuinceA%C3%B1os/IMG_6239.jpeg') center 20%/cover no-repeat var(--black-gold);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:8rem 2rem 5rem}
+.hero-bg{position:absolute;inset:0;background:rgba(13,10,5,0.65);background-image:radial-gradient(ellipse at 15% 50%,rgba(200,169,110,0.15) 0%,transparent 55%),radial-gradient(ellipse at 85% 20%,rgba(212,160,160,0.1) 0%,transparent 50%)}
 .hero-content{text-align:center;position:relative;max-width:750px;z-index:2}
 .hero-badge{display:inline-flex;align-items:center;gap:0.6rem;border:1px solid rgba(200,169,110,0.4);padding:0.4rem 1.4rem;margin-bottom:2rem;font-size:0.68rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold)}
 .hero-badge-line{width:20px;height:1px;background:var(--gold);display:inline-block}
-.hero-name{font-family:'Cormorant Garamond',serif;font-size:clamp(1.2rem,3vw,1.6rem);font-weight:300;letter-spacing:0.3em;text-transform:uppercase;color:rgba(200,169,110,0.7);margin-bottom:0.5rem}
+.hero-name{font-family:'Cormorant Garamond',serif;font-size:clamp(0.62rem,1.5vw,1rem);font-weight:400;letter-spacing:0.14em;text-transform:uppercase;color:rgba(200,169,110,0.85);margin-bottom:0.5rem;white-space:nowrap}
 .hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(3.5rem,9vw,7rem);font-weight:300;line-height:0.95;color:var(--white);margin-bottom:0.3rem}
 .hero h1 em{font-style:italic;background:linear-gradient(135deg,var(--gold-bright),var(--gold),#f5d98a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:block}
 .hero-sub{font-size:0.78rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:2.5rem;margin-top:1rem}
@@ -483,6 +483,30 @@ body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
 @media(min-width:769px){
   .galeria-grid{grid-template-rows:265px 265px}
 }
+/* ===== Modal aprobación solicitud ===== */
+.aprobacion-overlay{position:fixed;inset:0;background:rgba(13,10,5,0.85);backdrop-filter:blur(4px);z-index:215;display:none;align-items:flex-start;justify-content:center;padding:1rem;overflow-y:auto}
+.aprobacion-overlay.open{display:flex}
+.aprobacion-modal{background:var(--white);max-width:460px;width:100%;padding:2rem 1.8rem;position:relative;border-top:3px solid var(--gold);margin:auto}
+.aprobacion-modal h3{font-family:'Cormorant Garamond',serif;font-size:1.45rem;font-weight:400;color:var(--dark);margin-bottom:0.8rem;text-align:center}
+.aprobacion-cliente{background:var(--cream);border:1px solid rgba(200,169,110,0.3);padding:0.75rem 1rem;margin-bottom:1rem;font-size:0.8rem;color:var(--text-light);line-height:1.7}
+.aprobacion-cliente strong{color:var(--dark);font-size:0.88rem;display:block;margin-bottom:0.2rem}
+/* ===== Modal editar evento ===== */
+.editar-evento-overlay{position:fixed;inset:0;background:rgba(13,10,5,0.88);backdrop-filter:blur(4px);z-index:220;display:none;align-items:flex-start;justify-content:center;padding:1rem;overflow-y:auto}
+.editar-evento-overlay.open{display:flex}
+/* ===== Eventos en day-editor ===== */
+.day-editor-eventos{margin-bottom:1rem}
+.day-editor-eventos-title{font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-light);font-weight:600;display:block;margin-bottom:0.5rem}
+.evento-card{border:1px solid rgba(200,169,110,0.3);padding:0.65rem 0.9rem;margin-bottom:0.45rem;background:rgba(200,169,110,0.04);font-size:0.78rem;border-radius:1px}
+.evento-card-name{font-weight:600;color:var(--dark);font-size:0.85rem}
+.evento-card-info{color:var(--text-light);font-size:0.74rem;line-height:1.55;margin-top:0.2rem}
+.evento-card-btns{display:flex;gap:0.4rem;margin-top:0.5rem}
+.evento-card-btns button{font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.28rem 0.65rem;cursor:pointer;font-family:'Jost',sans-serif;font-weight:600;border:1px solid transparent}
+.evento-edit-btn{background:rgba(200,169,110,0.14);color:var(--gold-deep);border-color:rgba(200,169,110,0.35)!important}
+.evento-cancel-btn{background:rgba(158,85,85,0.12);color:var(--rose-deep);border-color:rgba(158,85,85,0.3)!important}
+.evento-cancelado{opacity:0.45}
+.evento-cancelado .evento-card-name{text-decoration:line-through}
+/* Badge eventos en calendario (admin) */
+.cal-badge-eventos{display:block;font-size:0.52rem;letter-spacing:0.06em;text-transform:uppercase;background:rgba(45,122,58,0.18);color:#2d7a3a;padding:0.12rem 0.35rem;margin-top:0.15rem;text-align:center}
 /* ===== Nosotros: foto dinámica ===== */
 .quien-foto-container{margin-bottom:1.2rem}
 .quien-foto{width:100%;max-width:380px;height:300px;object-fit:cover;border:3px solid rgba(200,169,110,0.4);display:block}
@@ -565,8 +589,8 @@ body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
   <div class="hero-bg"></div>
   <div class="hero-content">
     <div class="hero-badge"><span class="hero-badge-line"></span>Decoración · Organización · Coordinación · Logística<span class="hero-badge-line"></span></div>
-    <p class="hero-name">JC Detalles</p>
-    <h1>Creadores de<em>Eventos</em></h1>
+    <p class="hero-name">JC Detalles Planner, Creadores de Eventos</p>
+    <h1>Momentos<em>únicos</em></h1>
     <p class="hero-sub">Panama City · Panama · Events-Planners</p>
     <div class="hero-divider"><div class="hero-divider-line"></div><div class="hero-divider-diamond"></div><div class="hero-divider-line"></div></div>
     <p class="hero-desc">Transformamos cada celebración en una experiencia única e irrepetible. Diseño, elegancia y dedicación absoluta en cada evento.</p>
@@ -749,7 +773,7 @@ body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
       <div class="section-divider" style="justify-content:flex-start;margin-bottom:1.5rem"><div class="section-divider-line"></div><div class="section-divider-diamond"></div></div>
       <p>Event Planner, Diseñador de Eventos y Maestro de Ceremonias con años de experiencia transformando sueños en celebraciones memorables en Panama City.</p>
       <p>En JC Detalles Planner nos encargamos de todo: decoración, organización, coordinación y logística. Tu única responsabilidad es disfrutar.</p>
-      <div class="quien-name">JC Detalles (Events-Planners)</div>
+      <div class="quien-name">JC Detalles Planner (Events-Planners)</div>
       <div class="quien-role">PH Bay View, Panama City, Panama</div>
       <ul class="quien-features">
         <li><div class="feat-diamond"></div><div class="feat-text"><strong>Diseño 100% personalizado</strong>Cada evento se crea desde cero según tu visión, tema y presupuesto.</div></li>
@@ -759,7 +783,7 @@ body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
     </div>
     <div class="quien-cards">
       <div class="quien-foto-container">
-        <img id="nosotros-foto-img" class="quien-foto" src="" alt="JC Detalles Planner" style="display:none">
+        <img id="nosotros-foto-img" class="quien-foto" src="Imagenes/Howard%20Bowie.jpg" alt="Howard Bowie — JC Detalles Planner">
         <div id="nosotros-foto-placeholder" class="quien-foto-placeholder" style="display:none">Foto del equipo</div>
       </div>
       <div class="quien-card">
@@ -830,7 +854,11 @@ body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
     <button class="close-x" id="day-editor-close" type="button" aria-label="Cerrar">×</button>
     <h3 id="day-editor-title">Editar fecha</h3>
     <p class="day-editor-date" id="day-editor-date">—</p>
-    <span class="day-editor-section-label">Estado</span>
+    <div class="day-editor-eventos" id="day-editor-eventos-wrap">
+      <span class="day-editor-eventos-title">Eventos aprobados este día</span>
+      <div id="day-editor-eventos-list"></div>
+    </div>
+    <span class="day-editor-section-label">Estado de disponibilidad</span>
     <div class="day-editor-status">
       <button class="status-btn" id="status-disponible" type="button">Disponible</button>
       <button class="status-btn busy" id="status-ocupado" type="button">Ocupado</button>
@@ -955,6 +983,65 @@ body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
   </div>
 </div>
 
+<div class="aprobacion-overlay" id="aprobacion-overlay" role="dialog" aria-modal="true">
+  <div class="aprobacion-modal">
+    <button class="close-x" id="aprobacion-close" type="button" aria-label="Cerrar">×</button>
+    <h3>Aprobar evento</h3>
+    <div class="aprobacion-cliente" id="aprobacion-cliente-info"></div>
+    <span class="cotizar-section-label">Nota para la agenda (opcional)</span>
+    <textarea class="cotizar-nota" id="aprobacion-nota" placeholder="Ej: Boda María & Juan — salón Bay View, 6 pm"></textarea>
+    <span class="cotizar-section-label" style="margin-top:0.5rem">Visibilidad del evento</span>
+    <div class="day-editor-visibility">
+      <button class="vis-btn active" id="aprobacion-vis-publica" type="button">
+        <span class="vis-dot vis-dot-publica"></span>
+        <span class="vis-btn-text"><strong>Pública</strong><small>visible para todos</small></span>
+      </button>
+      <button class="vis-btn" id="aprobacion-vis-privada" type="button">
+        <span class="vis-dot vis-dot-privada"></span>
+        <span class="vis-btn-text"><strong>Privada</strong><small>solo administrador</small></span>
+      </button>
+    </div>
+    <div class="cotizar-actions" style="margin-top:1rem">
+      <button class="cotizar-cancel-btn" id="aprobacion-cancel-btn" type="button">Cancelar</button>
+      <button class="cotizar-send-btn" id="aprobacion-confirm-btn" type="button">Confirmar aprobación</button>
+    </div>
+    <p class="cotizar-msg" id="aprobacion-msg"></p>
+  </div>
+</div>
+
+<div class="editar-evento-overlay" id="editar-evento-overlay" role="dialog" aria-modal="true">
+  <div class="aprobacion-modal">
+    <button class="close-x" id="editar-evento-close" type="button" aria-label="Cerrar">×</button>
+    <h3>Editar evento</h3>
+    <div style="margin-bottom:0.5rem">
+      <span class="cotizar-section-label">Nombre del cliente</span>
+      <input type="text" id="editar-nombre" class="sol-fecha-picker" placeholder="Nombre completo">
+      <span class="cotizar-section-label">Tipo de evento</span>
+      <input type="text" id="editar-evento-tipo" class="sol-fecha-picker" placeholder="Boda, XV años, corporativo…">
+      <span class="cotizar-section-label">Invitados</span>
+      <input type="text" id="editar-invitados" class="sol-fecha-picker" placeholder="Cantidad de invitados">
+      <span class="cotizar-section-label">Nota para la agenda (opcional)</span>
+      <textarea class="cotizar-nota" id="editar-nota" placeholder="Nota visible en el calendario"></textarea>
+    </div>
+    <span class="cotizar-section-label">Visibilidad</span>
+    <div class="day-editor-visibility">
+      <button class="vis-btn active" id="editar-vis-publica" type="button">
+        <span class="vis-dot vis-dot-publica"></span>
+        <span class="vis-btn-text"><strong>Pública</strong><small>visible para todos</small></span>
+      </button>
+      <button class="vis-btn" id="editar-vis-privada" type="button">
+        <span class="vis-dot vis-dot-privada"></span>
+        <span class="vis-btn-text"><strong>Privada</strong><small>solo administrador</small></span>
+      </button>
+    </div>
+    <div class="cotizar-actions" style="margin-top:1rem">
+      <button class="cotizar-cancel-btn" id="editar-evento-cancel-btn" type="button">Cancelar</button>
+      <button class="cotizar-send-btn" id="editar-evento-save-btn" type="button">Guardar cambios</button>
+    </div>
+    <p class="cotizar-msg" id="editar-evento-msg"></p>
+  </div>
+</div>
+
 <div class="pdfs-overlay" id="pdfs-overlay" role="dialog" aria-modal="true">
   <div class="pdfs-box">
     <button class="close-x" id="pdfs-close" type="button" aria-label="Cerrar">×</button>
@@ -1039,6 +1126,10 @@ window.onerror = function(msg) {
 //            match /config/paquetes {
 //              allow read: if true;
 //              allow write: if request.auth != null;
+//            }
+//            // Eventos aprobados: solo admin lee y escribe
+//            match /eventos/{doc} {
+//              allow read, write: if request.auth != null;
 //            }
 //          }
 //        }
@@ -1136,6 +1227,15 @@ function renderCalendar(){
       const dot = document.createElement('span');
       dot.className = 'cal-badge cal-badge-private';
       cell.appendChild(dot);
+    }
+    if (isAdmin) {
+      const evtCount = eventos.filter(e => e.date === dateStr && !e.cancelado).length;
+      if (evtCount > 0) {
+        const evBadge = document.createElement('span');
+        evBadge.className = 'cal-badge-eventos';
+        evBadge.textContent = evtCount + (evtCount === 1 ? ' evento' : ' eventos');
+        cell.appendChild(evBadge);
+      }
     }
     if (isAdmin) {
       const t = notasPrivadas[dateStr] || notasPublicas[dateStr];
@@ -1360,6 +1460,7 @@ function openDayEditor(dateStr){
   }
   editorDateEl.textContent = formatDateLong(dateStr);
   refreshEditorUI();
+  renderEventosEnDayEditor(dateStr);
   editorOverlay.classList.add('open');
   if (editingStatus === 'ocupado') setTimeout(() => editorNota.focus(), 60);
 }
@@ -1457,6 +1558,8 @@ document.addEventListener('keydown', (e) => {
   else if (document.getElementById('cotizar-overlay').classList.contains('open')) closeCotizarModal();
   else if (document.getElementById('pdfs-overlay').classList.contains('open')) closePDFsModal();
   else if (document.getElementById('fotos-overlay').classList.contains('open')) closeFotosModal();
+  else if (document.getElementById('aprobacion-overlay').classList.contains('open')) closeAprobacionModal();
+  else if (document.getElementById('editar-evento-overlay').classList.contains('open')) closeEditarEventoModal();
 });
 
 // ===== Solicitud de fecha (clientes) =====
@@ -1587,7 +1690,7 @@ function renderSolicitudesList() {
       </div>
       <div class="sol-card-btns">
         ${s.estado === 'pendiente' ? `<button class="sol-cotizar-btn" onclick="openCotizarModal('${s.id}')">Cotizar</button>` : ''}
-        <button class="sol-aprobar" onclick="aprobarSolicitud('${s.id}')">Aprobar</button>
+        <button class="sol-aprobar" onclick="openAprobacionModal('${s.id}')">Aprobar</button>
         <button class="sol-rechazar" onclick="rechazarSolicitud('${s.id}')">Rechazar</button>
       </div>
     </div>
@@ -1896,12 +1999,11 @@ function renderNosotrosFoto() {
   if (!img) return;
   if (nosotrosFotoUrl) {
     img.src = nosotrosFotoUrl;
-    img.style.display = '';
-    if (ph) ph.style.display = 'none';
   } else {
-    img.style.display = 'none';
-    if (ph) ph.style.display = '';
+    img.src = 'Imagenes/Howard%20Bowie.jpg';
   }
+  img.style.display = '';
+  if (ph) ph.style.display = 'none';
 }
 
 NOSOTROS_DOC.onSnapshot((snap) => {
@@ -2073,6 +2175,212 @@ async function deleteNosotrosFoto() {
     renderNosotrosFotoAdmin();
   } catch(err) { document.getElementById('fotos-nosotros-progress').textContent = 'Error: ' + (err.message || err); }
 }
+
+// ===== Colección Eventos (aprobados) =====
+const EVENTOS_COL = db.collection('eventos');
+let eventos       = [];
+let eventosUnsub  = null;
+
+// Suscripción admin (se llama desde onAuthStateChanged, definido más arriba)
+// Los listeners se registran con variables globales aquí abajo
+// y se inicializan cuando el admin inicia sesión (ver onAuthStateChanged)
+
+function renderEventosEnDayEditor(dateStr) {
+  const container = document.getElementById('day-editor-eventos-list');
+  const wrap      = document.getElementById('day-editor-eventos-wrap');
+  if (!container) return;
+  const dayEvts = eventos.filter(e => e.date === dateStr);
+  if (dayEvts.length === 0) {
+    container.innerHTML = '<p style="font-size:0.74rem;color:var(--text-light);margin-bottom:0.3rem">Sin eventos aprobados este día.</p>';
+    return;
+  }
+  container.innerHTML = dayEvts.map(e =>
+    '<div class="evento-card' + (e.cancelado ? ' evento-cancelado' : '') + '">' +
+    '<div class="evento-card-name">' + escHtml(e.nombre) + '</div>' +
+    '<div class="evento-card-info">' +
+    '🎉 ' + escHtml(e.evento || '—') + ' &nbsp;|&nbsp; 👥 ' + escHtml(String(e.invitados || '—')) + ' invitados' +
+    (e.nota ? '<br>📝 ' + escHtml(e.nota) : '') +
+    '<br><span style="font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;color:' + (e.visibilidad === 'publica' ? 'var(--gold-deep)' : 'var(--text-light)') + '">' +
+    (e.visibilidad === 'publica' ? '🌐 Público' : '🔒 Privado') + '</span>' +
+    '</div>' +
+    (!e.cancelado ?
+      '<div class="evento-card-btns">' +
+      '<button class="evento-edit-btn" onclick="openEditarEventoModal(\'' + e.id + '\')">Editar</button>' +
+      '<button class="evento-cancel-btn" onclick="cancelarEvento(\'' + e.id + '\')">Cancelar evento</button>' +
+      '</div>' :
+      '<div style="font-size:0.68rem;color:var(--text-light);margin-top:0.3rem;font-style:italic">Evento cancelado</div>'
+    ) +
+    '</div>'
+  ).join('');
+}
+
+// ===== Modal aprobación =====
+let aprobandoSolicitud   = null;
+let aprobandoVisibilidad = 'publica';
+
+function openAprobacionModal(solicitudId) {
+  aprobandoSolicitud = solicitudesPendientes.find(s => s.id === solicitudId);
+  if (!aprobandoSolicitud) return;
+  aprobandoVisibilidad = 'publica';
+  const s = aprobandoSolicitud;
+  document.getElementById('aprobacion-cliente-info').innerHTML =
+    '<strong>' + escHtml(s.nombre) + '</strong>' +
+    '📅 ' + formatDateLong(s.date) + '<br>' +
+    '✉️ ' + escHtml(s.correo || '—') + ' &nbsp;|&nbsp; 👥 ' + escHtml(String(s.invitados || '—')) + ' invitados<br>' +
+    '🎉 ' + escHtml(s.evento || '—') + '<br>' +
+    '💰 ' + escHtml(s.presupuesto || '—');
+  document.getElementById('aprobacion-nota').value = '';
+  document.getElementById('aprobacion-msg').textContent = '';
+  document.getElementById('aprobacion-confirm-btn').disabled = false;
+  refreshAprobacionVis();
+  document.getElementById('aprobacion-overlay').classList.add('open');
+}
+function closeAprobacionModal() {
+  document.getElementById('aprobacion-overlay').classList.remove('open');
+  aprobandoSolicitud = null;
+}
+
+function refreshAprobacionVis() {
+  document.getElementById('aprobacion-vis-publica').classList.toggle('active', aprobandoVisibilidad === 'publica');
+  document.getElementById('aprobacion-vis-privada').classList.toggle('active', aprobandoVisibilidad === 'privada');
+}
+
+document.getElementById('aprobacion-vis-publica').addEventListener('click', () => { aprobandoVisibilidad = 'publica'; refreshAprobacionVis(); });
+document.getElementById('aprobacion-vis-privada').addEventListener('click', () => { aprobandoVisibilidad = 'privada'; refreshAprobacionVis(); });
+document.getElementById('aprobacion-close').addEventListener('click', closeAprobacionModal);
+document.getElementById('aprobacion-cancel-btn').addEventListener('click', closeAprobacionModal);
+document.getElementById('aprobacion-overlay').addEventListener('click', (e) => { if (e.target === document.getElementById('aprobacion-overlay')) closeAprobacionModal(); });
+
+document.getElementById('aprobacion-confirm-btn').addEventListener('click', async () => {
+  if (!aprobandoSolicitud || !isAdmin) return;
+  const s    = aprobandoSolicitud;
+  const nota = document.getElementById('aprobacion-nota').value.trim();
+  const vis  = aprobandoVisibilidad;
+  const msgEl     = document.getElementById('aprobacion-msg');
+  const confirmBtn = document.getElementById('aprobacion-confirm-btn');
+  confirmBtn.disabled = true;
+  msgEl.textContent = 'Guardando…';
+  try {
+    await EVENTOS_COL.add({
+      solicitudId: s.id,
+      date:        s.date,
+      nombre:      s.nombre,
+      correo:      s.correo      || '',
+      invitados:   s.invitados   || '',
+      evento:      s.evento      || '',
+      presupuesto: s.presupuesto || '',
+      nota,
+      visibilidad: vis,
+      cancelado:   false,
+      timestamp:   firebase.firestore.FieldValue.serverTimestamp()
+    });
+    await SOLICITUDES_COL.doc(s.id).update({ estado: 'aprobada' });
+    // Si hay nota, registrarla en la agenda para que aparezca en el calendario
+    if (nota) {
+      const pubAct  = { ...notasPublicas };
+      const privAct = { ...notasPrivadas };
+      if (vis === 'publica') {
+        pubAct[s.date] = nota;
+        delete privAct[s.date];
+      } else {
+        privAct[s.date] = nota;
+        delete pubAct[s.date];
+      }
+      await AGENDA_DOC.set({ ocupadas: Array.from(ocupadas).sort(), notasPublicas: pubAct });
+      await PRIVATE_DOC.set({ notasPrivadas: privAct });
+    }
+    msgEl.textContent = '✓ Evento aprobado y agendado.';
+    setTimeout(closeAprobacionModal, 1200);
+  } catch(err) {
+    msgEl.textContent = 'Error: ' + (err.message || err);
+    confirmBtn.disabled = false;
+  }
+});
+
+// ===== Cancelar evento aprobado =====
+async function cancelarEvento(eventoId) {
+  if (!confirm('¿Cancelar este evento? El estado del día no cambiará automáticamente.')) return;
+  try {
+    await EVENTOS_COL.doc(eventoId).update({ cancelado: true });
+    if (editingDate) renderEventosEnDayEditor(editingDate);
+  } catch(err) { statusEl.textContent = 'Error al cancelar evento: ' + (err.message || err); }
+}
+
+// ===== Modal editar evento =====
+let editandoEventoId       = null;
+let editandoVisibilidad    = 'publica';
+
+function openEditarEventoModal(eventoId) {
+  const evt = eventos.find(e => e.id === eventoId);
+  if (!evt) return;
+  editandoEventoId    = eventoId;
+  editandoVisibilidad = evt.visibilidad || 'publica';
+  document.getElementById('editar-nombre').value      = evt.nombre      || '';
+  document.getElementById('editar-evento-tipo').value = evt.evento      || '';
+  document.getElementById('editar-invitados').value   = evt.invitados   || '';
+  document.getElementById('editar-nota').value        = evt.nota        || '';
+  document.getElementById('editar-evento-msg').textContent = '';
+  document.getElementById('editar-evento-save-btn').disabled = false;
+  refreshEditarVis();
+  document.getElementById('editar-evento-overlay').classList.add('open');
+}
+function closeEditarEventoModal() {
+  document.getElementById('editar-evento-overlay').classList.remove('open');
+  editandoEventoId = null;
+}
+
+function refreshEditarVis() {
+  document.getElementById('editar-vis-publica').classList.toggle('active', editandoVisibilidad === 'publica');
+  document.getElementById('editar-vis-privada').classList.toggle('active', editandoVisibilidad === 'privada');
+}
+
+document.getElementById('editar-vis-publica').addEventListener('click', () => { editandoVisibilidad = 'publica'; refreshEditarVis(); });
+document.getElementById('editar-vis-privada').addEventListener('click', () => { editandoVisibilidad = 'privada'; refreshEditarVis(); });
+document.getElementById('editar-evento-close').addEventListener('click', closeEditarEventoModal);
+document.getElementById('editar-evento-cancel-btn').addEventListener('click', closeEditarEventoModal);
+document.getElementById('editar-evento-overlay').addEventListener('click', (e) => { if (e.target === document.getElementById('editar-evento-overlay')) closeEditarEventoModal(); });
+
+document.getElementById('editar-evento-save-btn').addEventListener('click', async () => {
+  if (!editandoEventoId || !isAdmin) return;
+  const nombre    = document.getElementById('editar-nombre').value.trim();
+  const eventoTip = document.getElementById('editar-evento-tipo').value.trim();
+  const invitados = document.getElementById('editar-invitados').value.trim();
+  const nota      = document.getElementById('editar-nota').value.trim();
+  const vis       = editandoVisibilidad;
+  const msgEl     = document.getElementById('editar-evento-msg');
+  const saveBtn   = document.getElementById('editar-evento-save-btn');
+  if (!nombre) { msgEl.textContent = 'El nombre es obligatorio.'; return; }
+  saveBtn.disabled = true;
+  msgEl.textContent = 'Guardando…';
+  try {
+    await EVENTOS_COL.doc(editandoEventoId).update({ nombre, evento: eventoTip, invitados, nota, visibilidad: vis });
+    msgEl.textContent = '✓ Evento actualizado.';
+    if (editingDate) renderEventosEnDayEditor(editingDate);
+    setTimeout(closeEditarEventoModal, 1000);
+  } catch(err) {
+    msgEl.textContent = 'Error: ' + (err.message || err);
+    saveBtn.disabled = false;
+  }
+});
+
+// Segundo listener de auth para eventos — Firebase permite múltiples
+auth.onAuthStateChanged((user) => {
+  if (user) {
+    if (!eventosUnsub) {
+      eventosUnsub = EVENTOS_COL.onSnapshot((snap) => {
+        eventos = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        renderCalendar();
+        if (editorOverlay && editorOverlay.classList.contains('open') && editingDate) {
+          renderEventosEnDayEditor(editingDate);
+        }
+      }, (err) => { console.error('Eventos snapshot error:', err); });
+    }
+  } else {
+    if (eventosUnsub) { eventosUnsub(); eventosUnsub = null; }
+    eventos = [];
+    renderCalendar();
+  }
+});
 
 // ===== Solicitud desde paquete =====
 let solicitudPaquete = null;
