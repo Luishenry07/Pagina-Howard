@@ -197,8 +197,8 @@ body.admin-mode nav{top:38px}
 
 /* Badges sobre las celdas */
 .cal-badge{position:absolute;pointer-events:none;display:flex;align-items:center;justify-content:center}
-.cal-badge-public{bottom:0;left:0;right:0;background:linear-gradient(135deg,var(--gold-bright),var(--gold-deep));color:var(--white);font-family:'Jost',sans-serif;font-size:0.52rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;text-align:center;padding:3px 2px;line-height:1;z-index:1}
-.cal-day.has-public-note > span:first-child{margin-bottom:10px}
+.cal-badge-public{bottom:0;left:0;right:0;background:linear-gradient(135deg,var(--gold-bright),var(--gold-deep));color:#fff;font-family:'Jost',sans-serif;font-size:0.56rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;text-align:center;padding:4px 2px;line-height:1;z-index:1;box-shadow:0 -1px 6px rgba(200,169,110,0.4)}
+.cal-day.has-public-note > span:first-child{margin-bottom:12px}
 body.admin-mode .cal-badge-private{top:4px;left:4px;width:8px;height:8px;border-radius:50%;background:var(--rose-deep);box-shadow:0 0 0 1.5px var(--white)}
 .cal-badge-private{display:none}
 body.admin-mode .cal-badge-private{display:block}
@@ -337,6 +337,8 @@ body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
 .cotizar-send-btn{background:linear-gradient(135deg,#25d366,#128c7e);color:#fff}
 .cotizar-send-btn:hover{opacity:0.9}
 .cotizar-send-btn:disabled{opacity:0.5;cursor:wait}
+.cotizar-email-btn{background:linear-gradient(135deg,#4a90d9,#2563a8) !important}
+.cotizar-channel-btns{display:flex;gap:0.5rem;margin-top:0}
 .cotizar-msg{font-size:0.76rem;text-align:center;margin-top:0.6rem;min-height:1em;color:var(--text-light)}
 .sol-cotizar-btn{background:rgba(45,122,58,0.15);color:#2d7a3a;border:1px solid rgba(45,122,58,0.3)!important}
 /* Solicitudes: panel admin */
@@ -347,7 +349,8 @@ body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
 .solicitudes-box .close-x{position:absolute;top:0.5rem;right:0.9rem;background:none;border:none;font-size:1.6rem;color:var(--text-light);cursor:pointer;line-height:1}
 .sol-card{border:1px solid rgba(200,169,110,0.3);padding:0.9rem 1rem;margin-bottom:0.8rem;background:var(--cream)}
 .sol-card-date{font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:0.2rem}
-.sol-card-name{font-size:1rem;font-weight:600;color:var(--dark)}
+.sol-card-name{font-size:1rem;font-weight:600;color:var(--dark);display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap}
+.sol-evento-tag{font-size:0.62rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;background:rgba(200,169,110,0.18);color:var(--gold-deep);padding:0.18rem 0.55rem;border:1px solid rgba(200,169,110,0.4)}
 .sol-card-info{font-size:0.8rem;color:var(--text-light);margin-top:0.25rem;line-height:1.6}
 .sol-card-btns{display:flex;gap:0.5rem;margin-top:0.75rem}
 .sol-card-btns button{flex:1;padding:0.55rem;font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;font-weight:600;border:none;font-family:'Jost',sans-serif;transition:opacity 0.2s}
@@ -977,9 +980,12 @@ body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
     <div id="cotizar-paquetes-list"></div>
     <span class="cotizar-section-label" style="margin-top:0.8rem">Nota personalizada (opcional)</span>
     <textarea class="cotizar-nota" id="cotizar-nota" placeholder="Ej: Incluye descuento especial para tu fecha…"></textarea>
-    <div class="cotizar-actions">
-      <button class="cotizar-cancel-btn" id="cotizar-cancel-btn" type="button">Cancelar</button>
-      <button class="cotizar-send-btn" id="cotizar-send-btn" type="button">Enviar por WhatsApp</button>
+    <div class="cotizar-actions" style="flex-direction:column;gap:0.5rem">
+      <div class="cotizar-channel-btns">
+        <button class="cotizar-send-btn" id="cotizar-wa-btn" type="button">📱 WhatsApp</button>
+        <button class="cotizar-send-btn cotizar-email-btn" id="cotizar-email-btn" type="button">✉️ Correo</button>
+      </div>
+      <button class="cotizar-cancel-btn" id="cotizar-cancel-btn" type="button" style="width:100%">Cancelar</button>
     </div>
     <p class="cotizar-msg" id="cotizar-msg"></p>
   </div>
@@ -1682,11 +1688,13 @@ function renderSolicitudesList() {
         ${formatDateLong(s.date)}
         <span class="sol-estado ${escHtml(s.estado)}">${s.estado === 'cotizada' ? 'Cotizada' : 'Pendiente'}</span>
       </div>
-      <div class="sol-card-name">${escHtml(s.nombre)}</div>
+      <div class="sol-card-name">
+        ${escHtml(s.nombre)}
+        ${s.evento ? `<span class="sol-evento-tag">${escHtml(s.evento)}</span>` : ''}
+      </div>
       <div class="sol-card-info">
         ✉️ ${escHtml(s.correo || '—')}<br>
         👥 ${escHtml(s.invitados || '—')} invitados<br>
-        🎉 ${escHtml(s.evento || '—')}<br>
         💰 ${escHtml(s.presupuesto || '—')}
         ${s.paqueteCotizado ? '<br>📋 Cotización enviada: <strong>' + escHtml(s.paqueteCotizado.nombre) + '</strong> — $' + escHtml(String(s.paqueteCotizado.precio)) : ''}
       </div>
@@ -1831,7 +1839,8 @@ function openCotizarModal(solicitudId) {
   renderCotizarPaquetes();
   document.getElementById('cotizar-nota').value = '';
   document.getElementById('cotizar-msg').textContent = '';
-  document.getElementById('cotizar-send-btn').disabled = false;
+  document.getElementById('cotizar-wa-btn').disabled = false;
+  document.getElementById('cotizar-email-btn').disabled = false;
   cotizarOverlay.classList.add('open');
 }
 function closeCotizarModal() { cotizarOverlay.classList.remove('open'); cotizarSolicitud = null; }
@@ -1863,7 +1872,7 @@ function selectPkgOption(el) {
   el.classList.add('selected');
 }
 
-document.getElementById('cotizar-send-btn').addEventListener('click', async () => {
+async function enviarCotizacion(canal) {
   const selected = document.querySelector('input[name="pkg-select"]:checked');
   const msgEl = document.getElementById('cotizar-msg');
   if (!selected) { msgEl.textContent = 'Selecciona un paquete.'; return; }
@@ -1872,22 +1881,28 @@ document.getElementById('cotizar-send-btn').addEventListener('click', async () =
   const nota = document.getElementById('cotizar-nota').value.trim();
   const s = cotizarSolicitud;
 
-  const texto = encodeURIComponent(
+  const mensaje =
     `¡Hola ${s.nombre}! 👋\n\n` +
-    `Gracias por tu interés en *JC Detalles Planner*. ` +
+    `Gracias por tu interés en JC Detalles Planner. ` +
     `Te enviamos la cotización para tu evento.\n\n` +
-    `📅 *Fecha:* ${formatDateLong(s.date)}\n` +
-    `👥 *Invitados:* ${s.invitados || '—'}\n` +
-    `🎉 *Tema:* ${s.evento || '—'}\n\n` +
-    `✨ *${paquete.nombre}*\n` +
+    `📅 Fecha: ${formatDateLong(s.date)}\n` +
+    `👥 Invitados: ${s.invitados || '—'}\n` +
+    `🎉 Tema: ${s.evento || '—'}\n\n` +
+    `✨ ${paquete.nombre}\n` +
     `${paquete.descripcion ? paquete.descripcion + '\n' : ''}` +
-    `💰 *Precio: $${paquete.precio}*\n` +
+    `💰 Precio: $${paquete.precio}\n` +
     `${nota ? '\n' + nota + '\n' : ''}` +
-    `\nPara confirmar tu reserva responde este mensaje. ¡Será un honor ser parte de tu evento! 🌟\n\n— JC Detalles Planner`
-  );
-  window.open(`https://wa.me/50763691175?text=${texto}`, '_blank');
+    `\nPara confirmar tu reserva responde este mensaje. ¡Será un honor ser parte de tu evento! 🌟\n\n— JC Detalles Planner`;
 
-  document.getElementById('cotizar-send-btn').disabled = true;
+  if (canal === 'wa') {
+    window.open(`https://wa.me/50763691175?text=${encodeURIComponent(mensaje)}`, '_blank');
+  } else {
+    const asunto = encodeURIComponent(`Cotización JC Detalles Planner — ${formatDateLong(s.date)}`);
+    window.open(`mailto:${encodeURIComponent(s.correo || '')}?subject=${asunto}&body=${encodeURIComponent(mensaje)}`, '_blank');
+  }
+
+  document.getElementById('cotizar-wa-btn').disabled = true;
+  document.getElementById('cotizar-email-btn').disabled = true;
   msgEl.textContent = 'Guardando…';
   try {
     await SOLICITUDES_COL.doc(s.id).update({
@@ -1898,9 +1913,12 @@ document.getElementById('cotizar-send-btn').addEventListener('click', async () =
     setTimeout(closeCotizarModal, 1200);
   } catch(err) {
     msgEl.textContent = 'Error: ' + (err.message || err);
-    document.getElementById('cotizar-send-btn').disabled = false;
+    document.getElementById('cotizar-wa-btn').disabled = false;
+    document.getElementById('cotizar-email-btn').disabled = false;
   }
-});
+}
+document.getElementById('cotizar-wa-btn').addEventListener('click', () => enviarCotizacion('wa'));
+document.getElementById('cotizar-email-btn').addEventListener('click', () => enviarCotizacion('correo'));
 
 // ===== Configurar formulario (admin) =====
 const formConfigOverlay = document.getElementById('form-config-overlay');
