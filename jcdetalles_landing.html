@@ -62,10 +62,10 @@ nav{
 .hero-content{text-align:center;position:relative;max-width:750px;z-index:2}
 .hero-badge{display:inline-flex;align-items:center;gap:0.6rem;border:1px solid rgba(200,169,110,0.4);padding:0.4rem 1.4rem;margin-bottom:2rem;font-size:0.68rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold)}
 .hero-badge-line{width:20px;height:1px;background:var(--gold);display:inline-block}
-.hero-name{font-family:'Cormorant Garamond',serif;font-size:clamp(1.1rem,3vw,2rem);font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:rgba(200,169,110,0.95);margin-bottom:0.5rem;white-space:nowrap}
-.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.6rem,7vw,5.5rem);font-weight:300;line-height:1.05;color:var(--white);margin-bottom:0.3rem;white-space:nowrap}
+.nav-brand-text{font-family:'Cormorant Garamond',serif;font-size:clamp(0.9rem,1.8vw,1.3rem);font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);white-space:nowrap;line-height:1.2;padding-left:0.8rem;border-left:1px solid rgba(200,169,110,0.35)}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.6rem,7vw,5.5rem);font-weight:700;line-height:1.05;color:var(--white);margin-bottom:0.3rem;white-space:nowrap;text-shadow:0 2px 24px rgba(0,0,0,0.7)}
 .hero h1 em{font-style:italic;background:linear-gradient(135deg,var(--gold-bright),var(--gold),#f5d98a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:inline}
-.hero-sub{font-size:0.78rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:2.5rem;margin-top:1rem}
+.hero-sub{font-size:0.78rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.75);margin-bottom:2.5rem;margin-top:1rem;text-shadow:0 1px 10px rgba(0,0,0,0.8);font-weight:600}
 .hero-divider{display:flex;align-items:center;gap:1rem;justify-content:center;margin-bottom:2.5rem}
 .hero-divider-line{flex:1;max-width:80px;height:1px;background:rgba(200,169,110,0.4)}
 .hero-divider-diamond{width:8px;height:8px;background:var(--gold);transform:rotate(45deg)}
@@ -562,7 +562,10 @@ body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
 <body>
 
 <nav>
-  <div class="nav-logo"><img src="Imagenes/Logos/Logo.png" alt="JC Detalles Planner" class="nav-logo-img"></div>
+  <div class="nav-logo">
+    <img src="Imagenes/Logos/Logo.png" alt="JC Detalles Planner" class="nav-logo-img">
+    <span class="nav-brand-text">JC Detalles Planner</span>
+  </div>
   <button class="nav-hamburger" id="nav-hamburger" aria-label="Abrir menú">
     <span></span><span></span><span></span>
   </button>
@@ -589,7 +592,6 @@ body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
   <div class="hero-bg"></div>
   <div class="hero-content">
     <div class="hero-badge"><span class="hero-badge-line"></span>Decoración · Organización · Coordinación · Logística<span class="hero-badge-line"></span></div>
-    <p class="hero-name">JC Detalles Planner</p>
     <h1>Creadores de <em>Eventos</em></h1>
     <p class="hero-sub">Panama City · Panama · Events-Planners</p>
     <div class="hero-divider"><div class="hero-divider-line"></div><div class="hero-divider-diamond"></div><div class="hero-divider-line"></div></div>
