@@ -2424,6 +2424,24 @@ document.getElementById('editar-evento-save-btn').addEventListener('click', asyn
   }
 });
 
+// Auto-sincroniza notasPublicas con los eventos aprobados como públicos.
+// Solo agrega entradas faltantes; nunca sobreescribe notas existentes.
+async function syncEventosPublicosAAgenda() {
+  const pubAct = { ...notasPublicas };
+  let changed = false;
+  eventos.forEach(e => {
+    if (!e.cancelado && e.visibilidad === 'publica' && !pubAct[e.date]) {
+      pubAct[e.date] = e.nota || e.evento || 'Evento confirmado';
+      changed = true;
+    }
+  });
+  if (changed) {
+    try {
+      await AGENDA_DOC.set({ ocupadas: Array.from(ocupadas).sort(), notasPublicas: pubAct });
+    } catch (err) { console.error('syncEventosPublicos error:', err); }
+  }
+}
+
 // Segundo listener de auth para eventos — Firebase permite múltiples
 auth.onAuthStateChanged((user) => {
   if (user) {
@@ -2434,6 +2452,8 @@ auth.onAuthStateChanged((user) => {
         if (editorOverlay && editorOverlay.classList.contains('open') && editingDate) {
           renderEventosEnDayEditor(editingDate);
         }
+        // Auto-sync: si hay eventos públicos sin entrada en notasPublicas, crearla
+        syncEventosPublicosAAgenda();
       }, (err) => { console.error('Eventos snapshot error:', err); });
     }
   } else {
