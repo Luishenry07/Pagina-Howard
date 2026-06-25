@@ -26,6 +26,20 @@ Imagenes/
 
 Always use `Imagenes/` (capital I) in `src` attributes — lowercase `imagenes/` will 404 on GitHub Pages.
 
+## Package brochures
+
+Reference price brochures live in `Paquetes/` (not deployed to GitHub Pages — local reference only):
+
+```
+Paquetes/
+  Bodas/PAQUETES DE BODA.pdf.pdf        ← text-extractable; has Bodas prices
+  XV Anos/PAQUETES DE XV AÑOS.pdf.pdf   ← image-based PDF, not text-extractable
+  _xv_temp.pdf                          ← older XV Años price list, text-extractable
+  Fiestas/*.jpeg                        ← JPEG brochures for Prom packages
+```
+
+`node_modules/playwright/` is also present (used for automated admin operations and testing) — never commit it.
+
 ## High-level architecture
 
 **Static marketing page + Firebase backend.** All UI lives in one HTML file; persistent state lives in Firestore. The marketing sections (hero, services, gallery, about, contact) are pure static markup.
@@ -42,14 +56,18 @@ Sections in body order: `<nav>`, `.hero`, `.stats`, `#servicios`, `#galeria`, `#
 
 Mounted after the footer (overlays everything):
 - `.admin-trigger` — floating "Admin" button (bottom-right); URL hash `#admin` also opens it
-- `.admin-bar` — top banner shown only while authenticated; contains Solicitudes, 📦 Paquetes, ⚙ Formulario, Cerrar sesión buttons
+- `.admin-bar` — top banner shown only while authenticated; contains **Solicitudes**, **📦 Paquetes**, **📄 PDFs**, **🖼 Fotos**, **⚙ Formulario**, **Cerrar sesión** buttons
 - `#admin-overlay` — email/password login modal
 - `#day-editor-overlay` — admin modal: edit a date's status, note, and visibility
 - `#day-info-overlay` — read-only modal for public visitors who click a date with a public note
 - `#solicitud-overlay` — client booking-request form (6 fields + optional promo banner)
 - `#solicitudes-panel` — admin panel listing pending + quoted solicitudes
-- `#paquetes-overlay` — admin panel to create/edit/delete packages (name, description, **service assignment**, price)
-- `#cotizar-overlay` — admin modal to send a formal quote via WhatsApp: select a package, add a note
+- `#cotizar-overlay` — admin modal to send a formal quote via WhatsApp or email
+- `#aprobacion-overlay` — admin modal to approve or reject a quoted solicitud
+- `#editar-evento-overlay` — admin modal to edit a solicitud's details
+- `#paquetes-overlay` — admin panel to create/edit/delete packages (name, description, service, price)
+- `#pdfs-overlay` — admin panel to manage PDF downloads shown to clients
+- `#fotos-overlay` — admin panel to manage gallery and "Nosotros" section photos
 - `#form-config-overlay` — admin modal to edit the promotional banner text shown on the client form
 
 ### Firestore data model
@@ -58,11 +76,15 @@ Mounted after the footer (overlays everything):
 |---|---|---|---|
 | `agenda/dates` | `ocupadas: string[]` (YYYY-MM-DD), `notasPublicas: { [date]: string }` | public | authenticated |
 | `agenda/privado` | `notasPrivadas: { [date]: string }` | authenticated | authenticated |
-| `solicitudes/{id}` | `date, nombre, correo, invitados, evento, presupuesto, estado, timestamp, paqueteCotizado?` | authenticated | public (create only) |
+| `solicitudes/{id}` | `date, nombre, correo, invitados, evento, presupuesto, estado, timestamp, paqueteOrigen?, paqueteCotizado?` | authenticated | public (create only) |
 | `config/formulario` | `promoBanner: string` | public | authenticated |
 | `config/paquetes` | `lista: [{id, nombre, descripcion, servicio, precio}]` — `servicio` is one of `bodas \| quinceanos \| corporativos \| fiestas \| navidad \| tarjetas` (empty string = no accordion) | public | authenticated |
 
 **`estado` values for solicitudes:** `'pendiente'` → `'cotizada'` → `'aprobada'` or `'rechazada'`. The admin panel shows `pendiente` and `cotizada`; approved/rejected are archived. **Approving does NOT auto-block the date** — the admin manually blocks dates by clicking them in the calendar editor.
+
+**`paqueteOrigen`** — set when a client clicks "Solicitar cotización" from a specific package card in the accordion. Contains `{id, nombre}` of the chosen package. Used by the cotizar modal to show "client chose this package" mode instead of the full package list.
+
+**`paqueteCotizado`** — set after the admin sends a quote. Contains `{nombre, descripcion, precio}` of the package used for the quotation.
 
 ### Required Firestore Rules
 
@@ -108,13 +130,33 @@ Subscriptions set up inside `onAuthStateChanged` (authenticated only), torn down
 - `PRIVATE_DOC.onSnapshot` — private notes
 - `SOLICITUDES_COL.where('estado','in',['pendiente','cotizada']).onSnapshot` — drives badge + panel
 
+### Package price security constraint
+
+**Prices are NEVER visible to clients.** This is a hard business rule.
+
+- `renderPaquetesEnAcordeon()` (public accordion) shows only: package name, description, and "Solicitar cotización" button. **No price field.**
+- Prices appear only in: (1) admin `#paquetes-overlay` panel, (2) admin `#cotizar-overlay` modal, (3) WhatsApp message sent **by the admin** to the client.
+- Never add `precio` to any client-facing render path.
+
+### Price formatting
+
+`formatPrecio(precio)` — helper function that formats a numeric price for display:
+- `precio > 0` → `'B/.X,XXX.00 + ITBMS'` (using `toLocaleString('es-PA')`)
+- `precio === 0` or falsy → `'A consultar'`
+
+Used in: `.pkg-card-price` (admin paquetes list), `.pkg-option-price` (cotizar list mode), `.cotizar-paq-sol-precio` (cotizar client mode), and the WhatsApp message body. The `pkg-precio` input stores a plain number (no currency symbol).
+
 ### Admin quotation flow
 
-1. Client clicks available date → fills 6-field form (nombre, correo, invitados, evento, presupuesto, optional promo banner) → WhatsApp opens + saved to `solicitudes` as `pendiente`
+1. Client clicks available date → fills 6-field form → WhatsApp opens + saved as `pendiente`  
+   *(or)* Client clicks "Solicitar cotización" on a package card → same form pre-tagged with `paqueteOrigen`
 2. Admin sees badge on "Solicitudes" button
-3. Admin clicks **Cotizar** on a pending solicitud → selects a package from `config/paquetes` → adds optional note → "Enviar por WhatsApp" opens WA with formatted quote → solicitud marked `cotizada`
-4. Admin clicks **Aprobar** or **Rechazar** to finalize
-5. Admin manually blocks the date in the calendar if needed
+3. Admin clicks **Cotizar** → `#cotizar-overlay` opens in one of two modes:
+   - **Client mode** (`paqueteOrigen` present): shows the package the client chose as a highlighted card + global WA/Email buttons at the bottom. Rendered by `renderCotizarModoCliente(paqOrigen)`.
+   - **List mode** (no `paqueteOrigen`): shows all packages grouped by service (`SERVICIO_LABELS`) with inline WA/Email buttons per package. Rendered by `renderCotizarPaquetes()`. Global buttons are hidden.
+4. Admin selects channel → `window.open(waUrl, '_blank')` fires **before** any `await` (mobile popup rule) → solicitud marked `cotizada` with `paqueteCotizado`
+5. Admin clicks **Aprobar** or **Rechazar** to finalize
+6. Admin manually blocks the date in the calendar if needed
 
 ### Calendar date-blocking — intentionally manual
 
@@ -142,6 +184,7 @@ The only place `ocupadas.add(dateStr)` is called is inside the Save handler of `
 - The gallery uses real image files from `Imagenes/` — never re-embed as base64.
 - When adding new gallery images, commit them to `Imagenes/` and use relative paths with capital `I`.
 - Mobile breakpoint is `max-width: 768px`. The nav hamburger menu, logo size, and dropdown behavior all change at this breakpoint.
+- There are two service-label maps: `SERVICIOS_LABELS` (used in `renderPaquetesList`) and `SERVICIO_LABELS` (used in `renderCotizarPaquetes`). They have the same values — keep them in sync if adding a new service type.
 
 ## Refreshing this file
 
