@@ -579,6 +579,16 @@ body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
 .sol-mini-cal-day.selected{background:var(--gold-deep)!important;color:#fff!important;border-color:var(--gold-deep)!important}
 .sol-mini-cal-day.today{font-weight:700}
 .sol-cal-selected-label{font-size:0.77rem;color:var(--gold-deep);text-align:center;margin:0.45rem 0 0.3rem;min-height:1.1em;font-weight:600;text-transform:capitalize;letter-spacing:0.02em}
+/* Selector de paquetes en modal de solicitud (Flujo B) */
+.sol-paq-selector{margin:0 0 0.8rem}
+.sol-paq-selector-label{display:block;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:0.5rem;font-weight:600}
+.sol-pkg-option{display:flex;align-items:flex-start;gap:0.65rem;padding:0.55rem 0.8rem;border:1px solid rgba(200,169,110,0.2);background:rgba(200,169,110,0.03);cursor:pointer;margin-bottom:0.3rem;transition:background 0.15s,border-color 0.15s}
+.sol-pkg-option:hover{background:rgba(200,169,110,0.09);border-color:var(--gold)}
+.sol-pkg-option.selected{background:rgba(200,169,110,0.14);border-color:var(--gold-deep)}
+.sol-pkg-dot{width:11px;height:11px;border-radius:50%;border:1.5px solid rgba(200,169,110,0.5);flex-shrink:0;margin-top:3px;transition:background 0.15s,border-color 0.15s}
+.sol-pkg-option.selected .sol-pkg-dot{background:var(--gold-deep);border-color:var(--gold-deep)}
+.sol-pkg-name{font-size:0.82rem;color:var(--dark);font-weight:500;font-family:'Jost',sans-serif}
+.sol-pkg-desc{font-size:0.72rem;color:var(--text-light);margin-top:0.1rem;line-height:1.4;font-family:'Jost',sans-serif}
 </style>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
@@ -927,6 +937,10 @@ body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
     <h3>Solicitar cotización</h3>
     <p class="sol-date" id="sol-date">—</p>
     <div class="sol-paq-info" id="sol-paq-info" hidden></div>
+    <div class="sol-paq-selector" id="sol-paq-selector" hidden>
+      <span class="sol-paq-selector-label">Paquete de interés (opcional)</span>
+      <div id="sol-paq-selector-list"></div>
+    </div>
     <div id="sol-mini-cal" hidden>
       <span class="sol-mini-cal-label">Selecciona una fecha disponible</span>
       <div class="sol-mini-cal-header">
@@ -1629,6 +1643,7 @@ function openSolicitudModal(dateStr) {
   solDateEl.hidden = false;
   document.getElementById('sol-mini-cal').hidden = true;
   document.getElementById('sol-cal-selected-label').textContent = '';
+  renderSolPaqSelector();
   solNombre.value = ''; solCorreo.value = ''; solInvitados.value = '';
   solEvento.value = ''; solPresupuesto.value = '';
   solPresupuesto.hidden = false;
@@ -1650,6 +1665,7 @@ function closeSolicitudModal() {
   solicitudPaquete = null;
   document.getElementById('sol-mini-cal').hidden = true;
   document.getElementById('sol-cal-selected-label').textContent = '';
+  document.getElementById('sol-paq-selector').hidden = true;
   solPresupuesto.hidden = false;
 }
 document.getElementById('solicitud-close').addEventListener('click', closeSolicitudModal);
@@ -2501,6 +2517,40 @@ auth.onAuthStateChanged((user) => {
   }
 });
 
+// ===== Selector de paquetes en modal de solicitud (Flujo B) =====
+function renderSolPaqSelector() {
+  const selector = document.getElementById('sol-paq-selector');
+  const list     = document.getElementById('sol-paq-selector-list');
+  if (!selector || !list) return;
+  if (paquetes.length === 0) { selector.hidden = true; return; }
+  selector.hidden = false;
+  list.innerHTML = '';
+  paquetes.forEach(p => {
+    const opt = document.createElement('div');
+    opt.className = 'sol-pkg-option';
+    opt.innerHTML =
+      '<span class="sol-pkg-dot"></span>' +
+      '<div>' +
+        '<div class="sol-pkg-name">' + escHtml(p.nombre) + '</div>' +
+        (p.descripcion ? '<div class="sol-pkg-desc">' + escHtml(p.descripcion.length > 90 ? p.descripcion.substring(0, 90) + '…' : p.descripcion) + '</div>' : '') +
+      '</div>';
+    opt.addEventListener('click', () => {
+      const alreadySelected = opt.classList.contains('selected');
+      list.querySelectorAll('.sol-pkg-option').forEach(o => o.classList.remove('selected'));
+      if (alreadySelected) {
+        solicitudPaquete = null;
+        solPresupuesto.hidden = false;
+      } else {
+        opt.classList.add('selected');
+        solicitudPaquete = p;
+        solPresupuesto.hidden = true;
+      }
+      solMsg.textContent = '';
+    });
+    list.appendChild(opt);
+  });
+}
+
 // ===== Mini-calendario de disponibilidad (modal solicitud) =====
 let solCalYear  = today.getFullYear();
 let solCalMonth = today.getMonth();
@@ -2563,6 +2613,7 @@ function openSolicitudDesdePaquete(paqueteId) {
   solicitudFecha   = null;
   solicitudPaquete = p;
   solDateEl.hidden = true;
+  document.getElementById('sol-paq-selector').hidden = true;
   // Mini-calendario con disponibilidad real
   solCalYear  = today.getFullYear();
   solCalMonth = today.getMonth();
