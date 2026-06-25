@@ -1,0 +1,24 @@
+{
+  "name": "pagina-howard",
+  "version": "1.0.0",
+  "description": "Página de aterrizaje de **JC Detalles Planner**, planificadores de eventos en Panama City, Panamá. Una sola página, sin frameworks ni build step, con una agenda interactiva en tiempo real y un panel de administración para el dueño del negocio.",
+  "main": "_audit.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Luishenry07/Pagina-Howard.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Luishenry07/Pagina-Howard/issues"
+  },
+  "homepage": "https://github.com/Luishenry07/Pagina-Howard#readme",
+  "devDependencies": {
+    "playwright": "^1.61.0"
+  }
+}

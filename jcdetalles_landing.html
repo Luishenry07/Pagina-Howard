@@ -553,6 +553,11 @@ body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
 .acc-paquete a.acc-paq-btn{text-decoration:none;cursor:pointer}
 .acc-paq-form-btn{display:inline-flex;align-items:center;gap:0.4rem;border:1px solid rgba(200,169,110,0.5);color:var(--gold-deep);background:none;cursor:pointer;font-family:'Jost',sans-serif;padding:0.6rem 1.4rem;font-size:0.67rem;letter-spacing:0.13em;text-transform:uppercase;font-weight:700}
 .acc-paq-form-btn:hover{background:rgba(200,169,110,0.08)}
+.acc-paq-seccion{margin-top:0.8rem}
+.acc-paq-seccion-header{display:flex;align-items:center;gap:0.75rem;margin-bottom:1.1rem;margin-top:1.2rem}
+.acc-paq-seccion-linea{flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(200,169,110,0.5),transparent)}
+.acc-paq-seccion-titulo{font-size:0.6rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold-deep);font-weight:700;white-space:nowrap;font-family:'Jost',sans-serif}
+.sol-paq-info{font-size:0.77rem;color:var(--gold-deep);background:rgba(200,169,110,0.09);border:1px solid rgba(200,169,110,0.3);padding:0.45rem 0.85rem;margin-bottom:0.8rem;font-weight:600;line-height:1.4}
 /* ===== Solicitud: fecha picker (desde paquete) ===== */
 .sol-fecha-picker{width:100%;padding:0.75rem 1rem;border:1px solid rgba(200,169,110,0.4);background:var(--cream);font-family:'Jost',sans-serif;font-size:0.88rem;color:var(--dark);margin-bottom:0.7rem;box-sizing:border-box}
 .sol-fecha-picker:focus{outline:none;border-color:var(--gold-deep)}
@@ -903,6 +908,7 @@ body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
     <button class="close-x" id="solicitud-close" type="button" aria-label="Cerrar">×</button>
     <h3>Solicitar cotización</h3>
     <p class="sol-date" id="sol-date">—</p>
+    <div class="sol-paq-info" id="sol-paq-info" hidden></div>
     <input type="date" id="sol-fecha-picker" class="sol-fecha-picker" hidden>
     <div class="sol-promo" id="sol-promo-banner" hidden></div>
     <input type="text" id="sol-nombre" placeholder="Nombre completo *" autocomplete="name">
@@ -1310,8 +1316,18 @@ const SERVICIOS_LABELS = {
 function renderPaquetesEnAcordeon() {
   document.querySelectorAll('.acc-body[data-servicio]').forEach(body => {
     const svc = body.getAttribute('data-servicio');
-    body.querySelectorAll('.acc-paquete').forEach(el => el.remove());
-    paquetes.filter(p => p.servicio === svc).forEach(p => {
+    body.querySelectorAll('.acc-paq-seccion').forEach(el => el.remove());
+    const matching = paquetes.filter(p => p.servicio === svc);
+    if (matching.length === 0) return;
+    const seccion = document.createElement('div');
+    seccion.className = 'acc-paq-seccion';
+    seccion.innerHTML =
+      '<div class="acc-paq-seccion-header">' +
+      '<span class="acc-paq-seccion-linea"></span>' +
+      '<span class="acc-paq-seccion-titulo">Nuestros Paquetes</span>' +
+      '<span class="acc-paq-seccion-linea"></span>' +
+      '</div>';
+    matching.forEach(p => {
       const nombre = p.nombre || '';
       const waText = nombre
         ? 'Hola%20JC%20Detalles%20Planner!%20Me%20interesa%20el%20paquete%20%22' + encodeURIComponent(nombre) + '%22.%20%C2%BFPueden%20darme%20m%C3%A1s%20informaci%C3%B3n%3F%20%F0%9F%8C%B8'
@@ -1326,8 +1342,9 @@ function renderPaquetesEnAcordeon() {
         '<a href="https://wa.me/50763691175?text=' + waText + '" class="acc-paq-btn" target="_blank" rel="noopener">Cotizar por WhatsApp</a>' +
         '<button class="acc-paq-form-btn" type="button" onclick="openSolicitudDesdePaquete(\'' + escHtml(p.id) + '\')">Solicitar cotización</button>' +
         '</div>';
-      body.appendChild(card);
+      seccion.appendChild(card);
     });
+    body.appendChild(seccion);
   });
 }
 
@@ -1591,6 +1608,7 @@ function openSolicitudModal(dateStr) {
   document.getElementById('sol-fecha-picker').hidden = true;
   solNombre.value = ''; solCorreo.value = ''; solInvitados.value = '';
   solEvento.value = ''; solPresupuesto.value = '';
+  document.getElementById('sol-paq-info').hidden = true;
   solMsg.textContent = '';
   solSubmit.disabled = false;
   if (promoBannerText) {
@@ -1696,6 +1714,7 @@ function renderSolicitudesList() {
         ✉️ ${escHtml(s.correo || '—')}<br>
         👥 ${escHtml(s.invitados || '—')} invitados<br>
         💰 ${escHtml(s.presupuesto || '—')}
+        ${s.paqueteOrigen ? '<br>📦 Paquete solicitado: <strong>' + escHtml(s.paqueteOrigen.nombre) + '</strong>' : ''}
         ${s.paqueteCotizado ? '<br>📋 Cotización enviada: <strong>' + escHtml(s.paqueteCotizado.nombre) + '</strong> — $' + escHtml(String(s.paqueteCotizado.precio)) : ''}
       </div>
       <div class="sol-card-btns">
@@ -2418,6 +2437,9 @@ function openSolicitudDesdePaquete(paqueteId) {
   solNombre.value = ''; solCorreo.value = ''; solInvitados.value = '';
   solEvento.value = '';
   solPresupuesto.value = p.nombre;
+  const paqInfoEl = document.getElementById('sol-paq-info');
+  paqInfoEl.textContent = '\u{1F4E6} Paquete seleccionado: ' + p.nombre;
+  paqInfoEl.hidden = false;
   solMsg.textContent = '';
   solSubmit.disabled = false;
   if (promoBannerText) {
