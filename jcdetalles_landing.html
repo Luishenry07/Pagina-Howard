@@ -1247,7 +1247,7 @@ function renderCalendar(){
       if (evtCount > 0) {
         const evBadge = document.createElement('span');
         evBadge.className = 'cal-badge-eventos';
-        evBadge.textContent = evtCount + (evtCount === 1 ? ' evento' : ' eventos');
+        evBadge.textContent = 'Listar eventos';
         cell.appendChild(evBadge);
       }
     }
@@ -1520,15 +1520,13 @@ btnEdSave.addEventListener('click', async () => {
 
   if (editingStatus === 'ocupado') {
     ocupadas.add(dateStr);
-    if (nota && editingVisibilidad === 'publica') {
-      notasPublicas[dateStr] = nota;
+    if (editingVisibilidad === 'publica') {
+      notasPublicas[dateStr] = nota || 'Evento confirmado';
       delete notasPrivadas[dateStr];
-    } else if (nota && editingVisibilidad === 'privada') {
-      notasPrivadas[dateStr] = nota;
-      delete notasPublicas[dateStr];
     } else {
+      if (nota) notasPrivadas[dateStr] = nota;
+      else delete notasPrivadas[dateStr];
       delete notasPublicas[dateStr];
-      delete notasPrivadas[dateStr];
     }
   } else {
     ocupadas.delete(dateStr);
@@ -2314,20 +2312,19 @@ document.getElementById('aprobacion-confirm-btn').addEventListener('click', asyn
       timestamp:   firebase.firestore.FieldValue.serverTimestamp()
     });
     await SOLICITUDES_COL.doc(s.id).update({ estado: 'aprobada' });
-    // Si hay nota, registrarla en la agenda para que aparezca en el calendario
-    if (nota) {
-      const pubAct  = { ...notasPublicas };
-      const privAct = { ...notasPrivadas };
-      if (vis === 'publica') {
-        pubAct[s.date] = nota;
-        delete privAct[s.date];
-      } else {
-        privAct[s.date] = nota;
-        delete pubAct[s.date];
-      }
-      await AGENDA_DOC.set({ ocupadas: Array.from(ocupadas).sort(), notasPublicas: pubAct });
-      await PRIVATE_DOC.set({ notasPrivadas: privAct });
+    // Registrar en agenda pública/privada para que aparezca en el calendario
+    const pubAct  = { ...notasPublicas };
+    const privAct = { ...notasPrivadas };
+    if (vis === 'publica') {
+      pubAct[s.date] = nota || s.evento || 'Evento confirmado';
+      delete privAct[s.date];
+    } else {
+      if (nota) privAct[s.date] = nota;
+      else delete privAct[s.date];
+      delete pubAct[s.date];
     }
+    await AGENDA_DOC.set({ ocupadas: Array.from(ocupadas).sort(), notasPublicas: pubAct });
+    await PRIVATE_DOC.set({ notasPrivadas: privAct });
     msgEl.textContent = '✓ Evento aprobado y agendado.';
     setTimeout(closeAprobacionModal, 1200);
   } catch(err) {
@@ -2341,6 +2338,15 @@ async function cancelarEvento(eventoId) {
   if (!confirm('¿Cancelar este evento? El estado del día no cambiará automáticamente.')) return;
   try {
     await EVENTOS_COL.doc(eventoId).update({ cancelado: true });
+    const evt = eventos.find(e => e.id === eventoId);
+    if (evt && evt.date && evt.visibilidad === 'publica') {
+      const otrosPublicos = eventos.filter(e => e.id !== eventoId && e.date === evt.date && e.visibilidad === 'publica' && !e.cancelado);
+      if (otrosPublicos.length === 0) {
+        const pubAct = { ...notasPublicas };
+        delete pubAct[evt.date];
+        await AGENDA_DOC.set({ ocupadas: Array.from(ocupadas).sort(), notasPublicas: pubAct });
+      }
+    }
     if (editingDate) renderEventosEnDayEditor(editingDate);
   } catch(err) { statusEl.textContent = 'Error al cancelar evento: ' + (err.message || err); }
 }
@@ -2393,6 +2399,22 @@ document.getElementById('editar-evento-save-btn').addEventListener('click', asyn
   msgEl.textContent = 'Guardando…';
   try {
     await EVENTOS_COL.doc(editandoEventoId).update({ nombre, evento: eventoTip, invitados, nota, visibilidad: vis });
+    const evt = eventos.find(e => e.id === editandoEventoId);
+    if (evt && evt.date) {
+      const pubAct  = { ...notasPublicas };
+      const privAct = { ...notasPrivadas };
+      if (vis === 'publica') {
+        pubAct[evt.date] = nota || eventoTip || 'Evento confirmado';
+        delete privAct[evt.date];
+      } else {
+        const otrosPublicos = eventos.filter(e => e.id !== editandoEventoId && e.date === evt.date && e.visibilidad === 'publica' && !e.cancelado);
+        if (otrosPublicos.length === 0) delete pubAct[evt.date];
+        if (nota) privAct[evt.date] = nota;
+        else delete privAct[evt.date];
+      }
+      await AGENDA_DOC.set({ ocupadas: Array.from(ocupadas).sort(), notasPublicas: pubAct });
+      await PRIVATE_DOC.set({ notasPrivadas: privAct });
+    }
     msgEl.textContent = '✓ Evento actualizado.';
     if (editingDate) renderEventosEnDayEditor(editingDate);
     setTimeout(closeEditarEventoModal, 1000);
