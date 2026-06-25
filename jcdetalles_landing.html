@@ -341,6 +341,20 @@ body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
 .cotizar-channel-btns{display:flex;gap:0.5rem;margin-top:0}
 .cotizar-msg{font-size:0.76rem;text-align:center;margin-top:0.6rem;min-height:1em;color:var(--text-light)}
 .sol-cotizar-btn{background:rgba(45,122,58,0.15);color:#2d7a3a;border:1px solid rgba(45,122,58,0.3)!important}
+.cotizar-grupo-header{font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold-deep);font-weight:700;padding:0.55rem 0 0.3rem;margin-top:0.6rem;border-bottom:1px solid rgba(200,169,110,0.25);margin-bottom:0.35rem}
+.cotizar-grupo-header:first-child{margin-top:0}
+.pkg-option{flex-wrap:wrap}
+.pkg-option-info{flex:1;min-width:0}
+.pkg-option-btns{display:flex;gap:0.3rem;margin-top:0.5rem;width:100%}
+.pkg-send-btn{flex:1;padding:0.42rem 0.5rem;font-size:0.68rem;font-weight:600;letter-spacing:0.08em;border:none;cursor:pointer;font-family:'Jost',sans-serif;border-radius:2px}
+.pkg-send-wa{background:linear-gradient(135deg,#25d366,#128c7e);color:#fff}
+.pkg-send-email{background:linear-gradient(135deg,#4a90d9,#2563a8);color:#fff}
+.pkg-send-btn:hover{opacity:0.88}
+.cotizar-paq-solicitado{background:rgba(200,169,110,0.07);border:2px solid var(--gold);padding:0.9rem 1.1rem;margin-bottom:0.5rem}
+.cotizar-paq-sol-badge{display:block;font-size:0.61rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold-deep);font-weight:700;margin-bottom:0.45rem}
+.cotizar-paq-sol-nombre{font-weight:700;font-size:0.9rem;color:var(--dark);margin-bottom:0.18rem}
+.cotizar-paq-sol-desc{font-size:0.75rem;color:var(--text-light);line-height:1.35;margin-bottom:0.3rem}
+.cotizar-paq-sol-precio{font-size:0.85rem;font-weight:700;color:var(--gold-deep)}
 /* Solicitudes: panel admin */
 .solicitudes-panel{position:fixed;inset:0;background:rgba(13,10,5,0.85);backdrop-filter:blur(4px);z-index:200;display:none;align-items:flex-start;justify-content:center;padding:1rem;overflow-y:auto}
 .solicitudes-panel.open{display:flex}
@@ -1026,12 +1040,12 @@ body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
     <button class="close-x" id="cotizar-close" type="button" aria-label="Cerrar">×</button>
     <h3>Enviar cotización</h3>
     <div class="cotizar-cliente" id="cotizar-cliente-info"></div>
-    <span class="cotizar-section-label">Selecciona un paquete</span>
+    <span class="cotizar-section-label" id="cotizar-paq-label">Selecciona un paquete</span>
     <div id="cotizar-paquetes-list"></div>
     <span class="cotizar-section-label" style="margin-top:0.8rem">Nota personalizada (opcional)</span>
     <textarea class="cotizar-nota" id="cotizar-nota" placeholder="Ej: Incluye descuento especial para tu fecha…"></textarea>
     <div class="cotizar-actions" style="flex-direction:column;gap:0.5rem">
-      <div class="cotizar-channel-btns">
+      <div class="cotizar-channel-btns" id="cotizar-channel-btns">
         <button class="cotizar-send-btn" id="cotizar-wa-btn" type="button">📱 WhatsApp</button>
         <button class="cotizar-send-btn cotizar-email-btn" id="cotizar-email-btn" type="button">✉️ Correo</button>
       </div>
@@ -1907,12 +1921,30 @@ function openCotizarModal(solicitudId) {
     `📅 ${formatDateLong(cotizarSolicitud.date)}<br>` +
     `👥 ${escHtml(String(cotizarSolicitud.invitados || '—'))} invitados &nbsp;|&nbsp; ` +
     `🎉 ${escHtml(cotizarSolicitud.evento || '—')}`;
-  renderCotizarPaquetes();
+  if (cotizarSolicitud.paqueteOrigen) {
+    renderCotizarModoCliente(cotizarSolicitud.paqueteOrigen);
+  } else {
+    renderCotizarPaquetes();
+  }
   document.getElementById('cotizar-nota').value = '';
   document.getElementById('cotizar-msg').textContent = '';
   document.getElementById('cotizar-wa-btn').disabled = false;
   document.getElementById('cotizar-email-btn').disabled = false;
   cotizarOverlay.classList.add('open');
+}
+
+function renderCotizarModoCliente(paqOrigen) {
+  document.getElementById('cotizar-paq-label').textContent = 'Paquete solicitado por el cliente';
+  const paq = paquetes.find(p => p.id === paqOrigen.id) || paqOrigen;
+  document.getElementById('cotizar-paquetes-list').innerHTML =
+    '<div class="cotizar-paq-solicitado">' +
+      '<span class="cotizar-paq-sol-badge">📦 El cliente eligió este paquete</span>' +
+      '<div class="cotizar-paq-sol-nombre">' + escHtml(paq.nombre) + '</div>' +
+      (paq.descripcion ? '<div class="cotizar-paq-sol-desc">' + escHtml(paq.descripcion) + '</div>' : '') +
+      '<div class="cotizar-paq-sol-precio">$' + escHtml(String(paq.precio != null ? paq.precio : '—')) + '</div>' +
+    '</div>';
+  // Mostrar botones globales en modo cliente
+  document.getElementById('cotizar-channel-btns').style.display = '';
 }
 function closeCotizarModal() { cotizarOverlay.classList.remove('open'); cotizarSolicitud = null; }
 
@@ -1920,22 +1952,47 @@ document.getElementById('cotizar-close').addEventListener('click', closeCotizarM
 document.getElementById('cotizar-cancel-btn').addEventListener('click', closeCotizarModal);
 cotizarOverlay.addEventListener('click', (e) => { if (e.target === cotizarOverlay) closeCotizarModal(); });
 
+const SERVICIO_LABELS = {
+  bodas: 'Bodas', quinceanos: 'XV Años', corporativos: 'Corporativos',
+  fiestas: 'Fiestas y Celebraciones', navidad: 'Navidad', tarjetas: 'Tarjetas'
+};
+
 function renderCotizarPaquetes() {
+  document.getElementById('cotizar-paq-label').textContent = 'Selecciona un paquete';
   const container = document.getElementById('cotizar-paquetes-list');
   if (paquetes.length === 0) {
     container.innerHTML = '<p style="font-size:0.8rem;color:var(--text-light)">No hay paquetes configurados. Créalos en 📦 Paquetes.</p>';
     return;
   }
-  container.innerHTML = paquetes.map((p, i) => `
-    <label class="pkg-option${i === 0 ? ' selected' : ''}" onclick="selectPkgOption(this)">
-      <input type="radio" name="pkg-select" value="${escHtml(p.id)}" ${i === 0 ? 'checked' : ''}>
-      <div>
-        <div class="pkg-option-name">${escHtml(p.nombre)}</div>
-        ${p.descripcion ? `<div class="pkg-option-desc">${escHtml(p.descripcion)}</div>` : ''}
-        <div class="pkg-option-price">$${escHtml(String(p.precio))}</div>
-      </div>
-    </label>
-  `).join('');
+  // Group by servicio, preserving insertion order
+  const grupos = {};
+  paquetes.forEach(p => {
+    const key = p.servicio || '';
+    if (!grupos[key]) grupos[key] = [];
+    grupos[key].push(p);
+  });
+  let html = '';
+  for (const [key, lista] of Object.entries(grupos)) {
+    const label = SERVICIO_LABELS[key] || (key ? key : 'Sin categoría');
+    html += `<div class="cotizar-grupo-header">${escHtml(label)}</div>`;
+    lista.forEach(p => {
+      html += `
+        <div class="pkg-option">
+          <div class="pkg-option-info">
+            <div class="pkg-option-name">${escHtml(p.nombre)}</div>
+            ${p.descripcion ? `<div class="pkg-option-desc">${escHtml(p.descripcion)}</div>` : ''}
+            <div class="pkg-option-price">$${escHtml(String(p.precio))}</div>
+          </div>
+          <div class="pkg-option-btns">
+            <button class="pkg-send-btn pkg-send-wa" onclick="enviarCotizacionPaquete('${escHtml(p.id)}','wa')">📱 WhatsApp</button>
+            <button class="pkg-send-btn pkg-send-email" onclick="enviarCotizacionPaquete('${escHtml(p.id)}','correo')">✉️ Correo</button>
+          </div>
+        </div>`;
+    });
+  }
+  container.innerHTML = html;
+  // Ocultar botones globales en modo lista — los botones están en cada paquete
+  document.getElementById('cotizar-channel-btns').style.display = 'none';
 }
 
 function selectPkgOption(el) {
@@ -1943,12 +2000,21 @@ function selectPkgOption(el) {
   el.classList.add('selected');
 }
 
-async function enviarCotizacion(canal) {
-  const selected = document.querySelector('input[name="pkg-select"]:checked');
+function enviarCotizacionPaquete(paqueteId, canal) {
+  const paquete = paquetes.find(p => p.id === paqueteId);
+  if (!paquete) { document.getElementById('cotizar-msg').textContent = 'Paquete no encontrado.'; return; }
+  enviarCotizacion(canal, paquete);
+}
+
+async function enviarCotizacion(canal, paqueteParam) {
   const msgEl = document.getElementById('cotizar-msg');
-  if (!selected) { msgEl.textContent = 'Selecciona un paquete.'; return; }
-  const paquete = paquetes.find(p => p.id === selected.value);
-  if (!paquete) { msgEl.textContent = 'Paquete no encontrado.'; return; }
+  // paqueteParam viene de botones inline (modo lista); sin él, es modo cliente
+  const paquete = paqueteParam ||
+    (cotizarSolicitud.paqueteOrigen
+      ? (paquetes.find(p => p.id === cotizarSolicitud.paqueteOrigen.id) || cotizarSolicitud.paqueteOrigen)
+      : null);
+  if (!paquete) { msgEl.textContent = 'Selecciona un paquete.'; return; }
+
   const nota = document.getElementById('cotizar-nota').value.trim();
   const s = cotizarSolicitud;
 
@@ -1972,8 +2038,10 @@ async function enviarCotizacion(canal) {
     window.open(`mailto:${encodeURIComponent(s.correo || '')}?subject=${asunto}&body=${encodeURIComponent(mensaje)}`, '_blank');
   }
 
+  // Deshabilitar todos los botones de envío (globales e inline)
   document.getElementById('cotizar-wa-btn').disabled = true;
   document.getElementById('cotizar-email-btn').disabled = true;
+  document.querySelectorAll('.pkg-send-btn').forEach(b => b.disabled = true);
   msgEl.textContent = 'Guardando…';
   try {
     await SOLICITUDES_COL.doc(s.id).update({
@@ -1986,6 +2054,7 @@ async function enviarCotizacion(canal) {
     msgEl.textContent = 'Error: ' + (err.message || err);
     document.getElementById('cotizar-wa-btn').disabled = false;
     document.getElementById('cotizar-email-btn').disabled = false;
+    document.querySelectorAll('.pkg-send-btn').forEach(b => b.disabled = false);
   }
 }
 document.getElementById('cotizar-wa-btn').addEventListener('click', () => enviarCotizacion('wa'));
