@@ -1024,7 +1024,7 @@ body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
         <option value="tarjetas">Tarjetas &amp; Detalles</option>
       </select>
       <div class="pkg-form-row">
-        <input type="number" id="pkg-precio" placeholder="Precio ($) *" min="0">
+        <input type="number" id="pkg-precio" placeholder="Precio en B/. (ej: 1025) *" min="0">
       </div>
       <div class="pkg-form-actions">
         <button class="pkg-cancel-btn" id="pkg-form-cancel" type="button">Cancelar</button>
@@ -1370,6 +1370,13 @@ const SERVICIOS_LABELS = {
   bodas: 'Bodas', quinceanos: 'XV Años', corporativos: 'Corporativos',
   fiestas: 'Fiestas & Celebraciones', navidad: 'Navidad', tarjetas: 'Tarjetas & Detalles',
 };
+
+function formatPrecio(precio) {
+  if (!precio && precio !== 0) return 'A consultar';
+  const n = Number(precio);
+  if (!n) return 'A consultar';
+  return 'B/.' + n.toLocaleString('es-PA', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' + ITBMS';
+}
 
 function renderPaquetesEnAcordeon() {
   document.querySelectorAll('.acc-body[data-servicio]').forEach(body => {
@@ -1839,7 +1846,7 @@ function renderPaquetesList() {
         <div class="pkg-card-name">${escHtml(p.nombre)}</div>
         ${p.servicio ? `<div class="pkg-card-service">${escHtml(SERVICIOS_LABELS[p.servicio] || p.servicio)}</div>` : ''}
         ${p.descripcion ? `<div class="pkg-card-desc">${escHtml(p.descripcion)}</div>` : ''}
-        <div class="pkg-card-price">$${escHtml(String(p.precio))}</div>
+        <div class="pkg-card-price">${escHtml(formatPrecio(p.precio))}</div>
       </div>
       <div class="pkg-card-btns">
         <button class="pkg-edit-btn" onclick="editPaquete('${p.id}')">Editar</button>
@@ -1941,7 +1948,7 @@ function renderCotizarModoCliente(paqOrigen) {
       '<span class="cotizar-paq-sol-badge">📦 El cliente eligió este paquete</span>' +
       '<div class="cotizar-paq-sol-nombre">' + escHtml(paq.nombre) + '</div>' +
       (paq.descripcion ? '<div class="cotizar-paq-sol-desc">' + escHtml(paq.descripcion) + '</div>' : '') +
-      '<div class="cotizar-paq-sol-precio">$' + escHtml(String(paq.precio != null ? paq.precio : '—')) + '</div>' +
+      '<div class="cotizar-paq-sol-precio">' + escHtml(formatPrecio(paq.precio)) + '</div>' +
     '</div>';
   // Mostrar botones globales en modo cliente
   document.getElementById('cotizar-channel-btns').style.display = '';
@@ -1981,7 +1988,7 @@ function renderCotizarPaquetes() {
           <div class="pkg-option-info">
             <div class="pkg-option-name">${escHtml(p.nombre)}</div>
             ${p.descripcion ? `<div class="pkg-option-desc">${escHtml(p.descripcion)}</div>` : ''}
-            <div class="pkg-option-price">$${escHtml(String(p.precio))}</div>
+            <div class="pkg-option-price">${escHtml(formatPrecio(p.precio))}</div>
           </div>
           <div class="pkg-option-btns">
             <button class="pkg-send-btn pkg-send-wa" onclick="enviarCotizacionPaquete('${escHtml(p.id)}','wa')">📱 WhatsApp</button>
@@ -2027,7 +2034,7 @@ async function enviarCotizacion(canal, paqueteParam) {
     `🎉 Tema: ${s.evento || '—'}\n\n` +
     `✨ ${paquete.nombre}\n` +
     `${paquete.descripcion ? paquete.descripcion + '\n' : ''}` +
-    `💰 Precio: $${paquete.precio}\n` +
+    `💰 Precio: ${formatPrecio(paquete.precio)}\n` +
     `${nota ? '\n' + nota + '\n' : ''}` +
     `\nPara confirmar tu reserva responde este mensaje. ¡Será un honor ser parte de tu evento! 🌟\n\n— JC Detalles Planner`;
 
