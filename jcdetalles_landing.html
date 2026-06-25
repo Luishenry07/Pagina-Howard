@@ -247,9 +247,9 @@ body.admin-mode .cal-badge-private{display:block}
 body:not(.admin-mode) .cal-day.has-public-note{cursor:pointer}
 body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
 /* Solicitudes: formulario cliente */
-.solicitud-overlay{position:fixed;inset:0;background:rgba(13,10,5,0.82);backdrop-filter:blur(4px);z-index:180;display:none;align-items:center;justify-content:center;padding:1rem}
+.solicitud-overlay{position:fixed;inset:0;background:rgba(13,10,5,0.82);backdrop-filter:blur(4px);z-index:180;display:none;align-items:flex-start;justify-content:center;padding:1rem;overflow-y:auto}
 .solicitud-overlay.open{display:flex}
-.solicitud-modal{background:var(--white);max-width:400px;width:100%;padding:2rem 1.8rem;position:relative;border-top:3px solid var(--gold)}
+.solicitud-modal{background:var(--white);max-width:440px;width:100%;padding:2rem 1.8rem;position:relative;border-top:3px solid var(--gold);margin:auto}
 .solicitud-modal h3{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:400;color:var(--dark);margin-bottom:0.2rem;text-align:center}
 .solicitud-modal .sol-date{text-align:center;font-size:0.8rem;color:var(--gold-deep);letter-spacing:0.08em;margin-bottom:1.4rem;text-transform:capitalize}
 .solicitud-modal .close-x{position:absolute;top:0.5rem;right:0.9rem;background:none;border:none;font-size:1.6rem;color:var(--text-light);cursor:pointer;line-height:1}
@@ -551,8 +551,8 @@ body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
 /* ===== Paquetes acordeón: botón formulario ===== */
 .acc-paquete-btns{display:flex;gap:0.6rem;flex-wrap:wrap;align-items:center;margin-top:0.3rem}
 .acc-paquete a.acc-paq-btn{text-decoration:none;cursor:pointer}
-.acc-paq-form-btn{display:inline-flex;align-items:center;gap:0.4rem;border:1px solid rgba(200,169,110,0.5);color:var(--gold-deep);background:none;cursor:pointer;font-family:'Jost',sans-serif;padding:0.6rem 1.4rem;font-size:0.67rem;letter-spacing:0.13em;text-transform:uppercase;font-weight:700}
-.acc-paq-form-btn:hover{background:rgba(200,169,110,0.08)}
+.acc-paq-form-btn{display:flex;align-items:center;justify-content:center;gap:0.4rem;width:100%;background:linear-gradient(135deg,var(--gold-bright),var(--gold-deep));color:var(--dark);cursor:pointer;font-family:'Jost',sans-serif;padding:0.7rem 1.4rem;font-size:0.67rem;letter-spacing:0.13em;text-transform:uppercase;font-weight:700;border:none}
+.acc-paq-form-btn:hover{opacity:0.9}
 .acc-paq-seccion{margin-top:0.8rem}
 .acc-paq-seccion-header{display:flex;align-items:center;gap:0.75rem;margin-bottom:1.1rem;margin-top:1.2rem}
 .acc-paq-seccion-linea{flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(200,169,110,0.5),transparent)}
@@ -561,6 +561,24 @@ body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
 /* ===== Solicitud: fecha picker (desde paquete) ===== */
 .sol-fecha-picker{width:100%;padding:0.75rem 1rem;border:1px solid rgba(200,169,110,0.4);background:var(--cream);font-family:'Jost',sans-serif;font-size:0.88rem;color:var(--dark);margin-bottom:0.7rem;box-sizing:border-box}
 .sol-fecha-picker:focus{outline:none;border-color:var(--gold-deep)}
+/* Mini-calendario de disponibilidad dentro del modal de solicitud */
+.sol-mini-cal{margin:0 0 0.9rem}
+.sol-mini-cal-label{display:block;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:0.55rem;font-weight:600}
+.sol-mini-cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem}
+.sol-mini-cal-month{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:600;color:var(--dark);letter-spacing:0.03em}
+.sol-mini-cal-nav{background:none;border:1px solid rgba(200,169,110,0.35);cursor:pointer;font-size:1rem;color:var(--gold-deep);padding:0.1rem 0.55rem;line-height:1.4;font-family:'Jost',sans-serif}
+.sol-mini-cal-nav:hover{background:rgba(200,169,110,0.1)}
+.sol-mini-cal-weekdays{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;margin-bottom:3px}
+.sol-mini-cal-weekdays div{text-align:center;font-size:0.56rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-light);padding:0.18rem 0}
+.sol-mini-cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.sol-mini-cal-day{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:0.73rem;font-family:'Jost',sans-serif;border-radius:2px;user-select:none}
+.sol-mini-cal-day.past{color:var(--text-light);opacity:0.35}
+.sol-mini-cal-day.busy{background:rgba(180,60,60,0.09);color:#b43c3c;text-decoration:line-through;opacity:0.7}
+.sol-mini-cal-day.available{background:rgba(200,169,110,0.07);color:var(--dark);cursor:pointer;border:1px solid rgba(200,169,110,0.2)}
+.sol-mini-cal-day.available:hover{background:rgba(200,169,110,0.22);border-color:var(--gold)}
+.sol-mini-cal-day.selected{background:var(--gold-deep)!important;color:#fff!important;border-color:var(--gold-deep)!important}
+.sol-mini-cal-day.today{font-weight:700}
+.sol-cal-selected-label{font-size:0.77rem;color:var(--gold-deep);text-align:center;margin:0.45rem 0 0.3rem;min-height:1.1em;font-weight:600;text-transform:capitalize;letter-spacing:0.02em}
 </style>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
@@ -909,7 +927,19 @@ body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
     <h3>Solicitar cotización</h3>
     <p class="sol-date" id="sol-date">—</p>
     <div class="sol-paq-info" id="sol-paq-info" hidden></div>
-    <input type="date" id="sol-fecha-picker" class="sol-fecha-picker" hidden>
+    <div id="sol-mini-cal" hidden>
+      <span class="sol-mini-cal-label">Selecciona una fecha disponible</span>
+      <div class="sol-mini-cal-header">
+        <button type="button" class="sol-mini-cal-nav" id="sol-cal-prev">‹</button>
+        <span class="sol-mini-cal-month" id="sol-cal-month-label">—</span>
+        <button type="button" class="sol-mini-cal-nav" id="sol-cal-next">›</button>
+      </div>
+      <div class="sol-mini-cal-weekdays">
+        <div>Dom</div><div>Lun</div><div>Mar</div><div>Mié</div><div>Jue</div><div>Vie</div><div>Sáb</div>
+      </div>
+      <div class="sol-mini-cal-grid" id="sol-cal-grid"></div>
+      <p class="sol-cal-selected-label" id="sol-cal-selected-label"></p>
+    </div>
     <div class="sol-promo" id="sol-promo-banner" hidden></div>
     <input type="text" id="sol-nombre" placeholder="Nombre completo *" autocomplete="name">
     <input type="email" id="sol-correo" placeholder="Correo electrónico *" autocomplete="email">
@@ -1329,19 +1359,13 @@ function renderPaquetesEnAcordeon() {
       '</div>';
     matching.forEach(p => {
       const nombre = p.nombre || '';
-      const waText = nombre
-        ? 'Hola%20JC%20Detalles%20Planner!%20Me%20interesa%20el%20paquete%20%22' + encodeURIComponent(nombre) + '%22.%20%C2%BFPueden%20darme%20m%C3%A1s%20informaci%C3%B3n%3F%20%F0%9F%8C%B8'
-        : (SERVICIOS_WA[svc] || 'Hola%20JC%20Detalles%20Planner!%20%C2%BFPueden%20darme%20informaci%C3%B3n%20sobre%20sus%20paquetes%3F%20%F0%9F%8C%B8');
       const card = document.createElement('div');
       card.className = 'acc-paquete';
       card.innerHTML =
         '<span class="acc-paq-label">Paquete disponible</span>' +
         '<div class="acc-paq-nombre">' + escHtml(nombre) + '</div>' +
         (p.descripcion ? '<p style="font-size:0.8rem;color:var(--text-light);margin-bottom:0.7rem;line-height:1.6">' + escHtml(p.descripcion) + '</p>' : '') +
-        '<div class="acc-paquete-btns">' +
-        '<a href="https://wa.me/50763691175?text=' + waText + '" class="acc-paq-btn" target="_blank" rel="noopener">Cotizar por WhatsApp</a>' +
-        '<button class="acc-paq-form-btn" type="button" onclick="openSolicitudDesdePaquete(\'' + escHtml(p.id) + '\')">Solicitar cotización</button>' +
-        '</div>';
+        '<button class="acc-paq-form-btn" type="button" onclick="openSolicitudDesdePaquete(\'' + escHtml(p.id) + '\')">Solicitar cotización</button>';
       seccion.appendChild(card);
     });
     body.appendChild(seccion);
@@ -1603,9 +1627,11 @@ function openSolicitudModal(dateStr) {
   solicitudPaquete = null;
   solDateEl.textContent = formatDateLong(dateStr);
   solDateEl.hidden = false;
-  document.getElementById('sol-fecha-picker').hidden = true;
+  document.getElementById('sol-mini-cal').hidden = true;
+  document.getElementById('sol-cal-selected-label').textContent = '';
   solNombre.value = ''; solCorreo.value = ''; solInvitados.value = '';
   solEvento.value = ''; solPresupuesto.value = '';
+  solPresupuesto.hidden = false;
   document.getElementById('sol-paq-info').hidden = true;
   solMsg.textContent = '';
   solSubmit.disabled = false;
@@ -1622,6 +1648,9 @@ function closeSolicitudModal() {
   solicitudOverlay.classList.remove('open');
   solicitudFecha   = null;
   solicitudPaquete = null;
+  document.getElementById('sol-mini-cal').hidden = true;
+  document.getElementById('sol-cal-selected-label').textContent = '';
+  solPresupuesto.hidden = false;
 }
 document.getElementById('solicitud-close').addEventListener('click', closeSolicitudModal);
 document.getElementById('sol-cancel').addEventListener('click', closeSolicitudModal);
@@ -1632,22 +1661,30 @@ solSubmit.addEventListener('click', async () => {
   const correo      = solCorreo.value.trim();
   const invitados   = solInvitados.value.trim();
   const evento      = solEvento.value.trim();
-  const presupuesto = solPresupuesto.value.trim();
-  const fechaPicker = document.getElementById('sol-fecha-picker');
-  const fecha       = solicitudFecha || (fechaPicker && fechaPicker.value) || '';
-  if (!nombre || !correo || !invitados || !evento || !presupuesto || !fecha) {
-    solMsg.textContent = 'Por favor completa todos los campos.'; return;
+  const presupuesto = solPresupuesto.hidden ? '' : solPresupuesto.value.trim();
+  const fecha       = solicitudFecha || '';
+  if (!nombre || !correo || !invitados || !evento || !fecha) {
+    solMsg.textContent = !fecha
+      ? 'Selecciona una fecha disponible en el calendario.'
+      : 'Por favor completa todos los campos.';
+    return;
+  }
+  if (!solicitudPaquete && !presupuesto) {
+    solMsg.textContent = 'Por favor indica tu presupuesto o paquete de interés.';
+    return;
   }
 
-  const fechaLabel = solicitudFecha ? formatDateLong(solicitudFecha) : fecha;
+  const paqLine = solicitudPaquete
+    ? `*Paquete de interés:* ${solicitudPaquete.nombre}\n`
+    : `*Presupuesto / Paquete:* ${presupuesto}\n`;
   const texto = encodeURIComponent(
     `Hola! Me gustaría solicitar una cotización con JC Detalles Planner.\n\n` +
-    `*Fecha deseada:* ${fechaLabel}\n` +
+    `*Fecha deseada:* ${formatDateLong(fecha)}\n` +
     `*Nombre:* ${nombre}\n` +
     `*Correo:* ${correo}\n` +
     `*Invitados:* ${invitados}\n` +
     `*Tema del evento:* ${evento}\n` +
-    `*Presupuesto / Paquete:* ${presupuesto}\n` +
+    paqLine +
     `\nQuedo a la espera de su cotización formal. Gracias!`
   );
   window.open(`https://wa.me/50763691175?text=${texto}`, '_blank');
@@ -1657,7 +1694,8 @@ solSubmit.addEventListener('click', async () => {
   try {
     const solData = {
       date: fecha,
-      nombre, correo, invitados, evento, presupuesto,
+      nombre, correo, invitados, evento,
+      presupuesto: solicitudPaquete ? solicitudPaquete.nombre : presupuesto,
       estado: 'pendiente',
       timestamp: firebase.firestore.FieldValue.serverTimestamp()
     };
@@ -2463,6 +2501,59 @@ auth.onAuthStateChanged((user) => {
   }
 });
 
+// ===== Mini-calendario de disponibilidad (modal solicitud) =====
+let solCalYear  = today.getFullYear();
+let solCalMonth = today.getMonth();
+
+function renderSolMiniCal() {
+  const grid     = document.getElementById('sol-cal-grid');
+  const monthLbl = document.getElementById('sol-cal-month-label');
+  if (!grid || !monthLbl) return;
+  monthLbl.textContent = MES_NOMBRES[solCalMonth] + ' ' + solCalYear;
+  grid.innerHTML = '';
+  const firstDay    = new Date(solCalYear, solCalMonth, 1).getDay();
+  const daysInMonth = new Date(solCalYear, solCalMonth + 1, 0).getDate();
+  for (let i = 0; i < firstDay; i++) {
+    const empty = document.createElement('div');
+    empty.className = 'sol-mini-cal-day';
+    grid.appendChild(empty);
+  }
+  for (let d = 1; d <= daysInMonth; d++) {
+    const dateStr = isoDate(new Date(solCalYear, solCalMonth, d));
+    const cell = document.createElement('div');
+    cell.className = 'sol-mini-cal-day';
+    cell.textContent = d;
+    if (dateStr === todayStr) cell.classList.add('today');
+    if (dateStr < todayStr) {
+      cell.classList.add('past');
+    } else if (ocupadas.has(dateStr)) {
+      cell.classList.add('busy');
+    } else {
+      cell.classList.add('available');
+      cell.addEventListener('click', () => {
+        solicitudFecha = dateStr;
+        grid.querySelectorAll('.sol-mini-cal-day.selected').forEach(c => c.classList.remove('selected'));
+        cell.classList.add('selected');
+        document.getElementById('sol-cal-selected-label').textContent = formatDateLong(dateStr);
+        solMsg.textContent = '';
+      });
+    }
+    if (solicitudFecha === dateStr) cell.classList.add('selected');
+    grid.appendChild(cell);
+  }
+}
+
+document.getElementById('sol-cal-prev').addEventListener('click', () => {
+  solCalMonth--;
+  if (solCalMonth < 0) { solCalMonth = 11; solCalYear--; }
+  renderSolMiniCal();
+});
+document.getElementById('sol-cal-next').addEventListener('click', () => {
+  solCalMonth++;
+  if (solCalMonth > 11) { solCalMonth = 0; solCalYear++; }
+  renderSolMiniCal();
+});
+
 // ===== Solicitud desde paquete =====
 let solicitudPaquete = null;
 
@@ -2472,15 +2563,19 @@ function openSolicitudDesdePaquete(paqueteId) {
   solicitudFecha   = null;
   solicitudPaquete = p;
   solDateEl.hidden = true;
-  const picker = document.getElementById('sol-fecha-picker');
-  picker.hidden = false;
-  picker.value  = '';
-  picker.min    = todayStr;
+  // Mini-calendario con disponibilidad real
+  solCalYear  = today.getFullYear();
+  solCalMonth = today.getMonth();
+  document.getElementById('sol-mini-cal').hidden = false;
+  document.getElementById('sol-cal-selected-label').textContent = '';
+  renderSolMiniCal();
   solNombre.value = ''; solCorreo.value = ''; solInvitados.value = '';
   solEvento.value = '';
-  solPresupuesto.value = p.nombre;
+  // Precio nunca se muestra al público; presupuesto se oculta
+  solPresupuesto.value = '';
+  solPresupuesto.hidden = true;
   const paqInfoEl = document.getElementById('sol-paq-info');
-  paqInfoEl.textContent = '\u{1F4E6} Paquete seleccionado: ' + p.nombre;
+  paqInfoEl.textContent = '📦 ' + p.nombre;
   paqInfoEl.hidden = false;
   solMsg.textContent = '';
   solSubmit.disabled = false;
