@@ -1627,14 +1627,14 @@ document.addEventListener('keydown', (e) => {
   if (editorOverlay.classList.contains('open')) closeDayEditor();
   else if (infoOverlay.classList.contains('open')) closeInfoModal();
   else if (document.getElementById('solicitud-overlay').classList.contains('open')) closeSolicitudModal();
+  else if (document.getElementById('cotizar-overlay').classList.contains('open')) closeCotizarModal();
+  else if (document.getElementById('aprobacion-overlay').classList.contains('open')) closeAprobacionModal();
+  else if (document.getElementById('editar-evento-overlay').classList.contains('open')) closeEditarEventoModal();
   else if (document.getElementById('solicitudes-panel').classList.contains('open')) closeSolicitudesPanel();
   else if (document.getElementById('form-config-overlay').classList.contains('open')) closeFormConfigModal();
   else if (document.getElementById('paquetes-overlay').classList.contains('open')) closePaquetesModal();
-  else if (document.getElementById('cotizar-overlay').classList.contains('open')) closeCotizarModal();
   else if (document.getElementById('pdfs-overlay').classList.contains('open')) closePDFsModal();
   else if (document.getElementById('fotos-overlay').classList.contains('open')) closeFotosModal();
-  else if (document.getElementById('aprobacion-overlay').classList.contains('open')) closeAprobacionModal();
-  else if (document.getElementById('editar-evento-overlay').classList.contains('open')) closeEditarEventoModal();
 });
 
 // ===== Solicitud de fecha (clientes) =====
