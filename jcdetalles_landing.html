@@ -112,7 +112,7 @@ details[open]>.acc-header .acc-arrow{transform:rotate(180deg)}
 .gal-label small{display:block;font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;font-style:normal;color:var(--gold);margin-bottom:0.2rem}
 .gal-label span{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-style:italic;color:var(--white)}
 .quien{background:linear-gradient(135deg,#1a1008,#2a1a08)}
-.quien-inner{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+.quien-inner{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
 .quien-text .section-title{color:var(--white)}
 .quien-text .section-title em{color:var(--gold)}
 .quien-text p{font-size:0.9rem;line-height:1.9;color:rgba(255,255,255,0.55);font-weight:300;margin-bottom:1.5rem}
@@ -249,7 +249,21 @@ body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
 /* Solicitudes: formulario cliente */
 .solicitud-overlay{position:fixed;inset:0;background:rgba(13,10,5,0.82);backdrop-filter:blur(4px);z-index:180;display:none;align-items:flex-start;justify-content:center;padding:1rem;overflow-y:auto}
 .solicitud-overlay.open{display:flex}
-.solicitud-modal{background:var(--white);max-width:440px;width:100%;padding:2rem 1.8rem;position:relative;border-top:3px solid var(--gold);margin:auto}
+.solicitud-modal{background:var(--white);max-width:860px;width:100%;padding:2rem 1.8rem;position:relative;border-top:3px solid var(--gold);margin:auto}
+.sol-two-cols{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:0.5rem}
+.sol-col-left{border-right:1px solid rgba(200,169,110,0.2);padding-right:1.6rem}
+.sol-col-right{padding-left:1.6rem;display:flex;flex-direction:column}
+.sol-paq-col-header{margin-bottom:0.8rem}
+.sol-paq-col-title{display:block;font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--dark);font-weight:400;margin-bottom:0.15rem}
+.sol-paq-col-hint{font-size:0.68rem;color:var(--text-light);letter-spacing:0.06em;text-transform:uppercase}
+.sol-paq-service-group{margin-bottom:0.3rem}
+.sol-paq-service-btn{width:100%;text-align:left;background:none;border:none;border-bottom:1px solid rgba(200,169,110,0.18);padding:0.55rem 0;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-family:'Jost',sans-serif;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold-deep);font-weight:600;transition:color 0.15s}
+.sol-paq-service-btn:hover{color:var(--gold)}
+.sol-paq-svc-arrow{font-size:0.6rem;transition:transform 0.2s;margin-left:0.5rem}
+.sol-paq-service-btn.open .sol-paq-svc-arrow{transform:rotate(180deg)}
+.sol-paq-service-pkgs{display:none;padding:0.3rem 0 0.4rem}
+.sol-paq-service-pkgs.open{display:block}
+.sol-col-form-title{display:block;font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--dark);font-weight:400;margin-bottom:0.8rem}
 .solicitud-modal h3{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:400;color:var(--dark);margin-bottom:0.2rem;text-align:center}
 .solicitud-modal .sol-date{text-align:center;font-size:0.8rem;color:var(--gold-deep);letter-spacing:0.08em;margin-bottom:1.4rem;text-transform:capitalize}
 .solicitud-modal .close-x{position:absolute;top:0.5rem;right:0.9rem;background:none;border:none;font-size:1.6rem;color:var(--text-light);cursor:pointer;line-height:1}
@@ -431,6 +445,9 @@ body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
 
   /* Formulario de solicitud */
   .solicitud-modal{padding:1.5rem 1.2rem;max-height:90vh;overflow-y:auto}
+  .sol-two-cols{grid-template-columns:1fr;gap:0}
+  .sol-col-left{border-right:none;border-bottom:1px solid rgba(200,169,110,0.2);padding-right:0;padding-bottom:1.2rem;margin-bottom:1rem}
+  .sol-col-right{padding-left:0}
   .sol-submit{letter-spacing:0.04em;font-size:0.68rem}
 
   /* Footer */
@@ -526,7 +543,7 @@ body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
 .cal-badge-eventos{display:block;font-size:0.52rem;letter-spacing:0.06em;text-transform:uppercase;background:rgba(45,122,58,0.18);color:#2d7a3a;padding:0.12rem 0.35rem;margin-top:0.15rem;text-align:center}
 /* ===== Nosotros: foto dinámica ===== */
 .quien-foto-container{margin-bottom:1.2rem}
-.quien-foto{width:100%;max-width:380px;height:420px;object-fit:cover;object-position:top center;border:3px solid rgba(200,169,110,0.4);display:block}
+.quien-foto{width:100%;max-width:380px;height:480px;object-fit:cover;object-position:top center;border:3px solid rgba(200,169,110,0.4);display:block}
 .quien-foto-placeholder{width:100%;max-width:380px;height:160px;border:2px dashed rgba(200,169,110,0.3);display:flex;align-items:center;justify-content:center;font-size:0.82rem;color:var(--text-light)}
 /* ===== Catálogo de PDFs (clientes) ===== */
 .catalogo-section{background:var(--cream);padding:5rem 2rem}
@@ -678,7 +695,6 @@ body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
       </summary>
       <div class="acc-body" data-servicio="bodas">
         <p>Decoración romántica y elegante para el día más importante de tu vida. Wedding packages completos con atención a cada detalle.</p>
-        <div class="servicio-tags"><span class="servicio-tag">Decoración</span><span class="servicio-tag">Coordinación</span><span class="servicio-tag">Logística</span></div>
       </div>
     </details>
     <details class="acc-item">
@@ -689,7 +705,6 @@ body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
       </summary>
       <div class="acc-body" data-servicio="quinceanos">
         <p>Celebra tus quinceañeros con temas temáticos únicos. Desde princesas Disney hasta ambientaciones de cuento completamente personalizadas.</p>
-        <div class="servicio-tags"><span class="servicio-tag">Temático</span><span class="servicio-tag">Personalizado</span><span class="servicio-tag">Paquetes</span></div>
       </div>
     </details>
     <details class="acc-item">
@@ -700,7 +715,6 @@ body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
       </summary>
       <div class="acc-body" data-servicio="corporativos">
         <p>Conferencias, seminarios, lanzamientos, galas y team building. Planificación profesional con el protocolo que tu empresa merece.</p>
-        <div class="servicio-tags"><span class="servicio-tag">Conferencias</span><span class="servicio-tag">Galas</span><span class="servicio-tag">Pasarelas</span></div>
       </div>
     </details>
     <details class="acc-item">
@@ -711,7 +725,6 @@ body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
       </summary>
       <div class="acc-body" data-servicio="fiestas">
         <p>Baby showers, cumpleaños, graduaciones y más. Ambientaciones que sorprenden y crean recuerdos que duran toda la vida.</p>
-        <div class="servicio-tags"><span class="servicio-tag">Baby Shower</span><span class="servicio-tag">Cumpleaños</span><span class="servicio-tag">Graduaciones</span></div>
       </div>
     </details>
     <details class="acc-item">
@@ -722,7 +735,6 @@ body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
       </summary>
       <div class="acc-body" data-servicio="navidad">
         <p>Decora tu hogar o empresa con elegancia navideña. Árboles, centros de mesa, arreglos florales y ambientaciones completas.</p>
-        <div class="servicio-tags"><span class="servicio-tag">Hogares</span><span class="servicio-tag">Empresas</span><span class="servicio-tag">Arreglos</span></div>
       </div>
     </details>
     <details class="acc-item">
@@ -733,7 +745,6 @@ body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
       </summary>
       <div class="acc-body" data-servicio="tarjetas">
         <p>Invitaciones, recuerdos y detalles artesanales que hacen especial cada momento. El toque final que marca la diferencia.</p>
-        <div class="servicio-tags"><span class="servicio-tag">Invitaciones</span><span class="servicio-tag">Recuerdos</span><span class="servicio-tag">Arreglos</span></div>
       </div>
     </details>
   </div>
@@ -950,35 +961,45 @@ body:not(.admin-mode) .cal-day.available:not(.past){cursor:pointer}
     <button class="close-x" id="solicitud-close" type="button" aria-label="Cerrar">×</button>
     <h3>Solicitar cotización</h3>
     <p class="sol-date" id="sol-date">—</p>
-    <div class="sol-paq-info" id="sol-paq-info" hidden></div>
-    <div class="sol-paq-selector" id="sol-paq-selector" hidden>
-      <span class="sol-paq-selector-label">Paquete de interés (opcional)</span>
-      <div id="sol-paq-selector-list"></div>
-    </div>
-    <div id="sol-mini-cal" hidden>
-      <span class="sol-mini-cal-label">Selecciona una fecha disponible</span>
-      <div class="sol-mini-cal-header">
-        <button type="button" class="sol-mini-cal-nav" id="sol-cal-prev">‹</button>
-        <span class="sol-mini-cal-month" id="sol-cal-month-label">—</span>
-        <button type="button" class="sol-mini-cal-nav" id="sol-cal-next">›</button>
-      </div>
-      <div class="sol-mini-cal-weekdays">
-        <div>Dom</div><div>Lun</div><div>Mar</div><div>Mié</div><div>Jue</div><div>Vie</div><div>Sáb</div>
-      </div>
-      <div class="sol-mini-cal-grid" id="sol-cal-grid"></div>
-      <p class="sol-cal-selected-label" id="sol-cal-selected-label"></p>
-    </div>
     <div class="sol-promo" id="sol-promo-banner" hidden></div>
-    <input type="text" id="sol-nombre" placeholder="Nombre completo *" autocomplete="name">
-    <input type="email" id="sol-correo" placeholder="Correo electrónico *" autocomplete="email">
-    <input type="number" id="sol-invitados" placeholder="Cantidad de invitados *" min="1">
-    <input type="text" id="sol-evento" placeholder="Tema del evento (boda, quinceañera…) *">
-    <textarea id="sol-presupuesto" placeholder="Presupuesto estimado o paquete de interés *"></textarea>
-    <div class="sol-actions">
-      <button class="sol-cancel" id="sol-cancel" type="button">Cancelar</button>
-      <button class="sol-submit" id="sol-submit" type="button">Enviar solicitud</button>
+    <div class="sol-two-cols">
+      <!-- Columna izquierda: selector de paquetes por servicio -->
+      <div class="sol-col-left" id="sol-col-left">
+        <span class="sol-paq-col-title">Elige un paquete</span>
+        <span class="sol-paq-col-hint">Opcional</span>
+        <div id="sol-paq-selector" style="margin-top:0.8rem">
+          <div id="sol-paq-selector-list"></div>
+        </div>
+      </div>
+      <!-- Columna derecha: formulario -->
+      <div class="sol-col-right">
+        <span class="sol-col-form-title">Tus datos</span>
+        <div class="sol-paq-info" id="sol-paq-info" hidden></div>
+        <div id="sol-mini-cal" hidden>
+          <span class="sol-mini-cal-label">Selecciona una fecha disponible</span>
+          <div class="sol-mini-cal-header">
+            <button type="button" class="sol-mini-cal-nav" id="sol-cal-prev">‹</button>
+            <span class="sol-mini-cal-month" id="sol-cal-month-label">—</span>
+            <button type="button" class="sol-mini-cal-nav" id="sol-cal-next">›</button>
+          </div>
+          <div class="sol-mini-cal-weekdays">
+            <div>Dom</div><div>Lun</div><div>Mar</div><div>Mié</div><div>Jue</div><div>Vie</div><div>Sáb</div>
+          </div>
+          <div class="sol-mini-cal-grid" id="sol-cal-grid"></div>
+          <p class="sol-cal-selected-label" id="sol-cal-selected-label"></p>
+        </div>
+        <input type="text" id="sol-nombre" placeholder="Nombre completo *" autocomplete="name">
+        <input type="email" id="sol-correo" placeholder="Correo electrónico *" autocomplete="email">
+        <input type="number" id="sol-invitados" placeholder="Cantidad de invitados *" min="1">
+        <input type="text" id="sol-evento" placeholder="Tema del evento (boda, quinceañera…) *">
+        <textarea id="sol-presupuesto" placeholder="Presupuesto estimado o paquete de interés *"></textarea>
+        <div class="sol-actions">
+          <button class="sol-cancel" id="sol-cancel" type="button">Cancelar</button>
+          <button class="sol-submit" id="sol-submit" type="button">Enviar solicitud</button>
+        </div>
+        <p class="sol-msg" id="sol-msg"></p>
+      </div>
     </div>
-    <p class="sol-msg" id="sol-msg"></p>
   </div>
 </div>
 
@@ -1664,6 +1685,7 @@ function openSolicitudModal(dateStr) {
   solDateEl.hidden = false;
   document.getElementById('sol-mini-cal').hidden = true;
   document.getElementById('sol-cal-selected-label').textContent = '';
+  document.getElementById('sol-col-left').hidden = false;
   renderSolPaqSelector();
   solNombre.value = ''; solCorreo.value = ''; solInvitados.value = '';
   solEvento.value = ''; solPresupuesto.value = '';
@@ -1686,7 +1708,8 @@ function closeSolicitudModal() {
   solicitudPaquete = null;
   document.getElementById('sol-mini-cal').hidden = true;
   document.getElementById('sol-cal-selected-label').textContent = '';
-  document.getElementById('sol-paq-selector').hidden = true;
+  document.getElementById('sol-col-left').hidden = false;
+  document.getElementById('sol-paq-info').hidden = true;
   solPresupuesto.hidden = false;
 }
 document.getElementById('solicitud-close').addEventListener('click', closeSolicitudModal);
@@ -2595,35 +2618,66 @@ auth.onAuthStateChanged((user) => {
 
 // ===== Selector de paquetes en modal de solicitud (Flujo B) =====
 function renderSolPaqSelector() {
-  const selector = document.getElementById('sol-paq-selector');
-  const list     = document.getElementById('sol-paq-selector-list');
-  if (!selector || !list) return;
-  if (paquetes.length === 0) { selector.hidden = true; return; }
-  selector.hidden = false;
+  const list = document.getElementById('sol-paq-selector-list');
+  if (!list) return;
   list.innerHTML = '';
+  if (paquetes.length === 0) {
+    list.innerHTML = '<p style="font-size:0.78rem;color:var(--text-light);padding:1rem 0">Sin paquetes disponibles aún.</p>';
+    return;
+  }
+  const SVCL = {bodas:'Bodas',quinceanos:'XV Años',corporativos:'Corporativos',fiestas:'Fiestas & Celebraciones',navidad:'Navidad',tarjetas:'Tarjetas & Detalles'};
+  const svcOrder = ['bodas','quinceanos','corporativos','fiestas','navidad','tarjetas'];
+  const groups = {};
   paquetes.forEach(p => {
-    const opt = document.createElement('div');
-    opt.className = 'sol-pkg-option';
-    opt.innerHTML =
-      '<span class="sol-pkg-dot"></span>' +
-      '<div>' +
-        '<div class="sol-pkg-name">' + escHtml(p.nombre) + '</div>' +
-        (p.descripcion ? '<div class="sol-pkg-desc">' + escHtml(p.descripcion.length > 90 ? p.descripcion.substring(0, 90) + '…' : p.descripcion) + '</div>' : '') +
-      '</div>';
-    opt.addEventListener('click', () => {
-      const alreadySelected = opt.classList.contains('selected');
-      list.querySelectorAll('.sol-pkg-option').forEach(o => o.classList.remove('selected'));
-      if (alreadySelected) {
-        solicitudPaquete = null;
-        solPresupuesto.hidden = false;
-      } else {
-        opt.classList.add('selected');
-        solicitudPaquete = p;
-        solPresupuesto.hidden = true;
-      }
-      solMsg.textContent = '';
+    const svc = (p.servicio && SVCL[p.servicio]) ? p.servicio : '__otros';
+    if (!groups[svc]) groups[svc] = [];
+    groups[svc].push(p);
+  });
+  const allSvcs = [...svcOrder.filter(s => groups[s]), ...(groups['__otros'] ? ['__otros'] : [])];
+  allSvcs.forEach(svc => {
+    const pkgs  = groups[svc];
+    const label = SVCL[svc] || 'Otros';
+    const group = document.createElement('div');
+    group.className = 'sol-paq-service-group';
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'sol-paq-service-btn';
+    btn.innerHTML = '<span>' + escHtml(label) + '</span><span class="sol-paq-svc-arrow">▼</span>';
+    const pkgWrap = document.createElement('div');
+    pkgWrap.className = 'sol-paq-service-pkgs';
+    btn.addEventListener('click', () => {
+      const isOpen = pkgWrap.classList.contains('open');
+      list.querySelectorAll('.sol-paq-service-pkgs').forEach(el => el.classList.remove('open'));
+      list.querySelectorAll('.sol-paq-service-btn').forEach(el => el.classList.remove('open'));
+      if (!isOpen) { pkgWrap.classList.add('open'); btn.classList.add('open'); }
     });
-    list.appendChild(opt);
+    pkgs.forEach(p => {
+      const opt = document.createElement('div');
+      opt.className = 'sol-pkg-option';
+      opt.innerHTML =
+        '<span class="sol-pkg-dot"></span>' +
+        '<div>' +
+          '<div class="sol-pkg-name">' + escHtml(p.nombre) + '</div>' +
+          (p.descripcion ? '<div class="sol-pkg-desc">' + escHtml(p.descripcion.length > 90 ? p.descripcion.substring(0,90)+'…' : p.descripcion) + '</div>' : '') +
+        '</div>';
+      opt.addEventListener('click', () => {
+        const alreadySelected = opt.classList.contains('selected');
+        list.querySelectorAll('.sol-pkg-option').forEach(o => o.classList.remove('selected'));
+        if (alreadySelected) {
+          solicitudPaquete = null;
+          solPresupuesto.hidden = false;
+        } else {
+          opt.classList.add('selected');
+          solicitudPaquete = p;
+          solPresupuesto.hidden = true;
+        }
+        solMsg.textContent = '';
+      });
+      pkgWrap.appendChild(opt);
+    });
+    group.appendChild(btn);
+    group.appendChild(pkgWrap);
+    list.appendChild(group);
   });
 }
 
@@ -2689,7 +2743,7 @@ function openSolicitudDesdePaquete(paqueteId) {
   solicitudFecha   = null;
   solicitudPaquete = p;
   solDateEl.hidden = true;
-  document.getElementById('sol-paq-selector').hidden = true;
+  document.getElementById('sol-col-left').hidden = true;
   // Mini-calendario con disponibilidad real
   solCalYear  = today.getFullYear();
   solCalMonth = today.getMonth();
