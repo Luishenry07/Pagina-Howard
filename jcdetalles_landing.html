@@ -46,13 +46,18 @@ nav{
   .nav-logo-img{height:65px;padding:4px 8px}
   .nav-hamburger{display:flex}
   .nav-links{
-    display:none;position:fixed;inset:0;background:rgba(13,10,5,0.98);
-    flex-direction:column;align-items:center;justify-content:center;
-    gap:1.5rem;z-index:100;padding:5.5rem 2rem 2rem;overflow-y:auto;
+    display:none;position:absolute;top:100%;left:0;right:0;
+    background:rgba(13,10,5,0.98);
+    flex-direction:column;align-items:stretch;
+    gap:0;z-index:100;padding:0.4rem 0;
+    max-height:calc(100vh - 60px);overflow-y:auto;
+    border-bottom:1px solid rgba(200,169,110,0.25);
+    box-shadow:0 12px 24px rgba(0,0,0,0.35);
   }
   .nav-links.mob-open{display:flex}
-  .nav-links > li{width:100%;text-align:center}
-  .nav-links a{font-size:1.05rem;letter-spacing:0.2em}
+  .nav-links > li{width:100%;text-align:center;border-top:1px solid rgba(200,169,110,0.12)}
+  .nav-links > li:first-child{border-top:none}
+  .nav-links a{display:block;padding:0.85rem 1rem;font-size:0.85rem;letter-spacing:0.15em}
   .nav-has-dropdown>a::after{content:none}
   .nav-dropdown{display:none}
   .nav-has-dropdown:hover .nav-dropdown{display:none}
@@ -2136,6 +2141,16 @@ navLinksEl.querySelectorAll('a').forEach(a => {
     navLinksEl.classList.remove('mob-open');
     document.querySelectorAll('.nav-has-dropdown').forEach(d => d.classList.remove('mob-open'));
   });
+});
+
+// Cerrar menú al tocar fuera de él
+document.addEventListener('click', function(e) {
+  if (navLinksEl.classList.contains('mob-open') &&
+      !navLinksEl.contains(e.target) &&
+      !hamburger.contains(e.target)) {
+    hamburger.classList.remove('open');
+    navLinksEl.classList.remove('mob-open');
+  }
 });
 
 // ===== Dropdown servicios (nav) =====
