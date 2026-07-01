@@ -69,11 +69,11 @@ nav{
 .hero-divider{display:flex;align-items:center;gap:1rem;justify-content:center;margin-bottom:2.5rem}
 .hero-divider-line{flex:1;max-width:80px;height:1px;background:rgba(200,169,110,0.4)}
 .hero-divider-diamond{width:8px;height:8px;background:var(--gold);transform:rotate(45deg)}
-.hero-desc{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:300;font-style:italic;color:rgba(255,255,255,0.6);line-height:1.8;margin-bottom:3rem;max-width:600px;margin-left:auto;margin-right:auto}
+.hero-desc{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:700;font-style:italic;color:#fff;line-height:1.8;margin-bottom:3rem;max-width:600px;margin-left:auto;margin-right:auto}
 .hero-buttons{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
 .btn-primary{display:inline-flex;align-items:center;gap:0.7rem;background:linear-gradient(135deg,var(--gold-bright),var(--gold-deep));color:var(--dark);padding:1rem 2.2rem;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;font-weight:600;text-decoration:none;transition:opacity 0.3s,transform 0.2s}
 .btn-primary:hover{opacity:0.9;transform:translateY(-2px)}
-.btn-secondary{display:inline-flex;align-items:center;gap:0.7rem;border:1px solid rgba(200,169,110,0.5);color:var(--gold);padding:1rem 2.2rem;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;font-weight:400;text-decoration:none;transition:all 0.3s}
+.btn-secondary{display:inline-flex;align-items:center;gap:0.7rem;border:1px solid rgba(200,169,110,0.5);color:#fff;padding:1rem 2.2rem;font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;font-weight:700;text-decoration:none;transition:all 0.3s}
 .btn-secondary:hover{background:rgba(200,169,110,0.1)}
 .stats{background:var(--gold-bright);padding:1.5rem 2rem;display:flex;justify-content:center;gap:4rem;flex-wrap:wrap}
 .stat{text-align:center}
@@ -2142,10 +2142,19 @@ navLinksEl.querySelectorAll('a').forEach(a => {
 function abrirServicio(index) {
   const items = document.querySelectorAll('#servicios .acc-item');
   if (!items[index]) return;
-  items.forEach(d => d.removeAttribute('open'));
-  items[index].setAttribute('open', '');
+  items.forEach(d => d.setAttribute('open', ''));
   document.getElementById('servicios').scrollIntoView({ behavior: 'smooth' });
 }
+
+// ===== Acordeón servicios: clic en cualquiera abre todos =====
+document.querySelectorAll('#servicios .acc-header').forEach(header => {
+  header.addEventListener('click', function(e) {
+    e.preventDefault();
+    const items = document.querySelectorAll('#servicios .acc-item');
+    const allOpen = Array.from(items).every(d => d.hasAttribute('open'));
+    items.forEach(d => allOpen ? d.removeAttribute('open') : d.setAttribute('open', ''));
+  });
+});
 
 // ===== Firebase Storage + Galería + Nosotros + PDFs =====
 const storage      = firebase.storage();
