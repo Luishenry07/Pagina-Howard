@@ -5,3 +5,16 @@ Usuario.txt
 
 # Scripts temporales de generación
 _gen_*.py
+
+# Dependencias locales (Playwright, etc.)
+node_modules/
+
+# Brochures de referencia, no se despliegan a GitHub Pages
+Paquetes/
+
+# Artefactos de pruebas/capturas locales
+_audit.js
+_m_*.png
+vf_*.png
+screenshots/
+server.log
